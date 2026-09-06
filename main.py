@@ -48,49 +48,61 @@ def get_education():
 def get_work_experience():
     experiences = []
 
-    while True:
-        job_title = input("Enter your job title: ")
-        company = input("Enter the company name: ")
-        location = input("Enter the job location: ")
-        start_date = input("Enter your start date: ")
-        end_date = input("Enter your end date (or present): ")
-        description = input("Describe your responsibilities: ")
+    include_experience = input(
+        "Do you want to add work experience? (yes/no): "
+    )
 
-        experience = {
-            "job_title": job_title,
-            "company": company,
-            "location": location,
-            "start_date": start_date,
-            "end_date": end_date,
-            "description": description
-        }
+    if include_experience.lower() == "yes":
+        while True:
+            job_title = input("Enter your job title: ")
+            company = input("Enter the company name: ")
+            location = input("Enter the job location: ")
+            start_date = input("Enter your start date: ")
+            end_date = input("Enter your end date (or present): ")
+            description = input("Describe your responsibilities: ")
 
-        experiences.append(experience)
+            experience = {
+                "job_title": job_title,
+                "company": company,
+                "location": location,
+                "start_date": start_date,
+                "end_date": end_date,
+                "description": description
+            }
 
-        another = input("Do you want to add another work experience? (yes/no): ")
+            experiences.append(experience)
 
-        if another.lower() != "yes":
-            break
+            another = input(
+                "Do you want to add another work experience? (yes/no): "
+            )
+
+            if another.lower() != "yes":
+                break
 
     return experiences
 
 
 def get_skills():
     skills = []
+
     while True:
         skill = input("Enter a skill: ")
         skills.append(skill)
+
         another = input("Do you want to add another skill? (yes/no): ")
+
         if another.lower() != "yes":
             break
+
     return skills
 
 
 def get_certifications():
     certifications = []
-    include_certifications = input("Do you want to add certifications? (yes/no): ")
 
-
+    include_certifications = input(
+        "Do you want to add certifications? (yes/no): "
+    )
 
     if include_certifications.lower() == "yes":
         while True:
@@ -102,12 +114,18 @@ def get_certifications():
                 "name": name,
                 "organization": organization,
                 "date": date
-
             }
+
             certifications.append(certification)
-            another = input("Do you want to add another certification? (yes/no): ")
+
+            another = input(
+                "Do you want to add another certification? (yes/no): "
+            )
+
             if another.lower() != "yes":
                 break
+
+    return certifications
 
 
 name, date_of_birth, email, phone_number, location = get_personal_information()
@@ -117,8 +135,10 @@ work_experiences = get_work_experience()
 skills = get_skills()
 certifications = get_certifications()
 
+
 print("\nRESUME INFORMATION")
 print("Name:", name)
+print("Date of Birth:", date_of_birth)
 print("Email:", email)
 print("Phone Number:", phone_number)
 print("Location:", location)
@@ -126,7 +146,7 @@ print("Location:", location)
 print("\nPROFESSIONAL SUMMARY")
 print("Summary:", summary)
 
-print("\nEducation:")
+print("\nEDUCATION")
 print(educations)
 
 print("\nWORK EXPERIENCE")
