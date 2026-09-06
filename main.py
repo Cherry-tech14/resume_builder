@@ -88,20 +88,26 @@ def get_skills():
 
 def get_certifications():
     certifications = []
-    while True:
-        name = input("Enter certification name: ")
-        organization = input("Enter issuing organization: ")
-        date = input("Enter date obtained: ")
+    include_certifications = input("Do you want to add certifications? (yes/no): ")
 
-        certification = {
-            "name": name,
-            "organization": organization,
-            "date": date
 
-        }
-        another = input("Do you want to add another certification? (yes/no): ")
-        if another.lower() != "yes":
-            break
+
+    if include_certifications.lower() == "yes":
+        while True:
+            name = input("Enter certification name: ")
+            organization = input("Enter issuing organization: ")
+            date = input("Enter date obtained: ")
+
+            certification = {
+                "name": name,
+                "organization": organization,
+                "date": date
+
+            }
+            certifications.append(certification)
+            another = input("Do you want to add another certification? (yes/no): ")
+            if another.lower() != "yes":
+                break
 
 
 name, date_of_birth, email, phone_number, location = get_personal_information()
@@ -129,5 +135,5 @@ print(work_experiences)
 print("\nSKILLS")
 print(skills)
 
-print("\n CERTIFICATION")
+print("\nCERTIFICATION")
 print(certifications)
