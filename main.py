@@ -26,7 +26,7 @@ def get_education():
 
     while True:
         school = input("Enter name of school: ")
-        degree = input("Enter your degree or qualification: ")
+        degree = input("Enter your degree or qualification(optional): ")
         field = input("Enter your field of study: ")
         start_year = input("Enter your start year: ")
         end_year = input("Enter your end year: ")
@@ -134,30 +134,36 @@ def get_certifications():
 def get_projects():
     projects = []
 
-    include_projects = input("Do you want to add projects? (yes/no): ")
+    include_projects = input(
+        "Do you want to add projects? (yes/no): "
+    )
 
-    while True:
-        project_name = input("Enter your project name: ")
-        description = input("Enter your description: ")
-        role = input("Enter your role: ")
-        tools_used = input("Enter the tools used: ")
-        project_link = input("Enter your project links(optional): ")
+    if include_projects.lower() == "yes":
+        while True:
+            project_name = input("Enter project name: ")
+            description = input("Describe the project: ")
+            role = input("What was your role in the project? ")
+            tools = input("What tools or technologies did you use? ")
+            project_link = input("Enter project link (optional): ")
 
-        project = {
-            "project_name": project_name,
-            "description": description,
-            "role": role,
-            "tools_used": tools_used,
-            "project_link": project_link
-        }
+            project = {
+                "project_name": project_name,
+                "description": description,
+                "role": role,
+                "tools": tools,
+                "project_link": project_link
+            }
 
-        projects.append(project)
+            projects.append(project)
 
-        another = input("Do you want to add another project? (yes/no): ")
-        if another.lower() != "yes":
-            break
+            another = input(
+                "Do you want to add another project? (yes/no): "
+            )
+
+            if another.lower() != "yes":
+                break
+
     return projects
-
 def get_language():
     languages = []
     include_languages = input("Do you want to add projects? (yes/no): ")
@@ -176,8 +182,33 @@ def get_language():
             break
     return languages
 
+def get_achievements():
+    achievements = []
 
+    include_achievements = input(
+        "Do you want to add achievements? (yes/no): "
+    )
 
+    if include_achievements.lower() == "yes":
+        while True:
+            title = input("Enter achievement title: ")
+            description = input("Describe the achievement: ")
+
+            achievement = {
+                "title": title,
+                "description": description
+            }
+
+            achievements.append(achievement)
+
+            another = input(
+                "Do you want to add another achievement? (yes/no): "
+            )
+
+            if another.lower() != "yes":
+                break
+
+    return achievements
 name, date_of_birth, email, phone_number, location = get_personal_information()
 summary = get_summary()
 educations = get_education()
@@ -186,7 +217,7 @@ skills = get_skills()
 certifications = get_certifications()
 projects = get_projects()
 languages = get_language()
-
+achievements = get_achievements()
 
 print("\nRESUME INFORMATION")
 print("Name:", name)
@@ -214,3 +245,6 @@ print(projects)
 
 print("\nLANGUAGES")
 print(languages)
+
+print("\nACHIEVEMENTS")
+print(achievements)
