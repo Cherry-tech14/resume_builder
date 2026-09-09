@@ -13,7 +13,11 @@ def get_personal_information():
 
 
 def get_summary():
-    summary = input("Enter your professional summary: ")
+    summary = ""
+    summary = input("Enter your professional summary (optional): ")
+    include_summary = input("Do you want to add a professional summary? (yes/no): ")
+    if include_summary.lower() == "yes":
+        summary = input("Enter your professional summary: ")
     return summary
 
 
@@ -127,6 +131,52 @@ def get_certifications():
 
     return certifications
 
+def get_projects():
+    projects = []
+
+    include_projects = input("Do you want to add projects? (yes/no): ")
+
+    while True:
+        project_name = input("Enter your project name: ")
+        description = input("Enter your description: ")
+        role = input("Enter your role: ")
+        tools_used = input("Enter the tools used: ")
+        project_link = input("Enter your project links(optional): ")
+
+        project = {
+            "project_name": project_name,
+            "description": description,
+            "role": role,
+            "tools_used": tools_used,
+            "project_link": project_link
+        }
+
+        projects.append(project)
+
+        another = input("Do you want to add another project? (yes/no): ")
+        if another.lower() != "yes":
+            break
+    return projects
+
+def get_language():
+    languages = []
+    include_languages = input("Do you want to add projects? (yes/no): ")
+
+    while True:
+        language = input("Enter language: ")
+        proficiency = input("Enter your proficiency level: ")
+
+        language_info = {
+            "language": language,
+            "proficiency": proficiency
+        }
+        languages.append(language_info)
+        another = input("Do you want to add another language? (yes/no): ")
+        if another.lower() != "yes":
+            break
+    return languages
+
+
 
 name, date_of_birth, email, phone_number, location = get_personal_information()
 summary = get_summary()
@@ -134,6 +184,8 @@ educations = get_education()
 work_experiences = get_work_experience()
 skills = get_skills()
 certifications = get_certifications()
+projects = get_projects()
+languages = get_language()
 
 
 print("\nRESUME INFORMATION")
@@ -144,7 +196,6 @@ print("Phone Number:", phone_number)
 print("Location:", location)
 
 print("\nPROFESSIONAL SUMMARY")
-print("Summary:", summary)
 
 print("\nEDUCATION")
 print(educations)
@@ -157,3 +208,9 @@ print(skills)
 
 print("\nCERTIFICATION")
 print(certifications)
+
+print("\nPROJECTS")
+print(projects)
+
+print("\nLANGUAGES")
+print(languages)
