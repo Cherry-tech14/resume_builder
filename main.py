@@ -14,10 +14,14 @@ def get_personal_information():
 
 def get_summary():
     summary = ""
-    summary = input("Enter your professional summary (optional): ")
-    include_summary = input("Do you want to add a professional summary? (yes/no): ")
+
+    include_summary = input(
+        "Do you want to add a professional summary? (yes/no): "
+    )
+
     if include_summary.lower() == "yes":
         summary = input("Enter your professional summary: ")
+
     return summary
 
 
@@ -26,7 +30,7 @@ def get_education():
 
     while True:
         school = input("Enter name of school: ")
-        degree = input("Enter your degree or qualification(optional): ")
+        degree = input("Enter your degree or qualification: ")
         field = input("Enter your field of study: ")
         start_year = input("Enter your start year: ")
         end_year = input("Enter your end year: ")
@@ -41,7 +45,9 @@ def get_education():
 
         educations.append(education)
 
-        another = input("Do you want to add another education? (yes/no): ")
+        another = input(
+            "Do you want to add another education? (yes/no): "
+        )
 
         if another.lower() != "yes":
             break
@@ -93,7 +99,9 @@ def get_skills():
         skill = input("Enter a skill: ")
         skills.append(skill)
 
-        another = input("Do you want to add another skill? (yes/no): ")
+        another = input(
+            "Do you want to add another skill? (yes/no): "
+        )
 
         if another.lower() != "yes":
             break
@@ -131,6 +139,7 @@ def get_certifications():
 
     return certifications
 
+
 def get_projects():
     projects = []
 
@@ -164,23 +173,36 @@ def get_projects():
                 break
 
     return projects
-def get_language():
+
+
+def get_languages():
     languages = []
-    include_languages = input("Do you want to add projects? (yes/no): ")
 
-    while True:
-        language = input("Enter language: ")
-        proficiency = input("Enter your proficiency level: ")
+    include_languages = input(
+        "Do you want to add languages? (yes/no): "
+    )
 
-        language_info = {
-            "language": language,
-            "proficiency": proficiency
-        }
-        languages.append(language_info)
-        another = input("Do you want to add another language? (yes/no): ")
-        if another.lower() != "yes":
-            break
+    if include_languages.lower() == "yes":
+        while True:
+            language = input("Enter language: ")
+            proficiency = input("Enter your proficiency level: ")
+
+            language_info = {
+                "language": language,
+                "proficiency": proficiency
+            }
+
+            languages.append(language_info)
+
+            another = input(
+                "Do you want to add another language? (yes/no): "
+            )
+
+            if another.lower() != "yes":
+                break
+
     return languages
+
 
 def get_achievements():
     achievements = []
@@ -210,13 +232,109 @@ def get_achievements():
 
     return achievements
 
+
 def get_volunteer():
     volunteer_experiences = []
 
-    include_volunteer = input("Do you want to add volunteer experiences? (yes/no): ")
-     if include_volunteer.lower() == "yes":
+    include_volunteer = input(
+        "Do you want to add volunteer experiences? (yes/no): "
+    )
+
+    if include_volunteer.lower() == "yes":
         while True:
-            title = input("Enter volunteer")
+            organization = input("Enter organization name: ")
+            role = input("Enter your role: ")
+            location = input("Enter your location: ")
+            start_date = input("Enter start date: ")
+            end_date = input("Enter end date: ")
+            description = input("Describe your responsibilities: ")
+
+            volunteer = {
+                "organization": organization,
+                "role": role,
+                "location": location,
+                "start_date": start_date,
+                "end_date": end_date,
+                "description": description
+            }
+
+            volunteer_experiences.append(volunteer)
+
+            another = input(
+                "Do you want to add another volunteer experience? (yes/no): "
+            )
+
+            if another.lower() != "yes":
+                break
+
+    return volunteer_experiences
+
+
+def get_references():
+    references = []
+
+    include_references = input(
+        "Do you want to add references? (yes/no): "
+    )
+
+    if include_references.lower() == "yes":
+        while True:
+            name = input("Enter reference name: ")
+            relationship = input(
+                "Enter their job title or relationship to you: "
+            )
+            organization = input("Enter organization name: ")
+            email = input("Enter reference email: ")
+            phone_number = input("Enter reference phone number: ")
+
+            reference = {
+                "name": name,
+                "relationship": relationship,
+                "organization": organization,
+                "email": email,
+                "phone_number": phone_number
+            }
+
+            references.append(reference)
+
+            another = input(
+                "Do you want to add another reference? (yes/no): "
+            )
+
+            if another.lower() != "yes":
+                break
+
+    return references
+
+
+def display_education(educations):
+    print("\nEDUCATION")
+
+    for education in educations:
+        print("School:", education["school"])
+        print("Degree:", education["degree"])
+        print("Field of Study:", education["field"])
+        print("Start Year:", education["start_year"])
+        print("End Year:", education["end_year"])
+        print()
+
+
+def display_skills(skills):
+    print("\nSKILLS")
+
+    for skill in skills:
+        print("•", skill)
+
+def display_work_experience(work_experiences):
+    print("\nWORK EXPERIENCE")
+    for experience in experiences:
+        print("Job_Title:", work_experience["job_title"])
+        print("Company:", work_experience["company"])
+        print("Location:", work_experience["location"])
+        print("Start_Date:", work_experience["start_date"])
+        print("End_Date:", work_experience["end_date"])
+        print("Description:", work_experience["description"])
+        print()
 
 
 name, date_of_birth, email, phone_number, location = get_personal_information()
@@ -226,10 +344,14 @@ work_experiences = get_work_experience()
 skills = get_skills()
 certifications = get_certifications()
 projects = get_projects()
-languages = get_language()
+languages = get_languages()
 achievements = get_achievements()
+volunteer_experiences = get_volunteer()
+references = get_references()
+
 
 print("\nRESUME INFORMATION")
+
 print("Name:", name)
 print("Date of Birth:", date_of_birth)
 print("Email:", email)
@@ -237,15 +359,13 @@ print("Phone Number:", phone_number)
 print("Location:", location)
 
 print("\nPROFESSIONAL SUMMARY")
+print("Summary:", summary)
 
-print("\nEDUCATION")
-print(educations)
+display_education(educations)
 
-print("\nWORK EXPERIENCE")
-print(work_experiences)
+display_skills(skills)
 
-print("\nSKILLS")
-print(skills)
+display_work_experience(work_experiences)
 
 print("\nCERTIFICATION")
 print(certifications)
@@ -258,3 +378,9 @@ print(languages)
 
 print("\nACHIEVEMENTS")
 print(achievements)
+
+print("\nVOLUNTEERS")
+print(volunteer_experiences)
+
+print("\nREFERENCES")
+print(references)
