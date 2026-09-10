@@ -209,6 +209,16 @@ def get_achievements():
                 break
 
     return achievements
+
+def get_volunteer():
+    volunteer_experiences = []
+
+    include_volunteer = input("Do you want to add volunteer experiences? (yes/no): ")
+     if include_volunteer.lower() == "yes":
+        while True:
+            title = input("Enter volunteer")
+
+
 name, date_of_birth, email, phone_number, location = get_personal_information()
 summary = get_summary()
 educations = get_education()
