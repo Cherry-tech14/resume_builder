@@ -365,7 +365,7 @@ display_education(educations)
 
 display_skills(skills)
 
-display_work_experience(work_experiences)
+display_work_experience(work_experience)
 
 print("\nCERTIFICATION")
 print(certifications)
