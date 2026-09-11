@@ -327,7 +327,7 @@ def display_skills(skills):
 
 def display_work_experience(work_experiences):
     print("\nWORK EXPERIENCE")
-    for experience in experiences:
+    for experience in work_experiences:
         print("Job_Title:", work_experience["job_title"])
         print("Company:", work_experience["company"])
         print("Location:", work_experience["location"])
@@ -335,6 +335,28 @@ def display_work_experience(work_experiences):
         print("End_Date:", work_experience["end_date"])
         print("Description:", work_experience["description"])
         print()
+
+def display_certifications(certifications):
+    print("\nCERTIFICATIONS")
+
+    for certification in certifications:
+        print("Name:", certification["name"])
+        print("Organization:", certification["organization"])
+        print("Date:", certification["date"])
+        print()
+
+def display_projects(projects):
+    print("\nPROJECTS")
+
+    for project in projects:
+        print("Project_name:", projects["project_name"])
+        print("Description:", projects["description"])
+        print("Role:", projects["role"])
+        print("Tools:", projects["tools"])
+        print("Project_Link:", projects["project_link"])
+        print()
+
+    
 
 
 name, date_of_birth, email, phone_number, location = get_personal_information()
@@ -365,13 +387,11 @@ display_education(educations)
 
 display_skills(skills)
 
-display_work_experience(work_experience)
+display_work_experience(work_experiences)
 
-print("\nCERTIFICATION")
-print(certifications)
+display_certifications(certifications)
 
-print("\nPROJECTS")
-print(projects)
+display_projects(projects)
 
 print("\nLANGUAGES")
 print(languages)
