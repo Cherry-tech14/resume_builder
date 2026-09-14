@@ -1,3 +1,5 @@
+import json
+
 from resume_data import (
     get_personal_information,
     get_summary,
@@ -40,6 +42,39 @@ def main():
     achievements = get_achievements()
     volunteer_experiences = get_volunteer()
     references = get_references()
+
+    resume = {
+        "personal_information": {
+            "name": name,
+            "date_of_birth": date_of_birth,
+            "email": email,
+            "phone_number": phone_number,
+            "location": location
+        },
+
+        "summary": summary,
+
+        "education": educations,
+
+        "work_experience": work_experiences,
+
+        "skills": skills,
+
+        "certifications": certifications,
+
+        "projects": projects,
+
+        "languages": languages,
+
+        "achievements": achievements,
+
+        "volunteer_experience": volunteer_experiences,
+
+        "references": references
+    }
+    with open("resume.json", "w") as file:
+        json.dump(resume, file, indent=4)
+    print(resume)
 
     print("\nRESUME INFORMATION")
 
