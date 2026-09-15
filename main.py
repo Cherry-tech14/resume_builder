@@ -40,6 +40,11 @@ def main():
             print("Creating a new resume")
         elif choice == "2":
             print("Loading existing resume.")
+            personal_information = saved_resume["personal_information"]
+            print("Name:", personal_information["name"])
+            print("Date of Birth:", personal_information["date_of_birth"])
+            print("Email:", personal_information["email"])
+            print("Phone Number:",)
     else:
         print("No saved resume found.")
 
