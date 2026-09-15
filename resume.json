@@ -1,24 +1,24 @@
 {
     "personal_information": {
-        "name": "Mariam Mohammed",
+        "name": "Mariam",
         "date_of_birth": "",
-        "email": "mariam@12345",
-        "phone_number": "12834239435023",
+        "email": "mohammed@",
+        "phone_number": "1232342354246",
         "location": "Benue"
     },
     "summary": "",
     "education": [
         {
-            "school": "University of Abuja",
+            "school": "uni",
             "degree": "bsc",
-            "field": "Banking And Finance",
-            "start_year": "1234",
+            "field": "Banking and finance",
+            "start_year": "11234",
             "end_year": "5678"
         }
     ],
     "work_experience": [],
     "skills": [
-        "Accountant"
+        "python"
     ],
     "certifications": [],
     "projects": [],
