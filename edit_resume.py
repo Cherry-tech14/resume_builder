@@ -151,3 +151,6 @@ def edit_education(saved_resume):
         return
 
     print("Education updated successfully.")
+
+def work_experience(saved_resume):
+    
