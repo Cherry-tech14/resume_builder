@@ -1,25 +1,24 @@
 {
     "personal_information": {
-        "name": "Alex Johnson",
-        "date_of_birth": "01/01/2000",
-        "email": "alex@",
-        "phone_number": "080000000000",
-        "location": "Abuja"
+        "name": "Mariam Mohammed",
+        "date_of_birth": "",
+        "email": "mariam@12345",
+        "phone_number": "12834239435023",
+        "location": "Benue"
     },
     "summary": "",
     "education": [
         {
             "school": "University of Abuja",
             "degree": "bsc",
-            "field": "Banking and Finance",
+            "field": "Banking And Finance",
             "start_year": "1234",
             "end_year": "5678"
         }
     ],
     "work_experience": [],
     "skills": [
-        "python",
-        "git"
+        "Accountant"
     ],
     "certifications": [],
     "projects": [],

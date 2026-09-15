@@ -1,6 +1,5 @@
-import json
-
 from resume_data import (
+
     get_personal_information,
     get_summary,
     get_education,
@@ -13,6 +12,8 @@ from resume_data import (
     get_volunteer,
     get_references
 )
+
+from storage import save_resume, load_resume
 
 from display import (
     display_education,
@@ -72,10 +73,9 @@ def main():
 
         "references": references
     }
-    with open("resume.json", "w") as file:
-        json.dump(resume, file, indent=4)
-    print(resume)
-
+    
+    save_resume(resume)
+    
     print("\nRESUME INFORMATION")
 
     print("Name:", name)
