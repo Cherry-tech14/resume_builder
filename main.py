@@ -1,5 +1,4 @@
 from resume_data import (
-
     get_personal_information,
     get_summary,
     get_education,
@@ -27,28 +26,67 @@ from display import (
     display_references
 )
 
+from edit_resume import edit_resume
+
 
 def main():
     saved_resume = load_resume()
 
     if saved_resume:
         print("A saved resume was found.")
-        print("1. Create a new resume")
-        print("2. Load existing resume")
-        choice = input("Enter your choice: ")
+
+        while True:
+            print("1. Create a new resume")
+            print("2. Load existing resume")
+            print("3. Edit existing resume")
+
+            choice = input("Enter your choice: ")
+
+            if choice in ("1", "2", "3"):
+                break
+
+            print("Invalid choice. Please enter 1, 2, or 3.")
+
         if choice == "1":
-            print("Creating a new resume")
+            print("Creating a new resume.")
+
         elif choice == "2":
             print("Loading existing resume.")
+
             personal_information = saved_resume["personal_information"]
+
+            print("\nRESUME INFORMATION")
             print("Name:", personal_information["name"])
             print("Date of Birth:", personal_information["date_of_birth"])
             print("Email:", personal_information["email"])
-            print("Phone Number:",)
+            print("Phone Number:", personal_information["phone_number"])
+            print("Location:", personal_information["location"])
+
+            print("\nPROFESSIONAL SUMMARY")
+            print("Summary:", saved_resume["summary"])
+
+            display_education(saved_resume["education"])
+            display_skills(saved_resume["skills"])
+            display_work_experience(saved_resume["work_experience"])
+            display_certifications(saved_resume["certifications"])
+            display_projects(saved_resume["projects"])
+            display_languages(saved_resume["languages"])
+            display_achievements(saved_resume["achievements"])
+            display_volunteer(saved_resume["volunteer_experience"])
+            display_references(saved_resume["references"])
+
+            return
+
+        elif choice == "3":
+            edit_resume(saved_resume)
+            save_resume(saved_resume)
+
+            return
+
     else:
         print("No saved resume found.")
 
-    print("RESUME BUILDER")
+    print("\nRESUME BUILDER")
     print("Welcome! Let's create your professional resume.")
 
     name, date_of_birth, email, phone_number, location = get_personal_information()
@@ -92,9 +130,9 @@ def main():
 
         "references": references
     }
-    
+
     save_resume(resume)
-    
+
     print("\nRESUME INFORMATION")
 
     print("Name:", name)
