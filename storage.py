@@ -10,4 +10,3 @@ def load_resume():
             return json.load(file)
     except FileNotFoundError:
         return None
-print(load_resume())

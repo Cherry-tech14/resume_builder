@@ -29,6 +29,20 @@ from display import (
 
 
 def main():
+    saved_resume = load_resume()
+
+    if saved_resume:
+        print("A saved resume was found.")
+        print("1. Create a new resume")
+        print("2. Load existing resume")
+        choice = input("Enter your choice: ")
+        if choice == "1":
+            print("Creating a new resume")
+        elif choice == "2":
+            print("Loading existing resume.")
+    else:
+        print("No saved resume found.")
+
     print("RESUME BUILDER")
     print("Welcome! Let's create your professional resume.")
 
