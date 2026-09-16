@@ -24,6 +24,12 @@ def edit_resume(saved_resume):
     elif edit_choice == "3":
         edit_education(saved_resume)
 
+    elif edit_choice == "4":
+        edit_work_experience(saved_resume)
+    
+    elif edit_choice == "5":
+        edit_skills(saved_resume)
+
     else:
         print("That editing option has not been implemented yet.")
 
@@ -152,5 +158,120 @@ def edit_education(saved_resume):
 
     print("Education updated successfully.")
 
-def work_experience(saved_resume):
-    
+def edit_work_experience(saved_resume):
+    experiences = saved_resume["work_experience"]
+
+    if not experiences:
+        print("No work experience found.")
+        return
+
+    print("\nWORK EXPERIENCE")
+
+    for index, experience in enumerate(experiences, start=1):
+        print(
+            index,
+            experience["job_title"],
+            "-",
+            experience["company"]
+        )
+
+    experience_choice = input(
+        "Enter the number of the work experience you want to edit: "
+    )
+
+    if not experience_choice.isdigit():
+        print("Invalid choice.")
+        return
+
+    experience_index = int(experience_choice) - 1
+
+    if experience_index < 0 or experience_index >= len(experiences):
+        print("Invalid choice.")
+        return
+
+    print("\nWhat would you like to edit?")
+    print("1. Job title")
+    print("2. Company")
+    print("3. Location")
+    print("4. Start date")
+    print("5. End date")
+    print("6. Description")
+
+    field_choice = input("Enter your choice: ")
+
+    experience = experiences[experience_index]
+
+    if field_choice == "1":
+        experience["job_title"] = input(
+            "Enter the new job title: "
+        )
+
+    elif field_choice == "2":
+        experience["company"] = input(
+            "Enter the new company name: "
+        )
+
+    elif field_choice == "3":
+        experience["location"] = input(
+            "Enter the new location: "
+        )
+
+    elif field_choice == "4":
+        experience["start_date"] = input(
+            "Enter the new start date: "
+        )
+
+    elif field_choice == "5":
+        experience["end_date"] = input(
+            "Enter the new end date: "
+        )
+
+    elif field_choice == "6":
+        experience["description"] = input(
+            "Enter the new description: "
+        )
+
+    else:
+        print("Invalid choice.")
+        return
+
+    print("Work experience updated successfully.")
+def edit_skills(saved_resume):
+    skills = saved_resume["skills"]
+
+    if not skills:
+        print("No skills found.")
+        return
+
+    while True:
+        print("\nSKILLS")
+
+        for index, skill in enumerate(skills, start=1):
+            print(index, skill)
+
+        skill_choice = input(
+            "Enter the number of the skill you want to edit: "
+        )
+
+        if not skill_choice.isdigit():
+            print("Invalid choice.")
+            continue
+
+        skill_index = int(skill_choice) - 1
+
+        if skill_index < 0 or skill_index >= len(skills):
+            print("Invalid choice.")
+            continue
+
+        new_skill = input("Enter the new skill: ")
+
+        skills[skill_index] = new_skill
+
+        print("Skill updated successfully.")
+
+        another = input(
+            "Do you want to edit another skill? (yes/no): "
+        )
+
+        if another.lower() != "yes":
+            break

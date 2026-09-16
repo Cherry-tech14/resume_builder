@@ -39,13 +39,14 @@ def main():
             print("1. Create a new resume")
             print("2. Load existing resume")
             print("3. Edit existing resume")
+            
 
             choice = input("Enter your choice: ")
 
-            if choice in ("1", "2", "3"):
+            if choice in ("1", "2", "3", "4"):
                 break
 
-            print("Invalid choice. Please enter 1, 2, or 3.")
+            print("Invalid choice. Please enter 1, 2, or 3", "4")
 
         if choice == "1":
             print("Creating a new resume.")
