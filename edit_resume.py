@@ -30,6 +30,24 @@ def edit_resume(saved_resume):
     elif edit_choice == "5":
         edit_skills(saved_resume)
 
+    elif edit_choice == "6":
+        edit_certifications(saved_resume)
+
+    elif edit_choice == "7":
+        edit_projects(saved_resume)
+
+    elif edit_choice == "8":
+        edit_languages(saved_resume)
+    
+    elif edit_choice == "9":
+        edit_achievements(saved_resume)
+
+    elif edit_choice == "10":
+        edit_volunteer(saved_resume)
+
+    elif edit_choice == "11":
+        edit_references(saved_resume)
+
     else:
         print("That editing option has not been implemented yet.")
 
@@ -68,6 +86,8 @@ def edit_personal_information(saved_resume):
     elif personal_choice == "5":
         new_location = input("Enter your new location: ")
         saved_resume["personal_information"]["location"] = new_location
+    
+    
 
     else:
         print("Invalid choice.")
@@ -271,6 +291,455 @@ def edit_skills(saved_resume):
 
         another = input(
             "Do you want to edit another skill? (yes/no): "
+        )
+
+        if another.lower() != "yes":
+            break
+
+def edit_certifications(saved_resume):
+    certifications = saved_resume["certifications"]
+
+    if not certifications:
+        print("No certifications found.")
+        return
+
+    while True:
+        print("\nCERTIFICATIONS")
+
+        for index, certification in enumerate(certifications, start=1):
+            print(
+                index,
+                certification["name"],
+                "-",
+                certification["organization"]
+            )
+
+        certification_choice = input(
+            "Enter the number of the certification you want to edit: "
+        )
+
+        if not certification_choice.isdigit():
+            print("Invalid choice.")
+            continue
+
+        certification_index = int(certification_choice) - 1
+
+        if (
+            certification_index < 0
+            or certification_index >= len(certifications)
+        ):
+            print("Invalid choice.")
+            continue
+
+        print("\nWhat would you like to edit?")
+        print("1. Certification name")
+        print("2. Issuing organization")
+        print("3. Date")
+
+        field_choice = input("Enter your choice: ")
+
+        certification = certifications[certification_index]
+
+        if field_choice == "1":
+            certification["name"] = input(
+                "Enter the new certification name: "
+            )
+
+        elif field_choice == "2":
+            certification["organization"] = input(
+                "Enter the new issuing organization: "
+            )
+
+        elif field_choice == "3":
+            certification["date"] = input(
+                "Enter the new date: "
+            )
+
+        else:
+            print("Invalid choice.")
+            continue
+
+        print("Certification updated successfully.")
+
+        another = input(
+            "Do you want to edit another certification? (yes/no): "
+        )
+
+        if another.lower() != "yes":
+            break
+
+def edit_projects(saved_resume):
+    projects = saved_resume["projects"]
+
+    if not projects:
+        print("No projects found.")
+        return
+
+    while True:
+        print("\nPROJECTS")
+
+        for index, project in enumerate(projects, start=1):
+            print(
+                index,
+                project["project_name"]
+            )
+
+        project_choice = input(
+            "Enter the number of the project you want to edit: "
+        )
+
+        if not project_choice.isdigit():
+            print("Invalid choice.")
+            continue
+
+        project_index = int(project_choice) - 1
+
+        if project_index < 0 or project_index >= len(projects):
+            print("Invalid choice.")
+            continue
+
+        print("\nWhat would you like to edit?")
+        print("1. Project name")
+        print("2. Description")
+        print("3. Role")
+        print("4. Tools/Technologies")
+        print("5. Project link")
+
+        field_choice = input("Enter your choice: ")
+
+        project = projects[project_index]
+
+        if field_choice == "1":
+            project["project_name"] = input(
+                "Enter the new project name: "
+            )
+
+        elif field_choice == "2":
+            project["description"] = input(
+                "Enter the new project description: "
+            )
+
+        elif field_choice == "3":
+            project["role"] = input(
+                "Enter your new role: "
+            )
+
+        elif field_choice == "4":
+            project["tools"] = input(
+                "Enter the new tools or technologies: "
+            )
+
+        elif field_choice == "5":
+            project["project_link"] = input(
+                "Enter the new project link: "
+            )
+
+        else:
+            print("Invalid choice.")
+            continue
+
+        print("Project updated successfully.")
+
+        another = input(
+            "Do you want to edit another project? (yes/no): "
+        )
+
+        if another.lower() != "yes":
+            break
+
+def edit_languages(saved_resume):
+    languages = saved_resume["languages"]
+
+    if not languages:
+        print("No languages found.")
+        return
+
+    while True:
+        print("\nLANGUAGES")
+
+        for index, language in enumerate(languages, start=1):
+            print(
+                index,
+                language["language"],
+                "-",
+                language["proficiency"]
+            )
+
+        language_choice = input(
+            "Enter the number of the language you want to edit: "
+        )
+
+        if not language_choice.isdigit():
+            print("Invalid choice.")
+            continue
+
+        language_index = int(language_choice) - 1
+
+        if language_index < 0 or language_index >= len(languages):
+            print("Invalid choice.")
+            continue
+
+        print("\nWhat would you like to edit?")
+        print("1. Language")
+        print("2. Proficiency")
+
+        field_choice = input("Enter your choice: ")
+
+        language = languages[language_index]
+
+        if field_choice == "1":
+            language["language"] = input(
+                "Enter the new language: "
+            )
+
+        elif field_choice == "2":
+            language["proficiency"] = input(
+                "Enter the new proficiency level: "
+            )
+
+        else:
+            print("Invalid choice.")
+            continue
+
+        print("Language updated successfully.")
+
+        another = input(
+            "Do you want to edit another language? (yes/no): "
+        )
+
+        if another.lower() != "yes":
+            break
+
+def edit_achievements(saved_resume):
+    achievements = saved_resume["achievements"]
+
+    if not achievements:
+        print("No achievements found.")
+        return
+
+    while True:
+        print("\nACHIEVEMENTS")
+
+        for index, achievement in enumerate(achievements, start=1):
+            print(
+                index,
+                achievement["title"]
+            )
+
+        achievement_choice = input(
+            "Enter the number of the achievement you want to edit: "
+        )
+
+        if not achievement_choice.isdigit():
+            print("Invalid choice.")
+            continue
+
+        achievement_index = int(achievement_choice) - 1
+
+        if achievement_index < 0 or achievement_index >= len(achievements):
+            print("Invalid choice.")
+            continue
+
+        print("\nWhat would you like to edit?")
+        print("1. Achievement title")
+        print("2. Description")
+
+        field_choice = input("Enter your choice: ")
+
+        achievement = achievements[achievement_index]
+
+        if field_choice == "1":
+            achievement["title"] = input(
+                "Enter the new achievement title: "
+            )
+
+        elif field_choice == "2":
+            achievement["description"] = input(
+                "Enter the new achievement description: "
+            )
+
+        else:
+            print("Invalid choice.")
+            continue
+
+        print("Achievement updated successfully.")
+
+        another = input(
+            "Do you want to edit another achievement? (yes/no): "
+        )
+
+        if another.lower() != "yes":
+            break
+
+def edit_volunteer(saved_resume):
+    volunteer_experiences = saved_resume["volunteer_experience"]
+
+    if not volunteer_experiences:
+        print("No volunteer experience found.")
+        return
+
+    while True:
+        print("\nVOLUNTEER EXPERIENCE")
+
+        for index, volunteer in enumerate(
+            volunteer_experiences,
+            start=1
+        ):
+            print(
+                index,
+                volunteer["role"],
+                "-",
+                volunteer["organization"]
+            )
+
+        volunteer_choice = input(
+            "Enter the number of the volunteer experience you want to edit: "
+        )
+
+        if not volunteer_choice.isdigit():
+            print("Invalid choice.")
+            continue
+
+        volunteer_index = int(volunteer_choice) - 1
+
+        if (
+            volunteer_index < 0
+            or volunteer_index >= len(volunteer_experiences)
+        ):
+            print("Invalid choice.")
+            continue
+
+        print("\nWhat would you like to edit?")
+        print("1. Organization")
+        print("2. Role")
+        print("3. Location")
+        print("4. Start date")
+        print("5. End date")
+        print("6. Description")
+
+        field_choice = input("Enter your choice: ")
+
+        volunteer = volunteer_experiences[volunteer_index]
+
+        if field_choice == "1":
+            volunteer["organization"] = input(
+                "Enter the new organization name: "
+            )
+
+        elif field_choice == "2":
+            volunteer["role"] = input(
+                "Enter the new role: "
+            )
+
+        elif field_choice == "3":
+            volunteer["location"] = input(
+                "Enter the new location: "
+            )
+
+        elif field_choice == "4":
+            volunteer["start_date"] = input(
+                "Enter the new start date: "
+            )
+
+        elif field_choice == "5":
+            volunteer["end_date"] = input(
+                "Enter the new end date: "
+            )
+
+        elif field_choice == "6":
+            volunteer["description"] = input(
+                "Enter the new description: "
+            )
+
+        else:
+            print("Invalid choice.")
+            continue
+
+        print("Volunteer experience updated successfully.")
+
+        another = input(
+            "Do you want to edit another volunteer experience? (yes/no): "
+        )
+
+        if another.lower() != "yes":
+            break
+
+def edit_references(saved_resume):
+    references = saved_resume["references"]
+
+    if not references:
+        print("No references found.")
+        return
+
+    while True:
+        print("\nREFERENCES")
+
+        for index, reference in enumerate(references, start=1):
+            print(
+                index,
+                reference["name"],
+                "-",
+                reference["organization"]
+            )
+
+        reference_choice = input(
+            "Enter the number of the reference you want to edit: "
+        )
+
+        if not reference_choice.isdigit():
+            print("Invalid choice.")
+            continue
+
+        reference_index = int(reference_choice) - 1
+
+        if reference_index < 0 or reference_index >= len(references):
+            print("Invalid choice.")
+            continue
+
+        print("\nWhat would you like to edit?")
+        print("1. Name")
+        print("2. Relationship")
+        print("3. Organization")
+        print("4. Email")
+        print("5. Phone Number")
+
+        field_choice = input("Enter your choice: ")
+
+        reference = references[reference_index]
+
+        if field_choice == "1":
+            reference["name"] = input(
+                "Enter the new reference name: "
+            )
+
+        elif field_choice == "2":
+            reference["relationship"] = input(
+                "Enter the new relationship or job title: "
+            )
+
+        elif field_choice == "3":
+            reference["organization"] = input(
+                "Enter the new organization name: "
+            )
+
+        elif field_choice == "4":
+            reference["email"] = input(
+                "Enter the new email: "
+            )
+
+        elif field_choice == "5":
+            reference["phone_number"] = input(
+                "Enter the new phone number: "
+            )
+
+        else:
+            print("Invalid choice.")
+            continue
+
+        print("Reference updated successfully.")
+
+        another = input(
+            "Do you want to edit another reference? (yes/no): "
         )
 
         if another.lower() != "yes":

@@ -1,12 +1,12 @@
 {
     "personal_information": {
-        "name": "Cherry",
+        "name": "Lucy",
         "date_of_birth": "23432534",
         "email": "mohammedcherry@",
         "phone_number": "090123456789",
         "location": "Benue"
     },
-    "summary": "",
+    "summary": "whatever",
     "education": [
         {
             "school": "bsu",
@@ -18,7 +18,7 @@
     ],
     "work_experience": [],
     "skills": [
-        "excel"
+        "python"
     ],
     "certifications": [],
     "projects": [],
