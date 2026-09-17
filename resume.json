@@ -1,29 +1,51 @@
 {
     "personal_information": {
-        "name": "Lucy",
-        "date_of_birth": "23432534",
+        "name": "Mariam Mohammed",
+        "date_of_birth": "01/01/2023",
         "email": "mohammedcherry@",
-        "phone_number": "090123456789",
+        "phone_number": "09088888888",
         "location": "Benue"
     },
-    "summary": "whatever",
+    "summary": "Aspiring software engineer transitioning from whatever into technology, currently building a strong foundation in programming through an intensive, project based coding curriculum. Proficient in Go(golang), with hands on experience solving algorithmic problems and building programs from scraatch.",
     "education": [
         {
-            "school": "bsu",
-            "degree": "bsc",
+            "school": "University of Abuja",
+            "degree": "bsc. Banking and Finance",
             "field": "Banking and Finance",
-            "start_year": "1234",
-            "end_year": "5678"
+            "start_year": "2019",
+            "end_year": "2023"
+        },
+        {
+            "school": "United Secondary School",
+            "degree": "Ssce",
+            "field": "social science",
+            "start_year": "2010",
+            "end_year": "2016"
         }
     ],
     "work_experience": [],
     "skills": [
-        "python"
+        "python",
+        "git/github",
+        "problem decomposition"
     ],
     "certifications": [],
     "projects": [],
-    "languages": [],
+    "languages": [
+        {
+            "language": "English",
+            "proficiency": "fluent"
+        }
+    ],
     "achievements": [],
     "volunteer_experience": [],
-    "references": []
+    "references": [
+        {
+            "name": "Ene Otse",
+            "relationship": "sister",
+            "organization": "none",
+            "email": "eneotse@",
+            "phone_number": "090123456789"
+        }
+    ]
 }
