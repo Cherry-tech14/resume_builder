@@ -1,13 +1,9 @@
 import sqlite3
 
-
-# Connect to the SQLite database
 connection = sqlite3.connect("resume.db")
 
 cursor = connection.cursor()
 
-
-# Create users table
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY,
@@ -16,8 +12,6 @@ cursor.execute("""
     )
 """)
 
-
-# Create resumes table
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS resumes (
         id INTEGER PRIMARY KEY,
@@ -30,8 +24,6 @@ cursor.execute("""
     )
 """)
 
-
-# Create education table
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS education (
         id INTEGER PRIMARY KEY,
@@ -45,8 +37,6 @@ cursor.execute("""
     )
 """)
 
-
-# Create work experience table
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS work_experience (
         id INTEGER PRIMARY KEY,
@@ -61,8 +51,6 @@ cursor.execute("""
     )
 """)
 
-
-# Create skills table
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS skills (
         id INTEGER PRIMARY KEY,
@@ -72,8 +60,6 @@ cursor.execute("""
     )
 """)
 
-
-# Create certifications table
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS certifications (
         id INTEGER PRIMARY KEY,
@@ -85,8 +71,6 @@ cursor.execute("""
     )
 """)
 
-
-# Create projects table
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS projects (
         id INTEGER PRIMARY KEY,
@@ -100,8 +84,6 @@ cursor.execute("""
     )
 """)
 
-
-# Create languages table
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS languages (
         id INTEGER PRIMARY KEY,
@@ -112,8 +94,6 @@ cursor.execute("""
     )
 """)
 
-
-# Create achievements table
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS achievements (
         id INTEGER PRIMARY KEY,
@@ -124,8 +104,6 @@ cursor.execute("""
     )
 """)
 
-
-# Create volunteer experience table
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS volunteer_experience (
         id INTEGER PRIMARY KEY,
@@ -140,8 +118,6 @@ cursor.execute("""
     )
 """)
 
-
-# Create references table
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS resume_references (
         id INTEGER PRIMARY KEY,
@@ -155,14 +131,8 @@ cursor.execute("""
     )
 """)
 
-
-# Save changes made while creating tables
 connection.commit()
 
-
-# --------------------------------------------------
-# SAVE RESUME
-# --------------------------------------------------
 
 def save_resume(
     name,
@@ -198,11 +168,6 @@ def save_resume(
 
     return cursor.lastrowid
 
-
-# --------------------------------------------------
-# SAVE EDUCATION
-# --------------------------------------------------
-
 def save_education(
     resume_id,
     school,
@@ -234,11 +199,6 @@ def save_education(
     )
 
     connection.commit()
-
-
-# --------------------------------------------------
-# SAVE WORK EXPERIENCE
-# --------------------------------------------------
 
 def save_work_experience(
     resume_id,
@@ -275,11 +235,6 @@ def save_work_experience(
 
     connection.commit()
 
-
-# --------------------------------------------------
-# SAVE SKILL
-# --------------------------------------------------
-
 def save_skill(resume_id, skill):
     cursor.execute(
         """
@@ -297,10 +252,6 @@ def save_skill(resume_id, skill):
 
     connection.commit()
 
-
-# --------------------------------------------------
-# SAVE CERTIFICATION
-# --------------------------------------------------
 
 def save_certification(
     resume_id,
@@ -327,11 +278,6 @@ def save_certification(
     )
 
     connection.commit()
-
-
-# --------------------------------------------------
-# SAVE PROJECT
-# --------------------------------------------------
 
 def save_project(
     resume_id,
@@ -365,11 +311,6 @@ def save_project(
 
     connection.commit()
 
-
-# --------------------------------------------------
-# SAVE LANGUAGE
-# --------------------------------------------------
-
 def save_language(
     resume_id,
     language,
@@ -393,11 +334,6 @@ def save_language(
 
     connection.commit()
 
-
-# --------------------------------------------------
-# SAVE ACHIEVEMENT
-# --------------------------------------------------
-
 def save_achievement(
     resume_id,
     title,
@@ -420,11 +356,6 @@ def save_achievement(
     )
 
     connection.commit()
-
-
-# --------------------------------------------------
-# SAVE VOLUNTEER EXPERIENCE
-# --------------------------------------------------
 
 def save_volunteer_experience(
     resume_id,
@@ -461,11 +392,6 @@ def save_volunteer_experience(
 
     connection.commit()
 
-
-# --------------------------------------------------
-# SAVE REFERENCE
-# --------------------------------------------------
-
 def save_reference(
     resume_id,
     name,
@@ -493,6 +419,322 @@ def save_reference(
             organization,
             email,
             phone_number
+        )
+    )
+
+    connection.commit()
+
+def load_resume_from_database(resume_id):
+    cursor.execute(
+        """
+        SELECT
+            id,
+            name,
+            date_of_birth,
+            email,
+            phone_number,
+            location,
+            summary
+        FROM resumes
+        WHERE id = ?
+        """,
+        (resume_id,)
+    )
+    return cursor.fetchone()
+
+
+def load_education(resume_id):
+    cursor.execute(
+        """
+        SELECT
+            school,
+            degree,
+            field,
+            start_year,
+            end_year
+        FROM education
+        WHERE resume_id = ?
+        """,
+        (resume_id,)
+    )
+    education_records = cursor.fetchall()
+    education = []
+    for record in education_records:
+         education.append({
+            "id": record[0],
+            "school": record[1],
+            "degree": record[2],
+            "field": record[3],
+            "start_year": record[4],
+            "end_year": record[5]
+        })
+
+    return education
+        
+
+def load_work_experience(resume_id):
+    cursor.execute(
+        """
+        SELECT
+            job_title,
+            company,
+            location,
+            start_date,
+            end_date,
+            description
+        FROM work_experience
+        WHERE resume_id = ?
+        """,
+        (resume_id,)
+    )
+
+    work_records = cursor.fetchall()
+    work_experience = []
+
+    for record in work_records:
+        work_experience.append({
+            "id": record[0],
+            "job_title": record[1],
+            "company": record[2],
+            "location": record[3],
+            "start_date": record[4],
+            "end_date": record[5],
+            "description": record[6]
+        })
+
+    return work_experience
+
+
+def load_skills(resume_id):
+    cursor.execute(
+        """
+        SELECT
+            skill
+        FROM skills
+        WHERE resume_id = ?
+        """,
+        (resume_id,)
+    )
+
+    skill_records = cursor.fetchall()
+    skills = []
+    for record in skill_records:
+        skills.append({
+            "id": record[0],
+            "skill": record[1]
+        })
+
+    return skills
+
+    
+
+def load_certifications(resume_id):
+    cursor.execute(
+        """
+        SELECT
+            name,
+            organization,
+            date
+        FROM certifications
+        WHERE resume_id = ?
+        """,
+        (resume_id,)
+    )
+
+    certification_records = cursor.fetchall()
+    certifications = []
+    for record in certification_records:
+        certifications.append({
+            "id": record[0],
+            "name": record[1],
+            "organization": record[2],
+            "date": record[3]
+        })
+    return certifications
+
+def load_projects(resume_id):
+    cursor.execute(
+        """
+        SELECT
+            project_name,
+            description,
+            role,
+            tools,
+            project_link
+        FROM projects
+        WHERE resume_id = ?
+        """,
+        (resume_id,)
+    )
+
+    project_records = cursor.fetchall()
+    projects = []
+    for record in project_records:
+        projects.append({
+            "id": record[0],
+            "project_name": record[1],
+            "description": record[2],
+            "role": record[3],
+            "tools": record[4],
+            "project_link": record[5]
+        })
+    return projects
+
+def load_languages(resume_id):
+    cursor.execute(
+        """
+        SELECT
+            language,
+            proficiency
+        FROM languages
+        WHERE resume_id = ?
+        """,
+        (resume_id,)
+    )
+
+    language_records = cursor.fetchall()
+    languages = []
+    for record in language_records:
+        languages.append({
+            "id": record[0],
+            "language": record[1],
+            "proficiency": record[2]
+        })
+    return languages
+
+def load_achievements(resume_id):
+    cursor.execute(
+        """
+        SELECT
+            title,
+            description
+        FROM achievements
+        WHERE resume_id = ?
+        """,
+        (resume_id,)
+    )
+
+    achievement_records = cursor.fetchall()
+    achievements = []
+    for record in achievement_records:
+        achievements.append({
+            "id": record[0],
+            "title": record[1],
+            "description": record[2]
+        })
+    return achievements
+
+def load_volunteer_experience(resume_id):
+    cursor.execute(
+        """
+        SELECT
+            organization,
+            role,
+            location,
+            start_date,
+            end_date,
+            description
+        FROM volunteer_experience
+        WHERE resume_id = ?
+        """,
+        (resume_id,)
+    )
+
+    volunteer_records = cursor.fetchall()
+    volunteer_experience = []
+    for record in volunteer_records:
+        volunteer_experience.append({
+            "id": record[0],
+            "organization": record[1],
+            "role": record[2],
+            "location": record[3],
+            "start_date": record[4],
+            "end_date": record[5],
+            "description": record[6]
+        })
+    return volunteer_experience
+        
+
+def load_references(resume_id):
+    cursor.execute(
+        """
+        SELECT
+            name,
+            relationship,
+            organization,
+            email,
+            phone_number
+        FROM resume_references
+        WHERE resume_id = ?
+        """,
+        (resume_id,)
+    )
+
+    reference_records = cursor.fetchall()
+    references = []
+    for record in reference_records:
+        references.append({
+            "id": record[0],
+            "name": record[1],
+            "relationship": record[2],
+            "organization": record[3],
+            "email": record[4],
+            "phone_number": record[5]
+        })
+    return references
+
+def get_complete_resume(resume_id):
+    resume = load_resume_from_database(resume_id)
+
+    if resume is None:
+        return None
+
+    return {
+        "personal_information": {
+            "name": resume[1],
+            "date_of_birth": resume[2],
+            "email": resume[3],
+            "phone_number": resume[4],
+            "location": resume[5]
+        },
+        "summary": resume[6],
+        "education": load_education(resume_id),
+        "work_experience": load_work_experience(resume_id),
+        "skills": load_skills(resume_id),
+        "certifications": load_certifications(resume_id),
+        "projects": load_projects(resume_id),
+        "languages": load_languages(resume_id),
+        "achievements": load_achievements(resume_id),
+        "volunteer_experience": load_volunteer_experience(resume_id),
+        "references": load_references(resume_id)
+    }
+
+def update_personal_information(
+    resume_id,
+    name,
+    date_of_birth,
+    email,
+    phone_number,
+    location
+):
+    cursor.execute(
+        """
+        UPDATE resumes
+        SET
+            name = ?,
+            date_of_birth = ?,
+            email = ?,
+            phone_number = ?,
+            location = ?
+        WHERE id = ?
+        """,
+        (
+            name,
+            date_of_birth,
+            email,
+            phone_number,
+            location,
+            resume_id
         )
     )
 

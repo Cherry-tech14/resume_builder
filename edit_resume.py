@@ -1,3 +1,5 @@
+from database import update_personal_information
+
 def edit_resume(saved_resume):
     print("\nEDIT RESUME")
 
@@ -52,7 +54,7 @@ def edit_resume(saved_resume):
         print("That editing option has not been implemented yet.")
 
 
-def edit_personal_information(saved_resume):
+def edit_personal_information(saved_resume, resume_id):
     print("\nPERSONAL INFORMATION")
 
     print("1. Name")

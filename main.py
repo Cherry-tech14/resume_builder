@@ -24,9 +24,9 @@ from database import (
     save_language,
     save_achievement,
     save_volunteer_experience,
-    save_reference
+    save_reference,
+    get_complete_resume
 )
-
 from display import (
     display_education,
     display_skills,
@@ -66,6 +66,12 @@ def main():
 
         elif choice == "2":
             print("Loading existing resume.")
+            resume_id = int(input("Enter the resume ID: "))
+            resume = get_complete_resume(resume_id)
+
+            if resume is None:
+                print("Resume not found.")
+                return
 
             personal_information = saved_resume["personal_information"]
 
@@ -92,8 +98,13 @@ def main():
             return
 
         elif choice == "3":
+            resume_id = int(input("Enter the resume ID: "))
+            saved_resume = get_complete_resume(resume_id)
+            if saved_resume is None:
+                print("Resume not found.")
+                return
             edit_resume(saved_resume)
-            save_resume(saved_resume)
+            
 
             return
 
@@ -249,6 +260,7 @@ def main():
     display_achievements(achievements)
     display_volunteer(volunteer_experiences)
     display_references(references)
+
 
 if __name__ == "__main__":
     main()
