@@ -750,6 +750,22 @@ def update_personal_information(
 
     connection.commit()
 
+
+def update_summary(resume_id, summary):
+    cursor.execute(
+        """
+        UPDATE resumes
+        SET summary = ?
+        WHERE id = ?
+        """,
+        (
+            summary,
+            resume_id
+        )
+    )
+
+    connection.commit()
+
 def update_education(
     education_id,
     school,
