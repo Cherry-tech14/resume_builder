@@ -1,6 +1,6 @@
 from database import update_personal_information
 
-def edit_resume(saved_resume):
+def edit_resume(saved_resume, resume_id):
     print("\nEDIT RESUME")
 
     print("1. Personal information")
@@ -18,7 +18,7 @@ def edit_resume(saved_resume):
     edit_choice = input("What would you like to edit? ")
 
     if edit_choice == "1":
-        edit_personal_information(saved_resume)
+        edit_personal_information(saved_resume, resume_id)
 
     elif edit_choice == "2":
         edit_summary(saved_resume)
@@ -94,6 +94,16 @@ def edit_personal_information(saved_resume, resume_id):
     else:
         print("Invalid choice.")
         return
+    personal_information = saved_resume["personal_information"]
+
+    update_personal_information(
+        resume_id,
+        personal_information["name"],
+        personal_information["date_of_birth"],
+        personal_information["email"],
+        personal_information["phone_number"],
+        personal_information["location"]
+    )
 
     print("Personal information updated successfully.")
 

@@ -67,9 +67,9 @@ def main():
         elif choice == "2":
             print("Loading existing resume.")
             resume_id = int(input("Enter the resume ID: "))
-            resume = get_complete_resume(resume_id)
+            saved_resume = get_complete_resume(resume_id)
 
-            if resume is None:
+            if saved_resume is None:
                 print("Resume not found.")
                 return
 
@@ -103,9 +103,8 @@ def main():
             if saved_resume is None:
                 print("Resume not found.")
                 return
-            edit_resume(saved_resume)
+            edit_resume(saved_resume, resume_id)
             
-
             return
 
     else:
