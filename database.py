@@ -442,11 +442,11 @@ def load_resume_from_database(resume_id):
     )
     return cursor.fetchone()
 
-
 def load_education(resume_id):
     cursor.execute(
         """
         SELECT
+            id,
             school,
             degree,
             field,
@@ -457,10 +457,13 @@ def load_education(resume_id):
         """,
         (resume_id,)
     )
+
     education_records = cursor.fetchall()
+
     education = []
+
     for record in education_records:
-         education.append({
+        education.append({
             "id": record[0],
             "school": record[1],
             "degree": record[2],
@@ -470,12 +473,12 @@ def load_education(resume_id):
         })
 
     return education
-        
 
 def load_work_experience(resume_id):
     cursor.execute(
         """
         SELECT
+            id,
             job_title,
             company,
             location,
@@ -504,11 +507,11 @@ def load_work_experience(resume_id):
 
     return work_experience
 
-
 def load_skills(resume_id):
     cursor.execute(
         """
         SELECT
+            id,
             skill
         FROM skills
         WHERE resume_id = ?
@@ -517,7 +520,9 @@ def load_skills(resume_id):
     )
 
     skill_records = cursor.fetchall()
+
     skills = []
+
     for record in skill_records:
         skills.append({
             "id": record[0],
@@ -526,12 +531,11 @@ def load_skills(resume_id):
 
     return skills
 
-    
-
 def load_certifications(resume_id):
     cursor.execute(
         """
         SELECT
+            id,
             name,
             organization,
             date
@@ -556,6 +560,7 @@ def load_projects(resume_id):
     cursor.execute(
         """
         SELECT
+            id,
             project_name,
             description,
             role,
@@ -584,6 +589,7 @@ def load_languages(resume_id):
     cursor.execute(
         """
         SELECT
+            id,
             language,
             proficiency
         FROM languages
@@ -606,6 +612,7 @@ def load_achievements(resume_id):
     cursor.execute(
         """
         SELECT
+            id,
             title,
             description
         FROM achievements
@@ -628,6 +635,7 @@ def load_volunteer_experience(resume_id):
     cursor.execute(
         """
         SELECT
+            id,
             organization,
             role,
             location,
@@ -659,6 +667,7 @@ def load_references(resume_id):
     cursor.execute(
         """
         SELECT
+            id,
             name,
             relationship,
             organization,
