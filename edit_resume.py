@@ -1,5 +1,6 @@
 from database import (
     update_personal_information,
+    update_summary,
     update_education,
     update_work_experience,
     update_skill, 
@@ -32,7 +33,7 @@ def edit_resume(saved_resume, resume_id):
         edit_personal_information(saved_resume, resume_id)
 
     elif edit_choice == "2":
-        edit_summary(saved_resume)
+        edit_summary(saved_resume, resume_id)
 
     elif edit_choice == "3":
         edit_education(saved_resume, resume_id)
@@ -118,13 +119,17 @@ def edit_personal_information(saved_resume, resume_id):
 
     print("Personal information updated successfully.")
 
-
-def edit_summary(saved_resume):
+def edit_summary(saved_resume, resume_id):
     new_summary = input(
         "Enter your new professional summary: "
     )
 
     saved_resume["summary"] = new_summary
+
+    update_summary(
+        resume_id,
+        new_summary
+    )
 
     print("Professional summary updated successfully.")
 
