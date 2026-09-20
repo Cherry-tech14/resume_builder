@@ -1,4 +1,15 @@
-from database import update_personal_information
+from database import (
+    update_personal_information,
+    update_education,
+    update_work_experience,
+    update_skill, 
+    update_certification,
+    update_project,
+    update_language,
+    update_achievement,
+    update_volunteer_experience,
+    update_reference
+)
 
 def edit_resume(saved_resume, resume_id):
     print("\nEDIT RESUME")
@@ -24,31 +35,31 @@ def edit_resume(saved_resume, resume_id):
         edit_summary(saved_resume)
 
     elif edit_choice == "3":
-        edit_education(saved_resume)
+        edit_education(saved_resume, resume_id)
 
     elif edit_choice == "4":
-        edit_work_experience(saved_resume)
+        edit_work_experience(saved_resume, resume_id)
     
     elif edit_choice == "5":
-        edit_skills(saved_resume)
+        edit_skills(saved_resume, resume_id)
 
     elif edit_choice == "6":
-        edit_certifications(saved_resume)
+        edit_certifications(saved_resume, resume_id)
 
     elif edit_choice == "7":
-        edit_projects(saved_resume)
+        edit_projects(saved_resume, resume_id)
 
     elif edit_choice == "8":
-        edit_languages(saved_resume)
+        edit_languages(saved_resume, resume_id)
     
     elif edit_choice == "9":
-        edit_achievements(saved_resume)
+        edit_achievements(saved_resume, resume_id)
 
     elif edit_choice == "10":
-        edit_volunteer(saved_resume)
+        edit_volunteer(saved_resume, resume_id)
 
     elif edit_choice == "11":
-        edit_references(saved_resume)
+        edit_references(saved_resume, resume_id)
 
     else:
         print("That editing option has not been implemented yet.")
@@ -117,7 +128,7 @@ def edit_summary(saved_resume):
 
     print("Professional summary updated successfully.")
 
-def edit_education(saved_resume):
+def edit_education(saved_resume, resume_id):
     educations = saved_resume["education"]
 
     if not educations:
@@ -160,9 +171,12 @@ def edit_education(saved_resume):
     field_choice = input("Enter your choice: ")
 
     education = educations[education_index]
+    education_id = education["id"]
 
     if field_choice == "1":
-        education["school"] = input("Enter the new school name: ")
+        education["school"] = input(
+            "Enter the new school name: "
+        )
 
     elif field_choice == "2":
         education["degree"] = input(
@@ -188,9 +202,18 @@ def edit_education(saved_resume):
         print("Invalid choice.")
         return
 
+    update_education(
+        education_id,
+        education["school"],
+        education["degree"],
+        education["field"],
+        education["start_year"],
+        education["end_year"]
+    )
+
     print("Education updated successfully.")
 
-def edit_work_experience(saved_resume):
+def edit_work_experience(saved_resume, resume_id):
     experiences = saved_resume["work_experience"]
 
     if not experiences:
@@ -232,6 +255,7 @@ def edit_work_experience(saved_resume):
     field_choice = input("Enter your choice: ")
 
     experience = experiences[experience_index]
+    work_id = experience["id"]
 
     if field_choice == "1":
         experience["job_title"] = input(
@@ -266,9 +290,19 @@ def edit_work_experience(saved_resume):
     else:
         print("Invalid choice.")
         return
-
+    
+    update_work_experience(
+        work_id,
+        experience["job_title"],
+        experience["company"],
+        experience["location"],
+        experience["start_date"],
+        experience["end_date"],
+        experience["description"]
+)
     print("Work experience updated successfully.")
-def edit_skills(saved_resume):
+
+def edit_skills(saved_resume, resume_id):
     skills = saved_resume["skills"]
 
     if not skills:
@@ -279,7 +313,7 @@ def edit_skills(saved_resume):
         print("\nSKILLS")
 
         for index, skill in enumerate(skills, start=1):
-            print(index, skill)
+            print(index, skill["skill"])
 
         skill_choice = input(
             "Enter the number of the skill you want to edit: "
@@ -297,7 +331,15 @@ def edit_skills(saved_resume):
 
         new_skill = input("Enter the new skill: ")
 
-        skills[skill_index] = new_skill
+        skills= skills[skill_index]
+        skill_id = skill["id"]
+
+        skill["skill"] = new_skill
+
+        update_skill(
+            skill_id,
+            skill["skill"]
+        )
 
         print("Skill updated successfully.")
 
@@ -308,7 +350,7 @@ def edit_skills(saved_resume):
         if another.lower() != "yes":
             break
 
-def edit_certifications(saved_resume):
+def edit_certifications(saved_resume, resume_id):
     certifications = saved_resume["certifications"]
 
     if not certifications:
@@ -351,6 +393,7 @@ def edit_certifications(saved_resume):
         field_choice = input("Enter your choice: ")
 
         certification = certifications[certification_index]
+        certification_id = certification["id"]
 
         if field_choice == "1":
             certification["name"] = input(
@@ -371,6 +414,12 @@ def edit_certifications(saved_resume):
             print("Invalid choice.")
             continue
 
+        update_certification(
+            certification_id,
+            certification["name"],
+            certification["organization"],
+            certification["date"]
+        )
         print("Certification updated successfully.")
 
         another = input(
@@ -380,7 +429,7 @@ def edit_certifications(saved_resume):
         if another.lower() != "yes":
             break
 
-def edit_projects(saved_resume):
+def edit_projects(saved_resume, resume_id):
     projects = saved_resume["projects"]
 
     if not projects:
@@ -420,6 +469,7 @@ def edit_projects(saved_resume):
         field_choice = input("Enter your choice: ")
 
         project = projects[project_index]
+        project_id = project["id"]
 
         if field_choice == "1":
             project["project_name"] = input(
@@ -449,6 +499,14 @@ def edit_projects(saved_resume):
         else:
             print("Invalid choice.")
             continue
+        update_project(
+            project_id,
+            project["project_name"],
+            project["description"],
+            project["role"],
+            project["tools"],
+            project["project_link"]
+        )
 
         print("Project updated successfully.")
 
@@ -459,7 +517,7 @@ def edit_projects(saved_resume):
         if another.lower() != "yes":
             break
 
-def edit_languages(saved_resume):
+def edit_languages(saved_resume, resume_id):
     languages = saved_resume["languages"]
 
     if not languages:
@@ -498,6 +556,7 @@ def edit_languages(saved_resume):
         field_choice = input("Enter your choice: ")
 
         language = languages[language_index]
+        language_id = language["id"]
 
         if field_choice == "1":
             language["language"] = input(
@@ -513,6 +572,12 @@ def edit_languages(saved_resume):
             print("Invalid choice.")
             continue
 
+        update_language(
+            language_id,
+            language["language"],
+            language["proficiency"]
+    )
+
         print("Language updated successfully.")
 
         another = input(
@@ -522,7 +587,7 @@ def edit_languages(saved_resume):
         if another.lower() != "yes":
             break
 
-def edit_achievements(saved_resume):
+def edit_achievements(saved_resume, resume_id):
     achievements = saved_resume["achievements"]
 
     if not achievements:
@@ -559,6 +624,7 @@ def edit_achievements(saved_resume):
         field_choice = input("Enter your choice: ")
 
         achievement = achievements[achievement_index]
+        achievement_id = achievement["id"]
 
         if field_choice == "1":
             achievement["title"] = input(
@@ -573,7 +639,11 @@ def edit_achievements(saved_resume):
         else:
             print("Invalid choice.")
             continue
-
+        update_achievement(
+            achievement_id,
+            achievement["title"],
+            achievement["description"]
+    )
         print("Achievement updated successfully.")
 
         another = input(
@@ -583,7 +653,7 @@ def edit_achievements(saved_resume):
         if another.lower() != "yes":
             break
 
-def edit_volunteer(saved_resume):
+def edit_volunteer(saved_resume, resume_id):
     volunteer_experiences = saved_resume["volunteer_experience"]
 
     if not volunteer_experiences:
@@ -632,6 +702,7 @@ def edit_volunteer(saved_resume):
         field_choice = input("Enter your choice: ")
 
         volunteer = volunteer_experiences[volunteer_index]
+        volunteer_id = volunteer["id"]
 
         if field_choice == "1":
             volunteer["organization"] = input(
@@ -666,6 +737,16 @@ def edit_volunteer(saved_resume):
         else:
             print("Invalid choice.")
             continue
+        
+        update_volunteer_experience(
+            volunteer_id,
+            volunteer["organization"],
+            volunteer["role"],
+            volunteer["location"],
+            volunteer["start_date"],
+            volunteer["end_date"],
+            volunteer["description"]
+        )
 
         print("Volunteer experience updated successfully.")
 
@@ -676,7 +757,7 @@ def edit_volunteer(saved_resume):
         if another.lower() != "yes":
             break
 
-def edit_references(saved_resume):
+def edit_references(saved_resume, resume_id):
     references = saved_resume["references"]
 
     if not references:
@@ -718,6 +799,7 @@ def edit_references(saved_resume):
         field_choice = input("Enter your choice: ")
 
         reference = references[reference_index]
+        reference_id = reference["id"]
 
         if field_choice == "1":
             reference["name"] = input(
@@ -747,6 +829,15 @@ def edit_references(saved_resume):
         else:
             print("Invalid choice.")
             continue
+
+        update_reference(
+            reference_id,
+            reference["name"],
+            reference["relationship"],
+            reference["organization"],
+            reference["email"],
+            reference["phone_number"]
+   )
 
         print("Reference updated successfully.")
 

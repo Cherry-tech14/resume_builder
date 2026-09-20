@@ -718,6 +718,7 @@ def get_complete_resume(resume_id):
         "references": load_references(resume_id)
     }
 
+
 def update_personal_information(
     resume_id,
     name,
@@ -744,6 +745,252 @@ def update_personal_information(
             phone_number,
             location,
             resume_id
+        )
+    )
+
+    connection.commit()
+
+def update_education(
+    education_id,
+    school,
+    degree,
+    field,
+    start_year,
+    end_year
+):
+    cursor.execute(
+        """
+        UPDATE education
+        SET
+            school = ?,
+            degree = ?,
+            field = ?,
+            start_year = ?,
+            end_year = ?
+        WHERE id = ?
+        """,
+        (
+            school,
+            degree,
+            field,
+            start_year,
+            end_year,
+            education_id
+        )
+    )
+
+    connection.commit()
+
+def update_work_experience(
+    work_id,
+    job_title,
+    company,
+    location,
+    start_date,
+    end_date,
+    description
+):
+    cursor.execute(
+        """
+        UPDATE work_experience
+        SET
+            job_title = ?,
+            company = ?,
+            location = ?,
+            start_date = ?,
+            end_date = ?,
+            description = ?
+        WHERE id = ?
+        """,
+        (
+            job_title,
+            company,
+            location,
+            start_date,
+            end_date,
+            description,
+            work_id
+        )
+    )
+
+    connection.commit()
+
+def update_skill(skill_id, skill):
+    cursor.execute(
+        """
+        UPDATE skills
+        SET
+            skill = ?
+        WHERE id = ?
+        """,
+        (
+            skill,
+            skill_id
+        )
+    )
+
+    connection.commit()
+
+def update_certification(
+    certification_id,
+    name,
+    organization,
+    date
+):
+    cursor.execute(
+        """
+        UPDATE certifications
+        SET
+            name = ?,
+            organization = ?,
+            date = ?
+        WHERE id = ?
+        """,
+        (
+            name,
+            organization,
+            date,
+            certification_id
+        )
+    )
+
+    connection.commit()
+
+def update_project(
+    project_id,
+    project_name,
+    description,
+    role,
+    tools,
+    project_link
+):
+    cursor.execute(
+        """
+        UPDATE projects
+        SET
+            project_name = ?,
+            description = ?,
+            role = ?,
+            tools = ?,
+            project_link = ?
+        WHERE id = ?
+        """,
+        (
+            project_name,
+            description,
+            role,
+            tools,
+            project_link,
+            project_id
+        )
+    )
+
+    connection.commit()
+
+def update_language(
+    language_id,
+    language,
+    proficiency
+):
+    cursor.execute(
+        """
+        UPDATE languages
+        SET
+            language = ?,
+            proficiency = ?
+        WHERE id = ?
+        """,
+        (
+            language,
+            proficiency,
+            language_id
+        )
+    )
+
+    connection.commit()
+
+def update_achievement(
+    achievement_id,
+    title,
+    description
+):
+    cursor.execute(
+        """
+        UPDATE achievements
+        SET
+            title = ?,
+            description = ?
+        WHERE id = ?
+        """,
+        (
+            title,
+            description,
+            achievement_id
+        )
+    )
+
+    connection.commit()
+
+def update_volunteer_experience(
+    volunteer_id,
+    organization,
+    role,
+    location,
+    start_date,
+    end_date,
+    description
+):
+    cursor.execute(
+        """
+        UPDATE volunteer_experience
+        SET
+            organization = ?,
+            role = ?,
+            location = ?,
+            start_date = ?,
+            end_date = ?,
+            description = ?
+        WHERE id = ?
+        """,
+        (
+            organization,
+            role,
+            location,
+            start_date,
+            end_date,
+            description,
+            volunteer_id
+        )
+    )
+
+    connection.commit()
+
+def update_reference(
+    reference_id,
+    name,
+    relationship,
+    organization,
+    email,
+    phone_number
+):
+    cursor.execute(
+        """
+        UPDATE resume_references
+        SET
+            name = ?,
+            relationship = ?,
+            organization = ?,
+            email = ?,
+            phone_number = ?
+        WHERE id = ?
+        """,
+        (
+            name,
+            relationship,
+            organization,
+            email,
+            phone_number,
+            reference_id
         )
     )
 

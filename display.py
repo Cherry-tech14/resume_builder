@@ -14,7 +14,7 @@ def display_skills(skills):
     print("\nSKILLS")
 
     for skill in skills:
-        print("•", skill)
+        print("•", skill["skill"])
 
 
 def display_work_experience(work_experiences):
