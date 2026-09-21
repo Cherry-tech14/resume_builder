@@ -1,6 +1,9 @@
 import sqlite3
 
-connection = sqlite3.connect("resume.db")
+connection = sqlite3.connect(
+    "resume.db",
+    check_same_thread=False
+)
 
 cursor = connection.cursor()
 

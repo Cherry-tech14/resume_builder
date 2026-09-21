@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resume Builder</title>
+</head>
+
+<body>
+    <h1>My Resume</h1>
+    <h2>Personal Information</h2>
+
+    <p>Name: {{ resume["personal_information"]["name"] }}</p>
+    {% if resume["personal_information"]["date_of_birth"] %}
+        <p>Date of Birth: {{ resume["personal_information"]["date_of_birth"] }}</p>
+        {% endif %}
+    <p>Email: {{ resume["personal_information"]["email"] }}</p>
+    <p>Phone: {{ resume["personal_information"]["phone_number"] }}</p>
+    <p>Location: {{ resume["personal_information"]["location"] }}</p>
+    <p>This is my first resume page</p>
+
+    <h2>Professional Summary</h2>
+    <p>{{ resume["summary"] }}</p>
+
+    <h2>Education</h2>
+    {% for education in resume["education"] %}
+        <p>School: {{ education["school"] }}</p>
+        <p>Degree: {{ education["degree"] }}</p>
+        <p>Field: {{ education["field"] }}</p>
+        <p>Start Year: {{ education["start_year"] }}</p>
+        <p>End Year: {{ education["end_year"] }}</p>
+    {% endfor %}
+
+    <h2>Work Experience</h2>
+    {% for experience in resume["work_experience"] %}
+        <h3>{{ experience["job_title"] }}</h3>
+        <p>Company: {{ experience["Company"] }}</p>
+        <p>Location: {{ experience["location"] }}</p>
+        <p>Start Date: {{ experience["start_date"] }}</p>
+        <p>End Date: {{ experience["end_date"] }}</p>
+        <p>Description: {{ experience["description"] }}</p>
+    {% endfor %}
+
+    <h2>Skills</h2>
+    <ul>
+    {% for skill in resume["skills"] %}
+        <li>{{ skill["skill"] }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Certifications</h2>
+    {% for Certification in resume["Certifications"] %}
+        <h3>{{ certification["name"] }}</h3>
+        <p>Organization: {{certification["organization"] }}</p>
+        <p>Date: {{ certification["date"] }}</p>
+    {% endfor %}
+
+    <h2>Projects</h2>
+{% for project in resume["projects"] %}
+    <h3>{{ project["project_name"] }}</h3>
+    <p>Description: {{ project["description"] }}</p>
+    <p>Role: {{ project["role"] }}</p>
+    <p>Tools: {{ project["tools"] }}</p>
+    <p>Project Link: {{ project["project_link"] }}</p>
+
+{% endfor %}
+
+<h2>Languages</h2>
+{% for language in resume["languages"] %}
+    <p>Language: {{ language["language"] }}</p>
+    <p>Proficiency: {{ language["Proficiency"] }}</p>
+{% endfor %}
+
+<h2>Achievements</h2>
+{% for achievement in resume["achievements"] %}
+    <h3>{{ achievement["title"] }}</h3>
+    <p>{{ achievement["description"] }}</p>
+{% endfor %}
+
+<h2>Volunteer Experience</h2>
+{% for volunteer in resume["volunteer_experience"] %}
+    <h3>{{ volunteer["role"] }}</h3>
+    <p>Organization: {{ volunteer["organization"] }}</p>
+    <p>Location: {{ volunteer["location"] }}</p>
+    <p>Start Date: {{ volunteer["start_date"] }}</p>
+    <p>End Date: {{ volunteer["end_date"] }}</p>
+    <p>Description: {{ volunteer["description"] }}</p>
+{% endfor %}
+
+<h2>References</h2>
+{% for reference in resume["references"] %}
+    <p>Name: {{ reference["name"] }}</p>
+    <p>Relationship: {{ reference["relationship"] }}</p>
+    <p>Organization: {{ reference["organization"] }}</p>
+    <p>Email: {{ reference["email"] }}</p>
+    <p>Phone: {{ reference["phone_number"] }}</p>
+{% endfor %}
+
+</body>
+</html>
