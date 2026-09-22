@@ -160,7 +160,7 @@ def main():
     for skill in skills:
         save_skill(
             resume_id,
-            skill
+            skill["skill"]
         )
 
     certifications = get_certifications()

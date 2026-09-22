@@ -93,7 +93,7 @@ def get_skills():
 
     while True:
         skill = input("Enter a skill: ")
-        skills.append(skill)
+        skills.append({"skill": skill})
 
         another = input(
             "Do you want to add another skill? (yes/no): "
