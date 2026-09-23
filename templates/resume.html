@@ -6,6 +6,9 @@
 
 <body>
     <h1>My Resume</h1>
+
+
+<div class="personal_information">
     <h2>Personal Information</h2>
 
     <p>Name: {{ resume["personal_information"]["name"] }}</p>
@@ -15,12 +18,14 @@
     <p>Email: {{ resume["personal_information"]["email"] }}</p>
     <p>Phone: {{ resume["personal_information"]["phone_number"] }}</p>
     <p>Location: {{ resume["personal_information"]["location"] }}</p>
-    <p>This is my first resume page</p>
+ </div> 
 
+ <div class="professional-summary">
     <h2>Professional Summary</h2>
     <p>{{ resume["summary"] }}</p>
+</div>
 
-
+<div class="education">
     {% if resume["education"] %}
     <h2>Education</h2>
     {% for education in resume["education"] %}
@@ -31,8 +36,9 @@
         <p>End Year: {{ education["end_year"] }}</p>
     {% endfor %}
     {% endif %}
+</div>
 
-
+<div class="work-experience">
     {% if resume["work_experience"] %}
     <h2>Work Experience</h2>
     {% for experience in resume["work_experience"] %}
@@ -44,14 +50,18 @@
         <p>Description: {{ experience["description"] }}</p>
     {% endfor %}
     {% endif %}
+</div>
 
+<div class="skills">
     <h2>Skills</h2>
     <ul>
     {% for skill in resume["skills"] %}
         <li>{{ skill["skill"] }}</li>
         {% endfor %}
     </ul>
+</div>
 
+<div class="certifications">
     {% if resume["certifications"] %}
     <h2>Certifications</h2>
     {% for Certification in resume["Certifications"] %}
@@ -60,8 +70,9 @@
         <p>Date: {{ certification["date"] }}</p>
     {% endfor %}
     {% endif %}
+</div>
 
-
+<div class="projects">
 {% if resume["projects"] %}
     <h2>Projects</h2>
 {% for project in resume["projects"] %}
@@ -70,10 +81,11 @@
     <p>Role: {{ project["role"] }}</p>
     <p>Tools: {{ project["tools"] }}</p>
     <p>Project Link: {{ project["project_link"] }}</p>
-
 {% endfor %}
 {% endif %}
+</div>
 
+<div class="languages">
 {% if resume["languages"] %}
 <h2>Languages</h2>
 {% for language in resume["languages"] %}
@@ -81,8 +93,9 @@
     <p>Proficiency: {{ language["Proficiency"] }}</p>
 {% endfor %}
 {% endif %}
+</div>
 
-
+<div class="achievement">
 {% if resume["achievements"] %}
 <h2>Achievements</h2>
 {% for achievement in resume["achievements"] %}
@@ -90,8 +103,9 @@
     <p>{{ achievement["description"] }}</p>
 {% endfor %}
 {% endif %}
+</div>
 
-
+<div class="volunteer-experience">
 {% if resume["volunteer_experience"] %}
 <h2>Volunteer Experience</h2>
 {% for volunteer in resume["volunteer_experience"] %}
@@ -103,8 +117,9 @@
     <p>Description: {{ volunteer["description"] }}</p>
 {% endfor %}
 {% endif %}
+</div>
 
-
+<div class="references">
 {% if resume["references"] %}
 <h2>References</h2>
 {% for reference in resume["references"] %}
@@ -115,6 +130,7 @@
     <p>Phone: {{ reference["phone_number"] }}</p>
 {% endfor %}
 {% endif %}
+</div>
 
 </body>
 </html>
