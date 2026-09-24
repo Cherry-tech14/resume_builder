@@ -40,6 +40,7 @@ cursor.execute("""
     )
 """)
 
+
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS work_experience (
         id INTEGER PRIMARY KEY,
@@ -241,20 +242,13 @@ def save_work_experience(
 def save_skill(resume_id, skill):
     cursor.execute(
         """
-        INSERT INTO skills (
-            resume_id,
-            skill
-        )
+        INSERT INTO skills (resume_id, skill)
         VALUES (?, ?)
         """,
-        (
-            resume_id,
-            skill
-        )
+        (resume_id, skill)
     )
 
     connection.commit()
-
 
 def save_certification(
     resume_id,
