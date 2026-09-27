@@ -697,6 +697,7 @@ def get_complete_resume(resume_id):
 
     return {
         "personal_information": {
+            "id": resume[0],
             "name": resume[1],
             "date_of_birth": resume[2],
             "email": resume[3],
