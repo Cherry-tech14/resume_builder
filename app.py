@@ -11,7 +11,8 @@ from database import (
     save_language,
     save_achievement,
     save_volunteer_experience,
-    save_reference
+    save_reference,
+    update_personal_information
 )
 
 
@@ -27,14 +28,19 @@ def home():
 def create_resume():
 
     if request.method == "POST":
+        name = request.form["name"]
+
+        update_personal_information(
+            int(resume_id),
+            name,
+            resume["personal_information"]["date_of_birth"],
+            resume["personal_information"]["email"],
+            resume["personal_information"]["phone_number"],
+            resume["personal_information"]["location"]
+    )
 
         
-        name = request.form["name"]
-        email = request.form["email"]
-        date_of_birth = request.form["date_of_birth"]
-        phone_number = request.form["phone_number"]
-        location = request.form["location"]
-
+        
         summary = request.form["summary"]
 
         school = request.form["school"]
@@ -46,7 +52,7 @@ def create_resume():
         
         job_title = request.form["job_title"]
         company = request.form["company"]
-        work_location = request.form["location"]
+        work_location = request.form["work_location"]
         start_date = request.form["start_date"]
         end_date = request.form["end_date"]
         description = request.form["description"]
@@ -62,12 +68,12 @@ def create_resume():
             "certification_organization"
         ]
         certification_date = request.form["certification_date"]
-
-        project_name = request.form.get["project_name"]
-        project_description = request.form.get["project_description"]
-        project_role = request.form.get["project_role"]
-        project_tools = request.form.get["project_tools"]
-        project_link = request.form.get["project_link"]
+        
+        project_name = request.form.get("project_name")
+        project_description = request.form.get("project_description")
+        project_role = request.form.get("project_role")
+        project_tools = request.form.get("project_tools")
+        project_link = request.form.get("project_link")
 
         language = request.form["language"]
         language_proficiency = request.form["language_proficiency"]
@@ -114,11 +120,6 @@ def create_resume():
             end_date,
             description
         )
-
-        save_skill(resume_id, skill_1)
-        save_skill(resume_id, skill_2)
-        save_skill(resume_id, skill_3)
-
     
         save_certification(
             resume_id,
@@ -127,7 +128,7 @@ def create_resume():
             certification_date
         )
         
-    if project_name:
+    
         save_project(
             resume_id,
             project_name,
@@ -183,6 +184,18 @@ def view_resume(resume_id):
 
     return render_template(
         "resume.html",
+        resume=resume
+    )
+
+@app.route("/edit/<resume_id>", methods=["GET", "POST"])
+def edit_resume(resume_id):
+    resume = get_complete_resume(int(resume_id))
+    if resume is None:
+        return "Resume not found."
+    if request.method == "POST":
+        name = request.form["name"]
+    return render_template(
+        "edit_resume.html",
         resume=resume
     )
 

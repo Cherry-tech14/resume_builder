@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Resume</title>
+</head>
+
+<body>
+
+    <h1>Edit Resume</h1>
+
+    <h2>Personal Information</h2>
+
+    <form method="POST">
+
+        <label>Name:</label>
+        <input
+            type="text"
+            name="name"
+            value="{{ resume['personal_information']['name'] }}"
+        >
+
+        <br><br>
+
+        <label>Email:</label>
+        <input
+            type="email"
+            name="email"
+            value="{{ resume['personal_information']['email'] }}"
+        >
+
+        <br><br>
+
+        <label>Date of Birth:</label>
+        <input
+            type="text"
+            name="date_of_birth"
+            value="{{ resume['personal_information']['date_of_birth'] }}"
+        >
+
+        <br><br>
+
+        <label>Phone Number:</label>
+        <input
+            type="text"
+            name="phone_number"
+            value="{{ resume['personal_information']['phone_number'] }}"
+        >
+
+        <br><br>
+
+        <label>Location:</label>
+        <input
+            type="text"
+            name="location"
+            value="{{ resume['personal_information']['location'] }}"
+        >
+
+        <br><br>
+
+        <button type="submit">Save Changes</button>
+
+    </form>
+
+</body>
+</html>
