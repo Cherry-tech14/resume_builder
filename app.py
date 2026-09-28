@@ -28,21 +28,18 @@ def home():
 def create_resume():
 
     if request.method == "POST":
-        name = request.form["name"]
-
-        update_personal_information(
-            int(resume_id),
-            name,
-            resume["personal_information"]["date_of_birth"],
-            resume["personal_information"]["email"],
-            resume["personal_information"]["phone_number"],
-            resume["personal_information"]["location"]
-    )
 
         
+        name = request.form["name"]
+        email = request.form["email"]
+        date_of_birth = request.form["date_of_birth"]
+        phone_number = request.form["phone_number"]
+        location = request.form["location"]
+
         
         summary = request.form["summary"]
 
+        
         school = request.form["school"]
         degree = request.form["degree"]
         field = request.form["field"]
@@ -62,12 +59,13 @@ def create_resume():
         skill_2 = request.form["skill_2"]
         skill_3 = request.form["skill_3"]
 
-        
+
         certification_name = request.form["certification_name"]
         certification_organization = request.form[
             "certification_organization"
         ]
         certification_date = request.form["certification_date"]
+
         
         project_name = request.form.get("project_name")
         project_description = request.form.get("project_description")
@@ -75,12 +73,15 @@ def create_resume():
         project_tools = request.form.get("project_tools")
         project_link = request.form.get("project_link")
 
+        
         language = request.form["language"]
         language_proficiency = request.form["language_proficiency"]
 
+    
         achievement_title = request.form["achievement_title"]
         achievement_description = request.form["achievement_description"]
 
+        
         volunteer_organization = request.form["volunteer_organization"]
         volunteer_role = request.form["volunteer_role"]
         volunteer_location = request.form["volunteer_location"]
@@ -88,12 +89,14 @@ def create_resume():
         volunteer_end_date = request.form["volunteer_end_date"]
         volunteer_description = request.form["volunteer_description"]
 
+
         reference_name = request.form["reference_name"]
         reference_relationship = request.form["reference_relationship"]
         reference_organization = request.form["reference_organization"]
         reference_email = request.form["reference_email"]
         reference_phone_number = request.form["reference_phone_number"]
 
+        
         resume_id = save_resume(
             name,
             date_of_birth,
@@ -102,6 +105,8 @@ def create_resume():
             location,
             summary
         )
+
+        
         save_education(
             resume_id,
             school,
@@ -111,6 +116,7 @@ def create_resume():
             end_year
         )
 
+        
         save_work_experience(
             resume_id,
             job_title,
@@ -120,15 +126,21 @@ def create_resume():
             end_date,
             description
         )
-    
+
+        
+        save_skill(resume_id, skill_1)
+        save_skill(resume_id, skill_2)
+        save_skill(resume_id, skill_3)
+
+        
         save_certification(
             resume_id,
             certification_name,
             certification_organization,
             certification_date
         )
+
         
-    
         save_project(
             resume_id,
             project_name,
@@ -138,11 +150,13 @@ def create_resume():
             project_link
         )
 
+    
         save_language(
             resume_id,
             language,
             language_proficiency
         )
+
 
         save_achievement(
             resume_id,
@@ -150,6 +164,7 @@ def create_resume():
             achievement_description
         )
 
+        
         save_volunteer_experience(
             resume_id,
             volunteer_organization,
@@ -160,6 +175,7 @@ def create_resume():
             volunteer_description
         )
 
+        
         save_reference(
             resume_id,
             reference_name,
@@ -167,7 +183,7 @@ def create_resume():
             reference_organization,
             reference_email,
             reference_phone_number
-)
+        )
 
         return redirect(f"/resume/{resume_id}")
 
@@ -187,13 +203,34 @@ def view_resume(resume_id):
         resume=resume
     )
 
+
 @app.route("/edit/<resume_id>", methods=["GET", "POST"])
 def edit_resume(resume_id):
+
     resume = get_complete_resume(int(resume_id))
+
     if resume is None:
         return "Resume not found."
+
     if request.method == "POST":
+
         name = request.form["name"]
+        email = request.form["email"]
+        date_of_birth = request.form["date_of_birth"]
+        phone_number = request.form["phone_number"]
+        location = request.form["location"]
+
+        update_personal_information(
+            int(resume_id),
+            name,
+            date_of_birth,
+            email,
+            phone_number,
+            location
+        )
+
+        return redirect(f"/resume/{resume_id}")
+
     return render_template(
         "edit_resume.html",
         resume=resume
