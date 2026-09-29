@@ -12,7 +12,9 @@ from database import (
     save_achievement,
     save_volunteer_experience,
     save_reference,
-    update_personal_information
+    update_personal_information,
+    update_summary,
+    update_education
 )
 
 
@@ -227,6 +229,32 @@ def edit_resume(resume_id):
             email,
             phone_number,
             location
+        )
+
+        summary = request.form["summary"]
+
+        update_summary(
+            int(resume_id),
+            summary
+        )
+
+        education = resume["education"][0]
+
+        school = request.form["school"]
+        degree = request.form["degree"]
+        field = request.form["field"]
+        start_year = request.form["start_year"]
+        end_year = request.form["end_year"]
+
+        print("EDUCATION:", school, degree, field, start_year, end_year)
+
+        update_education(
+            education["id"],
+            school,
+            degree,
+            field,
+            start_year,
+            end_year
         )
 
         return redirect(f"/resume/{resume_id}")
