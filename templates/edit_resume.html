@@ -57,18 +57,74 @@
 
         <br><br>
 
-        <button type="submit">Save Changes</button>
-
-    </form>
-
-    <h2>Professional Summary</h2>
-    <form method="POST">
+        
+          <h2>Professional Summary</h2>
         <label>Summary</label>
         <br>
         <textarea
         name="summary"
         rows="6"
+        cols="50"
+        >{{  resume["summary"] }}</textarea>
+
+        <br><br>
         
+
+        <h2>Education</h2>
+
+        {% for education in resume["education"] %}
+        
+        <label>School:</label>
+        
+        <input
+        type="text"
+        name="school"
+        value="{{ education['school'] }}"
+        >
+
+        <br><br>
+
+        <label>Degree:</label>
+        <input
+        type="text"
+        name="degree"
+        value="{{ education['degree'] }}"
+        >
+
+        <br><br>
+
+        <label>Field:</label>
+        <input
+        type="text"
+        name="field"
+        value="{{ education['field'] }}"
+        >
+
+        <br><br>
+
+        <label>Start Year:</label>
+        <input
+        type="text"
+        name="start_year"
+        value="{{ education['start_year'] }}"
+        >
+
+        <br><br>
+
+        <label>End Year:</label>
+        <input
+        type="text"
+        name="end_year"
+        value="{{ education['end_year'] }}"
+        >
+
+        <br><br>
+        {% endfor %}
+
+        <button type="submit">Save Changes</button>
+       
+
+    
     </form>
 
 </body>
