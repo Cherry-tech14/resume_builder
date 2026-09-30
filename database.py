@@ -692,6 +692,8 @@ def load_references(resume_id):
 def get_complete_resume(resume_id):
     resume = load_resume_from_database(resume_id)
 
+
+
     if resume is None:
         return None
 
