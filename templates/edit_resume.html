@@ -69,16 +69,14 @@
 
         <br><br>
         
-
         <h2>Education</h2>
 
         {% for education in resume["education"] %}
-        
+
         <label>School:</label>
-        
         <input
         type="text"
-        name="school"
+        name="school_{{ education['id'] }}"
         value="{{ education['school'] }}"
         >
 
@@ -87,7 +85,7 @@
         <label>Degree:</label>
         <input
         type="text"
-        name="degree"
+        name="degree_{{ education['id'] }}"
         value="{{ education['degree'] }}"
         >
 
@@ -96,7 +94,7 @@
         <label>Field:</label>
         <input
         type="text"
-        name="field"
+        name="field_{{ education['id'] }}"
         value="{{ education['field'] }}"
         >
 
@@ -105,21 +103,354 @@
         <label>Start Year:</label>
         <input
         type="text"
-        name="start_year"
+        name="start_year_{{ education['id'] }}"
         value="{{ education['start_year'] }}"
-        >
+         >
 
         <br><br>
 
         <label>End Year:</label>
         <input
         type="text"
-        name="end_year"
+        name="end_year_{{ education['id'] }}"
         value="{{ education['end_year'] }}"
         >
 
-        <br><br>
+        <hr>
+
         {% endfor %}
+
+        <h2>Work Experience</h2>
+
+        {% for experience in resume["work_experience"] %}
+
+        <label>Job Title:</label>
+        <input
+        type="text"
+        name="job_title_{{ experience['id'] }}"
+        value="{{ experience['job_title'] }}"
+        >
+
+        <br><br>
+
+        <label>Company:</label>
+        <input
+        type="text"
+        name="company_{{ experience['id'] }}"
+        value="{{ experience['company'] }}"
+        >
+
+        <br><br>
+
+        <label>Location:</label>
+        <input
+        type="text"
+        name="work_location_{{ experience['id'] }}"
+        value="{{ experience['location'] }}"
+        >
+
+        <br><br>
+
+        <label>Start Date:</label>
+        <input
+        type="text"
+        name="start_date_{{ experience['id'] }}"
+        value="{{ experience['start_date'] }}"
+        >
+
+        <br><br>
+
+        <label>End Date:</label>
+        <input
+        type="text"
+        name="end_date_{{ experience['id'] }}"
+        value="{{ experience['end_date'] }}"
+        >
+
+        <br><br>
+
+        <label>Description:</label>
+        <textarea
+        name="description_{{ experience['id'] }}"
+        rows="5"
+        cols="50"
+        >{{ experience['description'] }}</textarea>
+
+        <hr>
+
+        {% endfor %}
+
+        <h2>Skills</h2>
+
+{% for skill in resume["skills"] %}
+
+<label>Skill:</label>
+<input
+    type="text"
+    name="skill_{{ skill['id'] }}"
+    value="{{ skill['skill'] }}"
+>
+
+<br><br>
+
+{% endfor %}
+
+<label>Add New Skill:</label>
+<input
+    type="text"
+    name="new_skill"
+>
+
+<br><br>
+
+        <h2>Certifications</h2>
+
+{% for certification in resume["certifications"] %}
+
+    <label>Name:</label>
+    <input
+        type="text"
+        name="certification_name_{{ certification['id'] }}"
+        value="{{ certification['name'] }}"
+    >
+
+    <br><br>
+
+    <label>Organization:</label>
+    <input
+        type="text"
+        name="certification_organization_{{ certification['id'] }}"
+        value="{{ certification['organization'] }}"
+    >
+
+    <br><br>
+
+    <label>Date:</label>
+    <input
+        type="text"
+        name="certification_date_{{ certification['id'] }}"
+        value="{{ certification['date'] }}"
+    >
+
+    <br><br>
+
+    <hr>
+
+{% endfor %}
+
+<h2>Projects</h2>
+
+{% for project in resume["projects"] %}
+
+<label>Project Name:</label>
+<input
+    type="text"
+    name="project_name_{{ project['id'] }}"
+    value="{{ project['project_name'] }}"
+>
+
+<br><br>
+
+<label>Description:</label>
+<textarea
+    name="project_description_{{ project['id'] }}"
+    rows="5"
+    cols="50"
+>{{ project['description'] }}</textarea>
+
+<br><br>
+
+<label>Role:</label>
+<input
+    type="text"
+    name="project_role_{{ project['id'] }}"
+    value="{{ project['role'] }}"
+>
+
+<br><br>
+
+<label>Tools:</label>
+<input
+    type="text"
+    name="project_tools_{{ project['id'] }}"
+    value="{{ project['tools'] }}"
+>
+
+<br><br>
+
+<label>Project Link:</label>
+<input
+    type="text"
+    name="project_link_{{ project['id'] }}"
+    value="{{ project['project_link'] }}"
+>
+
+<hr>
+
+{% endfor %}
+
+<h2>Languages</h2>
+
+{% for language in resume["languages"] %}
+
+<label>Language:</label>
+<input
+    type="text"
+    name="language_{{ language['id'] }}"
+    value="{{ language['language'] }}"
+>
+
+<br><br>
+
+<label>Proficiency:</label>
+<input
+    type="text"
+    name="language_proficiency_{{ language['id'] }}"
+    value="{{ language['proficiency'] }}"
+>
+
+<br><br>
+
+<hr>
+
+{% endfor %}
+
+<h2>Achievements</h2>
+
+{% for achievement in resume["achievements"] %}
+
+<label>Title:</label>
+<input
+    type="text"
+    name="achievement_title_{{ achievement['id'] }}"
+    value="{{ achievement['title'] }}"
+>
+
+<br><br>
+
+<label>Description:</label>
+<textarea
+    name="achievement_description_{{ achievement['id'] }}"
+    rows="5"
+    cols="50"
+>{{ achievement['description'] }}</textarea>
+
+<br><br>
+
+<hr>
+
+{% endfor %}
+
+<h2>Volunteer Experience</h2>
+
+{% for volunteer in resume["volunteer_experience"] %}
+
+<label>Organization:</label>
+<input
+    type="text"
+    name="volunteer_organization_{{ volunteer['id'] }}"
+    value="{{ volunteer['organization'] }}"
+>
+
+<br><br>
+
+<label>Role:</label>
+<input
+    type="text"
+    name="volunteer_role_{{ volunteer['id'] }}"
+    value="{{ volunteer['role'] }}"
+>
+
+<br><br>
+
+<label>Location:</label>
+<input
+    type="text"
+    name="volunteer_location_{{ volunteer['id'] }}"
+    value="{{ volunteer['location'] }}"
+>
+
+<br><br>
+
+<label>Start Date:</label>
+<input
+    type="text"
+    name="volunteer_start_date_{{ volunteer['id'] }}"
+    value="{{ volunteer['start_date'] }}"
+>
+
+<br><br>
+
+<label>End Date:</label>
+<input
+    type="text"
+    name="volunteer_end_date_{{ volunteer['id'] }}"
+    value="{{ volunteer['end_date'] }}"
+>
+
+<br><br>
+
+<label>Description:</label>
+<textarea
+    name="volunteer_description_{{ volunteer['id'] }}"
+    rows="5"
+    cols="50"
+>{{ volunteer['description'] }}</textarea>
+
+<hr>
+
+{% endfor %}
+
+<h2>References</h2>
+
+{% for reference in resume["references"] %}
+
+<label>Name:</label>
+<input
+    type="text"
+    name="reference_name_{{ reference['id'] }}"
+    value="{{ reference['name'] }}"
+>
+
+<br><br>
+
+<label>Relationship:</label>
+<input
+    type="text"
+    name="reference_relationship_{{ reference['id'] }}"
+    value="{{ reference['relationship'] }}"
+>
+
+<br><br>
+
+<label>Organization:</label>
+<input
+    type="text"
+    name="reference_organization_{{ reference['id'] }}"
+    value="{{ reference['organization'] }}"
+>
+
+<br><br>
+
+<label>Email:</label>
+<input
+    type="email"
+    name="reference_email_{{ reference['id'] }}"
+    value="{{ reference['email'] }}"
+>
+
+<br><br>
+
+<label>Phone Number:</label>
+<input
+    type="text"
+    name="reference_phone_number_{{ reference['id'] }}"
+    value="{{ reference['phone_number'] }}"
+>
+
+<hr>
+
+{% endfor %}
 
         <button type="submit">Save Changes</button>
        

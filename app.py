@@ -14,7 +14,13 @@ from database import (
     save_reference,
     update_personal_information,
     update_summary,
-    update_education
+    update_education,
+    update_work_experience,
+    update_skill,
+    update_certification,
+    update_language,
+    update_achievement,
+    update_reference
 )
 
 
@@ -211,6 +217,8 @@ def edit_resume(resume_id):
 
     resume = get_complete_resume(int(resume_id))
 
+
+
     if resume is None:
         return "Resume not found."
 
@@ -238,24 +246,218 @@ def edit_resume(resume_id):
             summary
         )
 
-        education = resume["education"][0]
+        for education in resume["education"]:
 
-        school = request.form["school"]
-        degree = request.form["degree"]
-        field = request.form["field"]
-        start_year = request.form["start_year"]
-        end_year = request.form["end_year"]
+            education_id = education["id"]
 
-        print("EDUCATION:", school, degree, field, start_year, end_year)
+            school = request.form[f"school_{education_id}"]
+            degree = request.form[f"degree_{education_id}"]
+            field = request.form[f"field_{education_id}"]
+            start_year = request.form[f"start_year_{education_id}"]
+            end_year = request.form[f"end_year_{education_id}"]
 
-        update_education(
-            education["id"],
-            school,
-            degree,
-            field,
-            start_year,
-            end_year
-        )
+            update_education(
+                education_id,
+                school,
+                degree,
+                field,
+                start_year,
+                end_year
+            )
+        for experience in resume["work_experience"]:
+            experience_id = experience["id"]
+
+            job_title = request.form[f"job_title_{experience_id}"]
+            company = request.form[f"company_{experience_id}"]
+            work_location = request.form[f"work_location_{experience_id}"]
+            start_date = request.form[f"start_date_{experience_id}"]
+            end_date = request.form[f"end_date_{experience_id}"]
+            description = request.form[f"description_{experience_id}"]
+
+            update_work_experience(
+                experience_id,
+                job_title,
+                company,
+                work_location,
+                start_date,
+                end_date,
+                description
+            )
+
+        for skill in resume["skills"]:
+            skill_id = skill["id"]
+            skill_value = request.form[f"skill_{skill_id}"]
+
+            update_skill(
+                skill_id,
+                skill_value
+            )
+        new_skill = request.form["new_skill"]
+        if new_skill:
+            save_skill(
+                int(resume_id),
+                new_skill
+            )
+
+        for certification in resume["certifications"]:
+
+            certification_id = certification["id"]
+
+            name = request.form[
+                f"certification_name_{certification_id}"
+            ]  
+
+            organization = request.form[
+                f"certification_organization_{certification_id}"
+            ]
+
+            date = request.form[
+                f"certification_date_{certification_id}"
+            ]
+
+            update_certification(
+                certification_id,
+                name,
+                organization,
+                date
+            )
+
+        
+        for project in resume["projects"]:
+
+            project_id = project["id"]
+
+            project_name = request.form[
+                f"project_name_{project_id}"
+            ]
+
+            project_description = request.form[
+                f"project_description_{project_id}"
+            ]
+
+            project_role = request.form[
+                f"project_role_{project_id}"
+            ]
+
+            project_tools = request.form[
+                f"project_tools_{project_id}"
+            ]
+
+            project_link = request.form[
+                f"project_link_{project_id}"
+            ]
+
+            update_project(
+                project_id,
+                project_name,
+                project_description,
+                project_role,
+                project_tools,
+                project_link
+            )
+
+        for language in  resume["languages"]:
+            language_id = language["id"]
+            language_name = request.form[
+                f"language_{language_id}"
+            ]
+            proficiency = request.form[
+                f"language_proficiency_{language_id}"
+            ]
+
+            update_language(
+                language_id,
+                language_name,
+                proficiency
+            )
+
+        for achievement in resume["achievements"]:
+            achievement_id = achievement["id"]
+
+            title = request.form[
+                f"achievement_title_{achievement_id}"
+            ]
+
+            description = request.form[
+                f"achievement_description_{achievement_id}"
+            ]
+            update_achievement(
+                achievement_id,
+                title,
+                description
+            )
+
+        for volunteer in resume["volunteer_experience"]:
+
+            volunteer_id = volunteer["id"]
+
+            organization = request.form[
+                f"volunteer_organization_{volunteer_id}"
+            ]
+
+            role = request.form[
+                f"volunteer_role_{volunteer_id}"
+            ]
+
+            location = request.form[
+                f"volunteer_location_{volunteer_id}"
+            ]
+
+            start_date = request.form[
+                f"volunteer_start_date_{volunteer_id}"
+            ]
+
+            end_date = request.form[
+                f"volunteer_end_date_{volunteer_id}"
+            ]
+
+            description = request.form[
+                f"volunteer_description_{volunteer_id}"
+            ]
+
+            update_volunteer_experience(
+                volunteer_id,
+                organization,
+                role,
+                location,
+                start_date,
+                end_date,
+                description
+            )
+
+        for reference in resume["references"]:
+
+            reference_id = reference["id"]
+
+            name = request.form[
+                f"reference_name_{reference_id}"
+            ]
+
+            relationship = request.form[
+                f"reference_relationship_{reference_id}"
+            ]
+
+            organization = request.form[
+                f"reference_organization_{reference_id}"
+            ]
+
+            email = request.form[
+                f"reference_email_{reference_id}"
+            ]
+
+            phone_number = request.form[
+                f"reference_phone_number_{reference_id}"
+            ]
+            
+            update_reference(
+                reference_id,
+                name,
+                relationship,
+                organization,
+                email,
+                phone_number
+    )
+
 
         return redirect(f"/resume/{resume_id}")
 
@@ -263,7 +465,5 @@ def edit_resume(resume_id):
         "edit_resume.html",
         resume=resume
     )
-
-
 if __name__ == "__main__":
     app.run(debug=True)
