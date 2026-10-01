@@ -2,20 +2,27 @@
 <html>
     <head>
         <title>Create Resume</title>
+        <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+        >
     </head>
 
     <body>
         <h1>Create Your Resume</h1>
-        <form method="POST">
+
+        <form method="POST" class="resume-form">
+
             <h2>Personal Information</h2>
-            </label>Name:</label>
+
+            <label>Name:</label>
             <input type="text" name="name">
             <br><br>
 
             <label>Email:</label>
             <input type="email" name="email">
             <br><br>
-            
+
             <label>Date of Birth:</label>
             <input type="text" name="date_of_birth">
             <br><br>
@@ -25,45 +32,42 @@
             <br><br>
 
             <label>Location:</label>
-            <input 
-            type="text" 
-            name="location"
-            >
+            <input type="text" name="location">
             <br><br>
 
+
             <h2>Professional Summary</h2>
+
             <label>Summary:</label>
             <textarea name="summary"></textarea>
             <br><br>
+
 
             <h2>Education</h2>
 
             <label>School:</label>
             <input type="text" name="school">
-
             <br><br>
 
             <label>Degree:</label>
             <input type="text" name="degree">
-
             <br><br>
 
             <label>Field:</label>
             <input type="text" name="field">
-
             <br><br>
 
             <label>Start Year:</label>
             <input type="text" name="start_year">
-
             <br><br>
 
             <label>End Year:</label>
             <input type="text" name="end_year">
-
             <br><br>
 
+
             <h2>Work Experience</h2>
+
             <label>Job Title:</label>
             <input type="text" name="job_title">
             <br><br>
@@ -73,7 +77,7 @@
             <br><br>
 
             <label>Location:</label>
-            <input type="text" name="location">
+            <input type="text" name="work_location">
             <br><br>
 
             <label>Start Date:</label>
@@ -88,7 +92,9 @@
             <textarea name="description"></textarea>
             <br><br>
 
+
             <h2>Skills</h2>
+
             <label>Skill 1:</label>
             <input type="text" name="skill_1">
             <br><br>
@@ -100,6 +106,7 @@
             <label>Skill 3:</label>
             <input type="text" name="skill_3">
             <br><br>
+
 
             <h2>Certifications</h2>
 
@@ -115,6 +122,7 @@
             <input type="text" name="certification_date">
             <br><br>
 
+
             <h2>Projects</h2>
 
             <label>Project Name:</label>
@@ -122,7 +130,7 @@
             <br><br>
 
             <label>Description:</label>
-            <textarea name="project_description" id=""></textarea>
+            <textarea name="project_description"></textarea>
             <br><br>
 
             <label>Role:</label>
@@ -133,9 +141,10 @@
             <input type="text" name="project_tools">
             <br><br>
 
-            <label>Project_Link:</label>
+            <label>Project Link:</label>
             <input type="text" name="project_link">
             <br><br>
+
 
             <h2>Languages</h2>
 
@@ -147,6 +156,7 @@
             <input type="text" name="language_proficiency">
             <br><br>
 
+
             <h2>Achievements</h2>
 
             <label>Title:</label>
@@ -156,6 +166,7 @@
             <label>Description:</label>
             <textarea name="achievement_description"></textarea>
             <br><br>
+
 
             <h2>Volunteer Experience</h2>
 
@@ -183,6 +194,7 @@
             <textarea name="volunteer_description"></textarea>
             <br><br>
 
+
             <h2>References</h2>
 
             <label>Name:</label>
@@ -200,15 +212,15 @@
             <label>Email:</label>
             <input type="email" name="reference_email">
             <br><br>
-            
+
             <label>Phone Number:</label>
             <input type="text" name="reference_phone_number">
             <br><br>
 
 
-
             <button type="submit">Save Resume</button>
 
         </form>
+        <a href="/" class="Back-to-Home">Back to Home</a>
     </body>
 </html>

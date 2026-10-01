@@ -23,6 +23,7 @@ h1 {
     text-align: center;
     font-size: 32px;
     margin-bottom: 40px;
+    font-weight: 600;
 }
 
 h2 {
@@ -30,6 +31,7 @@ h2 {
     padding-bottom: 5px;
     font-size: 20px;
     margin-top: 25px;
+    font-weight: 700;
 }
 
 p {
@@ -71,6 +73,9 @@ p {
     h2 {
         font-size: 18px;
     }
+    .resume-form {
+        padding: 20px;
+    }
  }
 
  .education h3,
@@ -82,4 +87,73 @@ p {
 .volunteer-experience h3,
 .references h3 {
     margin-top: 20px;
+}
+
+.create-resume-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: opacity 0.3s;
+    
+}
+
+.create-resume-link:hover {
+    
+    opacity: 0.8;
+}
+.home-container {
+    background-color: white;
+    padding: 40px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.resume-form {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+}
+.resume-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.resume-form input,
+.resume-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+.resume-form button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+.resume-form button:hover {
+    opacity: 0.8;
+}
+.resume-form h2 {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    margin-top: 30px;
+    font-size: 20px;
+}
+
+.back-home-link {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+}
+
+.back-home-link:hover {
+    opacity: 0.8;
 }

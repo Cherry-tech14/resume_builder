@@ -2,6 +2,11 @@
 <html>
 <head>
     <title>Edit Resume</title>
+
+    <link 
+    rel="stylesheet" 
+    href="{{ url_for('static', filename='style.css') }}"
+    >
 </head>
 
 <body>
@@ -10,7 +15,7 @@
 
     <h2>Personal Information</h2>
 
-    <form method="POST">
+    <form method="POST" class="resume-form">
 
         <label>Name:</label>
         <input
@@ -454,9 +459,8 @@
 
         <button type="submit">Save Changes</button>
        
-
-    
     </form>
+    <a href="/" class="back-home-link">Back To Home</a>
 
 </body>
 </html>
