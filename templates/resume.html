@@ -2,7 +2,10 @@
 <html>
 <head>
     <title>Resume Builder</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link 
+    rel="stylesheet" 
+    href="{{ url_for('static', filename='style.css') }}"
+    >
 </head>
 
 <body>
@@ -10,7 +13,7 @@
     <h1>My Resume</h1>
 
 
-<div class="personal_information">
+<div class="personal-information">
     <h2>Personal Information</h2>
 
     <p>Name: {{ resume["personal_information"]["name"] }}</p>
@@ -134,7 +137,8 @@
 {% endif %}
 </div>
 
-<a href="/edit/{{ resume['personal_information'] ['id'] }}">Edit Resume</a>
+<a href="/edit/{{ resume['personal_information']['id'] }}">Edit Resume</a>
+<a href="/" class="back-home-link">Back to Home</a>
 
 </body>
 </html>

@@ -12,14 +12,17 @@ from database import (
     save_achievement,
     save_volunteer_experience,
     save_reference,
+    
     update_personal_information,
     update_summary,
     update_education,
     update_work_experience,
     update_skill,
     update_certification,
+    update_project,
     update_language,
     update_achievement,
+    update_volunteer_experience,
     update_reference
 )
 
@@ -29,7 +32,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Resume Builder is running"
+    return render_template("index.html")
 
 
 @app.route("/create", methods=["GET", "POST"])
