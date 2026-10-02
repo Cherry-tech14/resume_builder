@@ -172,6 +172,19 @@ def save_resume(
 
     return cursor.lastrowid
 
+def save_user(name, email):
+    cursor.execute(
+        """
+        INSERT INTO users (name, email)
+        VALUES (?, ?)
+        """,
+        (name, email)
+    )
+
+    connection.commit()
+
+    return cursor.lastrowid
+
 def save_education(
     resume_id,
     school,
