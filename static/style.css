@@ -152,8 +152,46 @@ p {
     display: inline-block;
     margin-top: 20px;
     text-decoration: none;
+    transition: opacity 0.3s;
 }
 
 .back-home-link:hover {
     opacity: 0.8;
+}
+
+.home-actions {
+    margin-bottom: 30px;
+}
+
+.home-container button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.home-container button:hover {
+    opacity: 0.8;
+}
+
+.home-container input {
+    width: 100px;
+    padding: 8px;
+    margin: 10px 0;
+    box-sizing: border-box;
+}
+
+.home-container form {
+    margin-top: 20px;
+}
+
+.home-container label {
+    font-weight: bold;
+}
+
+.home-container h2 {
+    margin-bottom: 15px;
 }

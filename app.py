@@ -215,12 +215,15 @@ def view_resume(resume_id):
     )
 
 
+@app.route("/resume")
+def find_resume():
+    resume_id = request.args.get("resume_id")
+
+    return redirect(f"/resume/{resume_id}")
 @app.route("/edit/<resume_id>", methods=["GET", "POST"])
 def edit_resume(resume_id):
 
     resume = get_complete_resume(int(resume_id))
-
-
 
     if resume is None:
         return "Resume not found."
