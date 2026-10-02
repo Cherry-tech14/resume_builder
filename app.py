@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect
 from database import (
     get_complete_resume,
     save_resume,
+    save_user,
     save_education,
     save_work_experience,
     save_skill,
@@ -220,6 +221,7 @@ def find_resume():
     resume_id = request.args.get("resume_id")
 
     return redirect(f"/resume/{resume_id}")
+
 @app.route("/edit/<resume_id>", methods=["GET", "POST"])
 def edit_resume(resume_id):
 
@@ -471,5 +473,18 @@ def edit_resume(resume_id):
         "edit_resume.html",
         resume=resume
     )
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        name = request.form["name"]
+        email = request.form["email"]
+
+        save_user(name, email)
+
+        return redirect("/")
+
+    return render_template("register.html")
+    
 if __name__ == "__main__":
     app.run(debug=True)
