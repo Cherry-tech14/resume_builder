@@ -42,31 +42,60 @@
             <textarea name="summary"></textarea>
             <br><br>
 
-
             <h2>Education</h2>
 
-            <label>School:</label>
-            <input type="text" name="school">
-            <br><br>
+            <div id="education-container">
 
-            <label>Degree:</label>
-            <input type="text" name="degree">
-            <br><br>
+                <div class="education-entry">
 
-            <label>Field:</label>
-            <input type="text" name="field">
-            <br><br>
+                     <label>School:</label>
+                     <input type="text" name="school">
 
-            <label>Start Year:</label>
-            <input type="text" name="start_year">
-            <br><br>
+                    <label>Degree:</label>
+                    <input type="text" name="degree">
 
-            <label>End Year:</label>
-            <input type="text" name="end_year">
-            <br><br>
+                    <label>Field:</label>
+                    <input type="text" name="field">
 
+                    <label>Start Year:</label>
+                    <input type="text" name="start_year">
 
+                    <label>End Year:</label>
+                    <input type="text" name="end_year">
+
+                </div>
+
+            </div>
+
+<button type="button" id="add-education">
+    + Add Another Education
+</button>
             <h2>Work Experience</h2>
+
+            <div id="work-container">
+                <div class="work-entry">
+                    <label>Job Title:</label>
+                    <input type="text" name="job_title">
+
+                    <label>Company:</label>
+                    <input type="text" name="company">
+
+                    <label>Location:</label>
+                    <input type="text" name="work_location">
+
+                    <label>Start Date:</label>
+                    <input type="text" name="start_date">
+
+                    <label>End Date:</label>
+                    <input type="text" name="end_date">
+
+                    <label>Description:</label>
+                    <textarea name="description"></textarea>
+                </div>
+            </div>
+            <button type="button" id="add-work">
+                + Add another Work Experience
+            </button>
 
             <label>Job Title:</label>
             <input type="text" name="job_title">
@@ -92,21 +121,20 @@
             <textarea name="description"></textarea>
             <br><br>
 
-
             <h2>Skills</h2>
 
-            <label>Skill 1:</label>
-            <input type="text" name="skill_1">
-            <br><br>
+           <div id="skills-container">
 
-            <label>Skill 2:</label>
-            <input type="text" name="skill_2">
-            <br><br>
+          <div class="skill-entry">
+          <label>Skill:</label>
+          <input type="text" name="skill">
+    </div>
 
-            <label>Skill 3:</label>
-            <input type="text" name="skill_3">
-            <br><br>
+   </div>
 
+   <button type="button" id="add-skill">
+    + Add Another Skill
+   </button>
 
             <h2>Certifications</h2>
 
@@ -222,5 +250,96 @@
 
         </form>
         <a href="/" class="Back-to-Home">Back to Home</a>
+
+        <script>
+    const educationContainer = document.getElementById("education-container");
+    const addEducationButton = document.getElementById("add-education");
+
+    addEducationButton.addEventListener("click", function () {
+
+        const educationEntry = document.createElement("div");
+
+        educationEntry.className = "education-entry";
+
+        educationEntry.innerHTML = `
+            <hr>
+
+            <label>School:</label>
+            <input type="text" name="school">
+
+            <label>Degree:</label>
+            <input type="text" name="degree">
+
+            <label>Field:</label>
+            <input type="text" name="field">
+
+            <label>Start Year:</label>
+            <input type="text" name="start_year">
+
+            <label>End Year:</label>
+            <input type="text" name="end_year">
+        `;
+
+        educationContainer.appendChild(educationEntry);
+    });
+</script>
+
+
+<script>
+    const workContainer = document.getElementById("work-container");
+    const addWorkButton = document.getElementById("add-work");
+
+    addWorkButton.addEventListener("click", function () {
+
+        const workEntry = document.createElement("div");
+
+        workEntry.className = "work-entry";
+
+        workEntry.innerHTML = `
+            <hr>
+
+            <label>Job Title:</label>
+            <input type="text" name="job_title">
+
+            <label>Company:</label>
+            <input type="text" name="company">
+
+            <label>Location:</label>
+            <input type="text" name="work_location">
+
+            <label>Start Date:</label>
+            <input type="text" name="start_date">
+
+            <label>End Date:</label>
+            <input type="text" name="end_date">
+
+            <label>Description:</label>
+            <textarea name="description"></textarea>
+        `;
+
+        workContainer.appendChild(workEntry);
+    });
+</script>
+
+<script>
+    const skillsContainer = document.getElementById("skills-container");
+    const addSkillButton = document.getElementById("add-skill");
+
+    addSkillButton.addEventListener("click", function () {
+
+        const skillEntry = document.createElement("div");
+
+        skillEntry.className = "skill-entry";
+
+        skillEntry.innerHTML = `
+            <hr>
+
+            <label>Skill:</label>
+            <input type="text" name="skill">
+        `;
+
+        skillsContainer.appendChild(skillEntry);
+    });
+</script>
     </body>
 </html>
