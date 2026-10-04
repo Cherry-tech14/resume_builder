@@ -13,7 +13,7 @@
 
     <div class="resume">
 
-        <!-- HEADER -->
+    
         <header class="resume-header">
             <h1>{{ resume["personal_information"]["name"] }}</h1>
 
@@ -33,7 +33,6 @@
         </header>
 
 
-        <!-- PROFESSIONAL SUMMARY -->
         {% if resume["summary"] %}
         <section class="resume-section">
             <h2>Professional Summary</h2>
@@ -43,7 +42,6 @@
         {% endif %}
 
 
-        <!-- WORK EXPERIENCE -->
         {% if resume["work_experience"] %}
         <section class="resume-section">
             <h2>Work Experience</h2>
@@ -90,8 +88,6 @@
         </section>
         {% endif %}
 
-
-        <!-- EDUCATION -->
         {% if resume["education"] %}
         <section class="resume-section">
             <h2>Education</h2>
@@ -131,7 +127,6 @@
         {% endif %}
 
 
-        <!-- SKILLS -->
         {% if resume["skills"] %}
         <section class="resume-section">
             <h2>Skills</h2>
@@ -147,7 +142,7 @@
         {% endif %}
 
 
-        <!-- CERTIFICATIONS -->
+        
         {% if resume["certifications"] %}
         <section class="resume-section">
             <h2>Certifications</h2>
@@ -174,8 +169,6 @@
         </section>
         {% endif %}
 
-
-        <!-- PROJECTS -->
         {% if resume["projects"] %}
         <section class="resume-section">
             <h2>Projects</h2>
@@ -217,7 +210,6 @@
         {% endif %}
 
 
-        <!-- LANGUAGES -->
         {% if resume["languages"] %}
         <section class="resume-section">
             <h2>Languages</h2>
@@ -238,8 +230,6 @@
         </section>
         {% endif %}
 
-
-        <!-- ACHIEVEMENTS -->
         {% if resume["achievements"] %}
         <section class="resume-section">
             <h2>Achievements</h2>
@@ -261,7 +251,7 @@
         {% endif %}
 
 
-        <!-- VOLUNTEER EXPERIENCE -->
+        
         {% if resume["volunteer_experience"] %}
         <section class="resume-section">
             <h2>Volunteer Experience</h2>
@@ -313,7 +303,7 @@
         {% endif %}
 
 
-        <!-- REFERENCES -->
+    
         {% if resume["references"] %}
         <section class="resume-section">
             <h2>References</h2>
