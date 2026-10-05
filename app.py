@@ -1,8 +1,12 @@
 from flask import Flask, render_template, request, redirect
+from weasyprint import HTML
+from werkzeug.security import generate_password_hash
 
 from database import (
     get_complete_resume,
     save_resume,
+    save_user,
+    get_user_by_username,
     save_education,
     save_work_experience,
     save_skill,
@@ -45,6 +49,8 @@ def create_resume():
         location = request.form["location"]
 
         summary = request.form["summary"]
+
+        template = request.form["template"]
 
         schools = request.form.getlist("school")
         degrees = request.form.getlist("degree")
@@ -94,7 +100,7 @@ def create_resume():
 
     
         reference_names = request.form.getlist("reference_name")
-        reference_relationships = request.form.getlsit("reference_relationship")
+        reference_relationships = request.form.getlist("reference_relationship")
         reference_organizations = request.form.getlist("reference_organization")
         reference_emails = request.form.getlist("reference_email")
         reference_phone_numbers = request.form.getlist("reference_phone_number")
@@ -106,7 +112,8 @@ def create_resume():
             email,
             phone_number,
             location,
-            summary
+            summary,
+            template
         )
 
     
@@ -308,6 +315,34 @@ def create_resume():
 
     return render_template("create_resume.html")
 
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        username = request.form["username"].strip()
+        password = request.form["password"]
+
+        if not username or not password:
+            return render_template(
+                "register.html",
+                error="Username and password are required."
+            )
+
+        existing_user = get_user_by_username(username)
+
+        if existing_user:
+            return render_template(
+                "register.html",
+                error="Username already exists."
+            )
+
+        password_hash = generate_password_hash(password)
+
+        save_user(username, password_hash)
+
+        return redirect("/login")
+
+    return render_template("register.html")
+
 @app.route("/resume/<resume_id>")
 def view_resume(resume_id):
 
@@ -315,11 +350,45 @@ def view_resume(resume_id):
 
     if resume is None:
         return "Resume not found."
+    
+    if resume["template"] == "modern":
+        template_file = "resume_modern.html"
+    else:
+        template_file = "resume.html"
 
     return render_template(
-        "resume.html",
+        template_file,
         resume=resume
     )
+
+
+@app.route("/resume/<resume_id>/pdf")
+def download_pdf(resume_id):
+    resume = get_complete_resume(int(resume_id))
+
+    if resume is None:
+        return "Resume not found."
+
+    if resume["template"] == "modern":
+        template_file = "resume_modern.html"
+    else:
+        template_file = "resume.html"
+
+    html = render_template(
+        template_file,
+        resume=resume,
+        pdf=True
+    )
+
+    pdf = HTML(
+        string=html,
+        base_url=request.url_root
+    ).write_pdf()
+
+    return pdf, 200, {
+        "Content-Type": "application/pdf",
+        "Content-Disposition": "attachment; filename=resume.pdf"
+    }
 
 @app.route("/resume")
 def find_resume():
