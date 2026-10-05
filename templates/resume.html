@@ -336,18 +336,20 @@
         </section>
         {% endif %}
 
+        
+<div class="resume-actions">
+    <a href="/resume/{{ resume['personal_information']['id'] }}/pdf">
+        Download PDF
+    </a>
 
-        <div class="resume-actions">
-            <a href="/edit/{{ resume['personal_information']['id'] }}">
-                Edit Resume
-            </a>
+    <a href="/edit/{{ resume['personal_information']['id'] }}">
+        Edit Resume
+    </a>
 
-            <a href="/">
-                Back to Home
-            </a>
-        </div>
-
-    </div>
+    <a href="/">
+        Back to Home
+    </a>
+</div>
 
 </body>
 </html>

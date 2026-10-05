@@ -318,3 +318,166 @@ body {
         display: none;
     }
 }
+
+
+.modern-resume {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 50px 60px;
+    background-color: white;
+    box-sizing: border-box;
+}
+
+.modern-header {
+    padding-bottom: 25px;
+    border-bottom: 3px solid #2f5d62;
+    margin-bottom: 35px;
+}
+
+.modern-header h1 {
+    margin: 0 0 10px;
+    font-size: 38px;
+    font-weight: 700;
+    color: #2f5d62;
+    letter-spacing: 1px;
+}
+
+.modern-summary {
+    max-width: 700px;
+    margin: 0;
+    line-height: 1.7;
+    font-size: 14px;
+    color: #444;
+}
+
+.modern-contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 18px;
+    font-size: 14px;
+}
+
+.modern-contact p {
+    margin: 0;
+}
+
+.modern-section {
+    margin-bottom: 32px;
+}
+
+.modern-section h2 {
+    margin: 0 0 18px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid #d5d5d5;
+    color: #2f5d62;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.modern-entry {
+    margin-bottom: 22px;
+}
+
+.modern-entry:last-child {
+    margin-bottom: 0;
+}
+
+.modern-entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 20px;
+}
+
+.modern-entry-header strong {
+    font-size: 16px;
+}
+
+.modern-entry-header span {
+    font-size: 13px;
+    white-space: nowrap;
+    color: #555;
+}
+
+.modern-meta {
+    margin: 5px 0 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+}
+
+.modern-entry p {
+    margin: 6px 0;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.modern-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.modern-skills span {
+    padding: 6px 12px;
+    border: 1px solid #2f5d62;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #2f5d62;
+}
+
+.modern-resume a {
+    color: #2f5d62;
+}
+
+.modern-resume .resume-actions {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #ccc;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+
+    .modern-resume {
+        margin: 15px;
+        padding: 25px 20px;
+    }
+
+    .modern-header h1 {
+        font-size: 30px;
+    }
+
+    .modern-contact {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .modern-entry-header {
+        flex-direction: column;
+        gap: 3px;
+    }
+
+    .modern-entry-header span {
+        white-space: normal;
+    }
+}
+
+@media print {
+
+    .modern-resume {
+        max-width: none;
+        margin: 0;
+        padding: 30px;
+
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .modern-resume .resume-actions {
+        display: none;
+    }
+}
