@@ -63,41 +63,41 @@ def create_resume():
         skills = request.form.getlist("skill")
        
 
-        certification_name = request.form["certification_name"]
-        certification_organization = request.form[
-            "certification_organization"
-        ]
-        certification_date = request.form["certification_date"]
+        certification_names = request.form.getlist("certification_name")
+        certification_organizations = request.form.getlist("certification_organization")
+        certification_dates = request.form.getlist("certification_date")
 
         
-        project_name = request.form.get("project_name")
-        project_description = request.form.get("project_description")
-        project_role = request.form.get("project_role")
-        project_tools = request.form.get("project_tools")
-        project_link = request.form.get("project_link")
+        project_names = request.form.getlist("project_name")
+        project_descriptions = request.form.getlist("project_description")
+        project_roles = request.form.getlist("project_role")
+        project_tools_list = request.form.getlist("project_tools")
+        project_links = request.form.getlist("project_link")
 
         
-        language = request.form["language"]
-        language_proficiency = request.form["language_proficiency"]
+        languages = request.form.getlist("language")
+        language_proficiencies = request.form.getlist("language_proficiency")
 
     
-        achievement_title = request.form["achievement_title"]
-        achievement_description = request.form["achievement_description"]
+        achievement_titles = request.form.getlist("achievement_title")
+        achievement_descriptions = request.form.getlist(
+            "achievement_description"
+        )
 
         
-        volunteer_organization = request.form["volunteer_organization"]
-        volunteer_role = request.form["volunteer_role"]
-        volunteer_location = request.form["volunteer_location"]
-        volunteer_start_date = request.form["volunteer_start_date"]
-        volunteer_end_date = request.form["volunteer_end_date"]
-        volunteer_description = request.form["volunteer_description"]
+        volunteer_organizations = request.form.getlist("volunteer_organization")
+        volunteer_roles = request.form.getlist("volunteer_role")
+        volunteer_locations = request.form.getlist("volunteer_location")
+        volunteer_start_dates = request.form.getlist("volunteer_start_date")
+        volunteer_end_dates = request.form.getlist("volunteer_end_date")
+        volunteer_descriptions = request.form.getlist("volunteer_description")
 
     
-        reference_name = request.form["reference_name"]
-        reference_relationship = request.form["reference_relationship"]
-        reference_organization = request.form["reference_organization"]
-        reference_email = request.form["reference_email"]
-        reference_phone_number = request.form["reference_phone_number"]
+        reference_names = request.form.getlist("reference_name")
+        reference_relationships = request.form.getlsit("reference_relationship")
+        reference_organizations = request.form.getlist("reference_organization")
+        reference_emails = request.form.getlist("reference_email")
+        reference_phone_numbers = request.form.getlist("reference_phone_number")
 
     
         resume_id = save_resume(
@@ -162,89 +162,146 @@ def create_resume():
                 )  
 
         
-        for skill in [skill_1, skill_2, skill_3]:
+        for skill in skills:
             if skill:
                 save_skill(resume_id, skill)
 
         
-        if (
-            certification_name
-            or certification_organization
-            or certification_date
+        for (
+            name,
+            organization,
+            date,
+        ) in zip(
+            certification_names,
+            certification_organizations,
+            certification_dates
+
         ):
-            save_certification(
-                resume_id,
-                certification_name,
-                certification_organization,
-                certification_date
+            if name or organization or date:
+                save_certification(
+                    resume_id,
+                    name,
+                    organization,
+                    date
             )
 
         
-        if (
-            project_name
-            or project_description
-            or project_role
-            or project_tools
-            or project_link
+        for (
+            project_name,
+            project_description,
+            project_role,
+            project_tools,
+            project_link
+        ) in zip(
+            project_names,
+            project_descriptions,
+            project_roles,
+            project_tools_list,
+            project_links
         ):
-            save_project(
-                resume_id,
-                project_name,
-                project_description,
-                project_role,
-                project_tools,
-                project_link
-            )
+            if (
+                project_name
+                or project_description
+                or project_role
+                or project_tools
+                or project_link
+            ):
+                save_project(
+                    resume_id,
+                    project_name,
+                    project_description,
+                    project_role,
+                    project_tools,
+                    project_link
+                )
 
         
-        if language or language_proficiency:
-            save_language(
-                resume_id,
-                language,
-                language_proficiency
-            )
+        for language, proficiency in zip(
+            languages,
+            language_proficiencies
+        ):
+            if language or proficiency:
+                save_language(
+                    resume_id,
+                    language,
+                    proficiency
+                )
 
 
-        if achievement_title or achievement_description:
-            save_achievement(
-                resume_id,
-                achievement_title,
-                achievement_description
-            )
+        for title, description in zip(
+            achievement_titles,
+            achievement_descriptions
+        ):
+            if title or description:
+                save_achievement(
+                    resume_id,
+                    title,
+                    description
+                )
 
         
-        if (
-            volunteer_organization
-            or volunteer_role
-            or volunteer_location
-            or volunteer_start_date
-            or volunteer_end_date
-            or volunteer_description
+        for (
+            organization,
+            role,
+            location,
+            start_date,
+            end_date,
+            description
+        ) in zip(
+            volunteer_organizations,
+            volunteer_roles,
+            volunteer_locations,
+            volunteer_start_dates,
+            volunteer_end_dates,
+            volunteer_descriptions
         ):
-            save_volunteer_experience(
-                resume_id,
-                volunteer_organization,
-                volunteer_role,
-                volunteer_location,
-                volunteer_start_date,
-                volunteer_end_date,
-                volunteer_description
+            if (
+                organization
+                or role
+                or location
+                or start_date
+                or end_date
+                or description
+
+            ):
+                save_volunteer_experience(
+                    resume_id,
+                    organization,
+                    role,
+                    location,
+                    start_date,
+                    end_date,
+                    description
             )
 
-        if (
-            reference_name
-            or reference_relationship
-            or reference_organization
-            or reference_email
-            or reference_phone_number
+        for (
+            name,
+            relationship,
+            organization,
+            email,
+            phone_number
+        ) in zip(
+            reference_names,
+            reference_relationships,
+            reference_organizations,
+            reference_emails,
+            reference_phone_numbers
+
         ):
-            save_reference(
-                resume_id,
-                reference_name,
-                reference_relationship,
-                reference_organization,
-                reference_email,
-                reference_phone_number
+            if (
+                name
+                or relationship
+                or organization
+                or email
+                or phone_number
+            ):
+                save_reference(
+                    resume_id,
+                    name,
+                    relationship,
+                    organization,
+                    email,
+                    phone_number
             )
 
         return redirect(f"/resume/{resume_id}")
