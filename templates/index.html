@@ -2,7 +2,6 @@
 <html>
 <head>
     <title>Resume Builder</title>
-
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='style.css') }}"
@@ -12,22 +11,20 @@
 <body>
     <div class="home-container">
         <h1>Resume Builder</h1>
-        <p>Create, edit, and manage your professional resume</p>
+
+        <p>
+            Create, edit, and manage your professional resume with ease.
+        </p>
 
         <div class="home-actions">
-             <a href="/create" class="create-resume-link">Create Resume</a>
-             <a href="/register" class="register-link">Create Account</a>
- 
+            <a href="/register" class="register-link">
+                Create Account
+            </a>
+
+            <a href="/login" class="login-link">
+                Login
+            </a>
+        </div>
     </div>
-
-    <h2>View Existing Resume</h2>
-
-<form action="/resume" method="GET">
-    <label for="resume_id">Resume ID:</label>
-    <input type="number" id="resume_id" name="resume_id" required>
-
-    <button type="submit">View Resume</button>
-</form>
-    
 </body>
 </html>
