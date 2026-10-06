@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 from weasyprint import HTML
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from database import (
     get_complete_resume,
@@ -31,6 +31,7 @@ from database import (
 
 
 app = Flask(__name__)
+app.secret_key = "your-secret-key"
 
 
 @app.route("/")
@@ -40,6 +41,8 @@ def home():
 
 @app.route("/create", methods=["GET", "POST"])
 def create_resume():
+    if "user_id" not in session:
+        return redirect("/login")
 
     if request.method == "POST":
         name = request.form["name"]
@@ -113,7 +116,8 @@ def create_resume():
             phone_number,
             location,
             summary,
-            template
+            template,
+            session["user_id"]
         )
 
     
@@ -343,8 +347,43 @@ def register():
 
     return render_template("register.html")
 
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form["username"].strip()
+        password = request.form["password"]
+
+        user = get_user_by_username(username)
+
+        if user and check_password_hash(user[2], password):
+            session["user_id"] = user[0]
+            session["username"] = user[1]
+
+            return redirect("/dashboard")
+
+        return render_template(
+            "login.html",
+            error="Invalid username or password."
+        )
+
+    return render_template("login.html")
+
+
+@app.route("/dashboard")
+def dashboard():
+    if "user_id" not in session:
+        return redirect("/login")
+
+    return render_template(
+        "dashboard.html",
+        username=session["username"]
+    )
+
 @app.route("/resume/<resume_id>")
 def view_resume(resume_id):
+    if "user_id" not in session:
+        return redirect("/login")
 
     resume = get_complete_resume(int(resume_id))
 
@@ -364,6 +403,8 @@ def view_resume(resume_id):
 
 @app.route("/resume/<resume_id>/pdf")
 def download_pdf(resume_id):
+    if "user_id" not in session:
+        return redirect("/login")
     resume = get_complete_resume(int(resume_id))
 
     if resume is None:
@@ -400,6 +441,8 @@ def find_resume():
 
 @app.route("/edit/<resume_id>", methods=["GET", "POST"])
 def edit_resume(resume_id):
+    if "user_id" not in session:
+        return redirect("/login")
 
     resume = get_complete_resume(int(resume_id))
 

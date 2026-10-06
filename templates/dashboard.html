@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+    <div class="home-container">
+        <h1>Welcome, {{ username }}</h1>
+
+        <p>Manage your resume from your dashboard.</p>
+
+        <div class="home-actions">
+            <a href="/create">Create Resume</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+</body>
+</html>
