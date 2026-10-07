@@ -380,6 +380,12 @@ def dashboard():
         username=session["username"]
     )
 
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
+
+
 @app.route("/resume/<resume_id>")
 def view_resume(resume_id):
     if "user_id" not in session:
@@ -387,8 +393,11 @@ def view_resume(resume_id):
 
     resume = get_complete_resume(int(resume_id))
 
-    if resume is None:
-        return "Resume not found."
+    if not resume:
+        return "Resume not found", 404
+
+    if resume["user_id"] != session["user_id"]:
+        return "You do not have permission to view this resume.", 403
     
     if resume["template"] == "modern":
         template_file = "resume_modern.html"
