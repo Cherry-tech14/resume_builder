@@ -1,6 +1,10 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, flash
 from weasyprint import HTML
 from werkzeug.security import generate_password_hash, check_password_hash
+from database import get_all_resumes
+from database import delete_resume
+import re
+from datetime import datetime
 
 from database import (
     get_complete_resume,
@@ -33,6 +37,96 @@ from database import (
 app = Flask(__name__)
 app.secret_key = "your-secret-key"
 
+def validate_resume(form):
+    errors = []
+
+    name = form.get("name", "").strip()
+    email = form.get("email", "").strip()
+    phone = form.get("phone_number", "").strip()
+    summary = form.get("summary", "").strip()
+
+    if not name:
+        errors.append("Full name is required.")
+
+    if not email:
+        errors.append("Email is required.")
+    elif not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email):
+        errors.append("Enter a valid email address.")
+
+    if not phone:
+        errors.append("Phone number is required.")
+
+    if not summary:
+        errors.append("Professional summary is required.")
+
+    for section, start_field, end_field in [
+        ("Education", "start_year", "end_year"),
+        ("Work Experience", "start_date", "end_date"),
+        ("Volunteer Experience", "volunteer_start_date", "volunteer_end_date")
+    ]:
+        starts = form.getlist(start_field)
+        ends = form.getlist(end_field)
+
+        for start, end in zip(starts, ends):
+            error = validate_dates(start, end, section)
+
+            if error:
+                errors.append(error)
+
+
+    for key in form.keys():
+        for section, start_prefix, end_prefix in [
+            ("Education", "start_year_", "end_year_"),
+            ("Work Experience", "start_date_", "end_date_"),
+            ("Volunteer Experience", "volunteer_start_date_", "volunteer_end_date_")
+        ]:
+            if key.startswith(start_prefix):
+                record_id = key[len(start_prefix):]
+
+                error = validate_dates(
+                    form.get(key),
+                    form.get(f"{end_prefix}{record_id}"),
+                    section
+                )
+
+                if error:
+                    errors.append(error)
+
+    return errors
+
+def validate_dates(start, end, section):
+    start = (start or "").strip()
+    end = (end or "").strip()
+
+    if not start or not end:
+        return None
+
+    if end.lower() in ("present", "current"):
+        return None
+
+    def parse_date(value):
+        for date_format in ("%Y-%m-%d", "%Y-%m", "%Y"):
+            try:
+                return datetime.strptime(value, date_format)
+            except ValueError:
+                continue
+
+        return None
+
+    start_date = parse_date(start)
+    end_date = parse_date(end)
+
+    if start_date is None or end_date is None:
+        return (
+            f"{section}: Use YYYY, YYYY-MM, or YYYY-MM-DD "
+            "for dates."
+        )
+
+    if end_date < start_date:
+        return f"{section}: End date cannot be before start date."
+
+    return None
+
 
 @app.route("/")
 def home():
@@ -45,7 +139,14 @@ def create_resume():
         return redirect("/login")
 
     if request.method == "POST":
-        name = request.form["name"]
+        errors = validate_resume(request.form)
+        if errors:
+            return render_template(
+                "create_resume.html",
+                errors=errors
+            ), 400
+
+            name = request.form["name"].strip()
         email = request.form["email"]
         date_of_birth = request.form["date_of_birth"]
         phone_number = request.form["phone_number"]
@@ -315,8 +416,8 @@ def create_resume():
                     phone_number
             )
 
-        return redirect(f"/resume/{resume_id}")
-
+        flash("Resume created successfully", "success")
+        return redirect("/dashboard")
     return render_template("create_resume.html")
 
 @app.route("/register", methods=["GET", "POST"])
@@ -372,33 +473,41 @@ def login():
 
 @app.route("/dashboard")
 def dashboard():
-    if "user_id" not in session:
-        return redirect("/login")
+    resumes = get_all_resumes()
 
+    total_resumes = len(resumes)
     return render_template(
         "dashboard.html",
-        username=session["username"]
+        resumes=resumes,
+        total_resumes=total_resumes
     )
+
+@app.route("/resume/<int:resume_id>/delete", methods=["POST"])
+def remove_resume(resume_id):
+
+    deleted = delete_resume(resume_id)
+
+    if not deleted:
+        flash("Resume not found", "error")
+        return redirect("/dashboard")
+
+    flash("Resume deleted successfully", "success")
+    return redirect("/dashboard")
+
 
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect("/")
 
-
-@app.route("/resume/<resume_id>")
+@app.route("/resume/<int:resume_id>")
 def view_resume(resume_id):
-    if "user_id" not in session:
-        return redirect("/login")
 
-    resume = get_complete_resume(int(resume_id))
+    resume = get_complete_resume(resume_id)
 
     if not resume:
         return "Resume not found", 404
 
-    if resume["user_id"] != session["user_id"]:
-        return "You do not have permission to view this resume.", 403
-    
     if resume["template"] == "modern":
         template_file = "resume_modern.html"
     else:
@@ -408,7 +517,6 @@ def view_resume(resume_id):
         template_file,
         resume=resume
     )
-
 
 @app.route("/resume/<resume_id>/pdf")
 def download_pdf(resume_id):
@@ -460,8 +568,16 @@ def edit_resume(resume_id):
 
     if request.method == "POST":
 
+        errors = validate_resume(request.form)
 
-        name = request.form["name"]
+        if errors:
+            return render_template(
+                "edit_resume.html",
+                resume=resume,
+                errors=errors
+            ), 400
+
+        name = request.form["name"].strip()
         date_of_birth = request.form["date_of_birth"]
         email = request.form["email"]
         phone_number = request.form["phone_number"]

@@ -9,9 +9,6 @@ connection = sqlite3.connect(
 cursor = connection.cursor()
 
 
-# =========================================================
-# DATABASE TABLES
-# =========================================================
 
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS users (
@@ -151,11 +148,6 @@ cursor.execute("""
 """)
 
 
-# =========================================================
-# UPDATE EXISTING DATABASE
-# =========================================================
-
-# Check the users table for authentication columns.
 cursor.execute("PRAGMA table_info(users)")
 user_columns = [column[1] for column in cursor.fetchall()]
 
@@ -172,7 +164,6 @@ if "password_hash" not in user_columns:
     """)
 
 
-# Check the resumes table for the template and user ID.
 cursor.execute("PRAGMA table_info(resumes)")
 resume_columns = [column[1] for column in cursor.fetchall()]
 
@@ -189,7 +180,7 @@ if "user_id" not in resume_columns:
     """)
 
 
-# Make usernames unique.
+
 cursor.execute("""
     CREATE UNIQUE INDEX IF NOT EXISTS idx_users_username
     ON users(username)
@@ -199,9 +190,6 @@ cursor.execute("""
 connection.commit()
 
 
-# =========================================================
-# USER FUNCTIONS
-# =========================================================
 
 def save_user(username, password_hash):
     cursor.execute(
@@ -254,10 +242,6 @@ def get_user_by_id(user_id):
 
     return cursor.fetchone()
 
-
-# =========================================================
-# RESUME SAVE FUNCTIONS
-# =========================================================
 
 def save_resume(
     name,
@@ -1195,3 +1179,58 @@ def update_reference(
     )
 
     connection.commit()
+
+def get_all_resumes():
+    cursor.execute("""
+        SELECT id, name, template
+        FROM resumes
+        ORDER BY id DESC
+    """)
+
+    rows = cursor.fetchall()
+
+    resumes = []
+
+    for row in rows:
+        resumes.append({
+            "id": row[0],
+            "name": row[1],
+            "template": row[2] or "classic"
+        })
+
+    return resumes
+
+def delete_resume(resume_id):
+    tables = [
+        "education",
+        "work_experience",
+        "skills",
+        "certifications",
+        "projects",
+        "languages",
+        "achievements",
+        "volunteer_experience",
+        "resume_references"
+    ]
+
+    try:
+        for table in tables:
+            cursor.execute(
+                f"DELETE FROM {table} WHERE resume_id = ?",
+                (resume_id,)
+            )
+
+        cursor.execute(
+            "DELETE FROM resumes WHERE id = ?",
+            (resume_id,)
+        )
+
+        deleted = cursor.rowcount
+
+        connection.commit()
+
+        return deleted > 0
+
+    except sqlite3.Error:
+        connection.rollback()
+        raise

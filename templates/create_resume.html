@@ -1,284 +1,284 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Create Resume</title>
-        <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style.css') }}"
-        >
-    </head>
 
-    <body>
-        <h1>Create Your Resume</h1>
+<head>
+    <title>Create Resume</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
 
-        <form method="POST" class="resume-form">
+<body>
+    <h1>Create Your Resume</h1>
+
+    <form method="POST" class="resume-form">
+        {% if errors %}
+        <div class="validation-errors">
+            <h3>Please correct the following errors:</h3>
+
+            <ul>
+                {% for error in errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
 
 
-            <h2>Choose Resume Template</h2>
+        <h2>Choose Resume Template</h2>
 
         <label>
-       <input
-        type="radio"
-        name="template"
-        value="professional"
-        checked
-    >
-    Professional
-    </label>
+            <input type="radio" name="template" value="professional" checked>
+            Professional
+        </label>
 
-    <label>
-    <input
-        type="radio"
-        name="template"
-        value="modern"
-    >
-    Modern
-    </label>
+        <label>
+            <input type="radio" name="template" value="modern">
+            Modern
+        </label>
 
-            <h2>Personal Information</h2>
+        <h2>Personal Information</h2>
 
-            <label>Name:</label>
-            <input type="text" name="name">
-            <br><br>
+        <label>Name:</label>
+        <input type="text" name="name" required>
+        <br><br>
 
-            <label>Email:</label>
-            <input type="email" name="email">
-            <br><br>
+        <label>Email:</label>
+        <input type="email" name="email" required>
+        <br><br>
 
-            <label>Date of Birth:</label>
-            <input type="text" name="date_of_birth">
-            <br><br>
+        <label>Date of Birth:</label>
+        <input type="text" name="date_of_birth">
+        <br><br>
 
-            <label>Phone Number:</label>
-            <input type="text" name="phone_number">
-            <br><br>
+        <label>Phone Number:</label>
+        <input type="text" name="phone_number" required>
+        <br><br>
 
-            <label>Location:</label>
-            <input type="text" name="location">
-            <br><br>
+        <label>Location:</label>
+        <input type="text" name="location">
+        <br><br>
 
 
-            <h2>Professional Summary</h2>
+        <h2>Professional Summary</h2>
 
-            <label>Summary:</label>
-            <textarea name="summary"></textarea>
-            <br><br>
+        <label>Summary:</label>
+        <textarea name="summary" required></textarea>
+        <br><br>
 
-            <h2>Education</h2>
+        <h2>Education</h2>
 
-            <div id="education-container">
+        <div id="education-container">
 
-                <div class="education-entry">
+            <div class="education-entry">
 
-                     <label>School:</label>
-                     <input type="text" name="school">
+                <label>School:</label>
+                <input type="text" name="school">
 
-                    <label>Degree:</label>
-                    <input type="text" name="degree">
+                <label>Degree:</label>
+                <input type="text" name="degree">
 
-                    <label>Field:</label>
-                    <input type="text" name="field">
+                <label>Field:</label>
+                <input type="text" name="field">
 
-                    <label>Start Year:</label>
-                    <input type="text" name="start_year">
+                <label>Start Year:</label>
+                <input type="text" name="start_year">
 
-                    <label>End Year:</label>
-                    <input type="text" name="end_year">
-
-                </div>
+                <label>End Year:</label>
+                <input type="text" name="end_year">
 
             </div>
 
-<button type="button" id="add-education">
-    + Add Another Education
-</button>
-            <h2>Work Experience</h2>
+        </div>
 
-            <div id="work-container">
-                <div class="work-entry">
-                    <label>Job Title:</label>
-                    <input type="text" name="job_title">
+        <button type="button" id="add-education">
+            + Add Another Education
+        </button>
+        <h2>Work Experience</h2>
 
-                    <label>Company:</label>
-                    <input type="text" name="company">
+        <div id="work-container">
+            <div class="work-entry">
+                <label>Job Title:</label>
+                <input type="text" name="job_title">
 
-                    <label>Location:</label>
-                    <input type="text" name="work_location">
+                <label>Company:</label>
+                <input type="text" name="company">
 
-                    <label>Start Date:</label>
-                    <input type="text" name="start_date">
+                <label>Location:</label>
+                <input type="text" name="work_location">
 
-                    <label>End Date:</label>
-                    <input type="text" name="end_date">
+                <label>Start Date:</label>
+                <input type="text" name="start_date">
 
-                    <label>Description:</label>
-                    <textarea name="description"></textarea>
-                </div>
+                <label>End Date:</label>
+                <input type="text" name="end_date">
+
+                <label>Description:</label>
+                <textarea name="description"></textarea>
             </div>
-            <button type="button" id="add-work">
-                + Add another Work Experience
-            </button>
+        </div>
+        <button type="button" id="add-work">
+            + Add another Work Experience
+        </button>
 
-            <label>Job Title:</label>
-            <input type="text" name="job_title">
-            <br><br>
+        <label>Job Title:</label>
+        <input type="text" name="job_title">
+        <br><br>
 
-            <label>Company:</label>
-            <input type="text" name="company">
-            <br><br>
+        <label>Company:</label>
+        <input type="text" name="company">
+        <br><br>
 
-            <label>Location:</label>
-            <input type="text" name="work_location">
-            <br><br>
+        <label>Location:</label>
+        <input type="text" name="work_location">
+        <br><br>
 
-            <label>Start Date:</label>
-            <input type="text" name="start_date">
-            <br><br>
+        <label>Start Date:</label>
+        <input type="text" name="start_date">
+        <br><br>
 
-            <label>End Date:</label>
-            <input type="text" name="end_date">
-            <br><br>
+        <label>End Date:</label>
+        <input type="text" name="end_date">
+        <br><br>
 
-            <label>Description:</label>
-            <textarea name="description"></textarea>
-            <br><br>
+        <label>Description:</label>
+        <textarea name="description"></textarea>
+        <br><br>
 
-            <h2>Skills</h2>
+        <h2>Skills</h2>
 
-           <div id="skills-container">
+        <div id="skills-container">
 
-          <div class="skill-entry">
-          <label>Skill:</label>
-          <input type="text" name="skill">
-    </div>
+            <div class="skill-entry">
+                <label>Skill:</label>
+                <input type="text" name="skill">
+            </div>
 
-   </div>
+        </div>
 
-   <button type="button" id="add-skill">
-    + Add Another Skill
-   </button>
-           
+        <button type="button" id="add-skill">
+            + Add Another Skill
+        </button>
 
-           <h2>Certifications</h2>
 
-            <div id="certifications-container">
+        <h2>Certifications</h2>
+
+        <div id="certifications-container">
 
             <div class="certification-entry">
 
-            <label>Certification Name:</label>
-            <input type="text" name="certification_name">
+                <label>Certification Name:</label>
+                <input type="text" name="certification_name">
 
-            <label>Organization:</label>
-            <input type="text" name="certification_organization">
+                <label>Organization:</label>
+                <input type="text" name="certification_organization">
 
-            <label>Date:</label>
-            <input type="text" name="certification_date">
+                <label>Date:</label>
+                <input type="text" name="certification_date">
 
-    </div>
-
-</div>
-
-<button type="button" id="add-certification">
-    + Add Another Certification
-</button> 
-
-
-
-            <h2>Projects</h2>
-
-            <div id="projects-container"></div>
-            <div class="project-entry">
-                <label> Project Name:</label>
-                <input type="text" name="project_name">
-
-                <label>Description:</label>
-                <textarea name="project_description"></textarea>
-
-                <label>Role:</label>
-                <input type="text" name="project_role">
-
-                <label>Tools:</label>
-                <input type="text" name="project_tools">
-
-                <label>Project Link:</label>
-                <input type="text" name="project_link">
             </div>
-            <button type="button" id="add-project">
-                + Add Another Project
-            </button>
 
-           <h2>Languages</h2>
+        </div>
 
-            <div id="languages-container">
+        <button type="button" id="add-certification">
+            + Add Another Certification
+        </button>
+
+
+
+        <h2>Projects</h2>
+
+        <div id="projects-container"></div>
+        <div class="project-entry">
+            <label> Project Name:</label>
+            <input type="text" name="project_name">
+
+            <label>Description:</label>
+            <textarea name="project_description"></textarea>
+
+            <label>Role:</label>
+            <input type="text" name="project_role">
+
+            <label>Tools:</label>
+            <input type="text" name="project_tools">
+
+            <label>Project Link:</label>
+            <input type="text" name="project_link">
+        </div>
+        <button type="button" id="add-project">
+            + Add Another Project
+        </button>
+
+        <h2>Languages</h2>
+
+        <div id="languages-container">
 
             <div class="language-entry">
 
-            <label>Language:</label>
-            <input type="text" name="language">
+                <label>Language:</label>
+                <input type="text" name="language">
 
-            <label>Proficiency:</label>
-            <input type="text" name="language_proficiency">
+                <label>Proficiency:</label>
+                <input type="text" name="language_proficiency">
 
-    </div>
+            </div>
 
-</div>
+        </div>
 
-<button type="button" id="add-language">
-    + Add Another Language
-</button>
+        <button type="button" id="add-language">
+            + Add Another Language
+        </button>
 
-            <h2>Achievements</h2>
+        <h2>Achievements</h2>
 
-            <div id="achievements-container">
+        <div id="achievements-container">
 
             <div class="achievement-entry">
 
-            <label>Achievement Title:</label>
-            <input type="text" name="achievement_title">
+                <label>Achievement Title:</label>
+                <input type="text" name="achievement_title">
 
-            <label>Description:</label>
-            <textarea name="achievement_description"></textarea>
+                <label>Description:</label>
+                <textarea name="achievement_description"></textarea>
 
-    </div>
+            </div>
 
-</div>
+        </div>
 
-<button type="button" id="add-achievement">
-    + Add Another Achievement
-</button>
+        <button type="button" id="add-achievement">
+            + Add Another Achievement
+        </button>
 
 
-            <h2>Volunteer Experience</h2>
+        <h2>Volunteer Experience</h2>
 
-            <div id="volunteer-container">
+        <div id="volunteer-container">
 
-           <div class="volunteer-entry">
+            <div class="volunteer-entry">
 
-        <label>Organization:</label>
-        <input type="text" name="volunteer_organization">
+                <label>Organization:</label>
+                <input type="text" name="volunteer_organization">
 
-        <label>Role:</label>
-        <input type="text" name="volunteer_role">
+                <label>Role:</label>
+                <input type="text" name="volunteer_role">
 
-        <label>Location:</label>
-        <input type="text" name="volunteer_location">
+                <label>Location:</label>
+                <input type="text" name="volunteer_location">
 
-        <label>Start Date:</label>
-        <input type="text" name="volunteer_start_date">
+                <label>Start Date:</label>
+                <input type="text" name="volunteer_start_date">
 
-        <label>End Date:</label>
-        <input type="text" name="volunteer_end_date">
+                <label>End Date:</label>
+                <input type="text" name="volunteer_end_date">
 
-        <label>Description:</label>
-        <textarea name="volunteer_description"></textarea>
+                <label>Description:</label>
+                <textarea name="volunteer_description"></textarea>
 
-    </div>
+            </div>
 
-</div>
+        </div>
 
-<button type="button" id="add-volunteer">
-    + Add Another Volunteer Experience
-</button>
+        <button type="button" id="add-volunteer">
+            + Add Another Volunteer Experience
+        </button>
 
 
 
@@ -286,48 +286,48 @@
 
         <div id="references-container">
 
-        <div class="reference-entry">
+            <div class="reference-entry">
 
-        <label>Name:</label>
-        <input type="text" name="reference_name">
+                <label>Name:</label>
+                <input type="text" name="reference_name">
 
-        <label>Relationship:</label>
-        <input type="text" name="reference_relationship">
+                <label>Relationship:</label>
+                <input type="text" name="reference_relationship">
 
-        <label>Organization:</label>
-        <input type="text" name="reference_organization">
+                <label>Organization:</label>
+                <input type="text" name="reference_organization">
 
-        <label>Email:</label>
-        <input type="email" name="reference_email">
+                <label>Email:</label>
+                <input type="email" name="reference_email">
 
-        <label>Phone Number:</label>
-        <input type="text" name="reference_phone_number">
+                <label>Phone Number:</label>
+                <input type="text" name="reference_phone_number">
 
-    </div>
+            </div>
 
-</div>
+        </div>
 
-<button type="button" id="add-reference">
-    + Add Another Reference
-</button>
+        <button type="button" id="add-reference">
+            + Add Another Reference
+        </button>
 
 
-            <button type="submit">Save Resume</button>
+        <button type="submit">Save Resume</button>
 
-        </form>
-        <a href="/" class="Back-to-Home">Back to Home</a>
+    </form>
+    <a href="/" class="Back-to-Home">Back to Home</a>
 
-        <script>
-    const educationContainer = document.getElementById("education-container");
-    const addEducationButton = document.getElementById("add-education");
+    <script>
+        const educationContainer = document.getElementById("education-container");
+        const addEducationButton = document.getElementById("add-education");
 
-    addEducationButton.addEventListener("click", function () {
+        addEducationButton.addEventListener("click", function () {
 
-        const educationEntry = document.createElement("div");
+            const educationEntry = document.createElement("div");
 
-        educationEntry.className = "education-entry";
+            educationEntry.className = "education-entry";
 
-        educationEntry.innerHTML = `
+            educationEntry.innerHTML = `
             <hr>
 
             <label>School:</label>
@@ -346,22 +346,22 @@
             <input type="text" name="end_year">
         `;
 
-        educationContainer.appendChild(educationEntry);
-    });
-</script>
+            educationContainer.appendChild(educationEntry);
+        });
+    </script>
 
 
-<script>
-    const workContainer = document.getElementById("work-container");
-    const addWorkButton = document.getElementById("add-work");
+    <script>
+        const workContainer = document.getElementById("work-container");
+        const addWorkButton = document.getElementById("add-work");
 
-    addWorkButton.addEventListener("click", function () {
+        addWorkButton.addEventListener("click", function () {
 
-        const workEntry = document.createElement("div");
+            const workEntry = document.createElement("div");
 
-        workEntry.className = "work-entry";
+            workEntry.className = "work-entry";
 
-        workEntry.innerHTML = `
+            workEntry.innerHTML = `
             <hr>
 
             <label>Job Title:</label>
@@ -383,39 +383,39 @@
             <textarea name="description"></textarea>
         `;
 
-        workContainer.appendChild(workEntry);
-    });
-</script>
+            workContainer.appendChild(workEntry);
+        });
+    </script>
 
-<script>
-    const skillsContainer = document.getElementById("skills-container");
-    const addSkillButton = document.getElementById("add-skill");
+    <script>
+        const skillsContainer = document.getElementById("skills-container");
+        const addSkillButton = document.getElementById("add-skill");
 
-    addSkillButton.addEventListener("click", function () {
+        addSkillButton.addEventListener("click", function () {
 
-        const skillEntry = document.createElement("div");
+            const skillEntry = document.createElement("div");
 
-        skillEntry.className = "skill-entry";
+            skillEntry.className = "skill-entry";
 
-        skillEntry.innerHTML = `
+            skillEntry.innerHTML = `
             <hr>
 
             <label>Skill:</label>
             <input type="text" name="skill">
         `;
 
-        skillsContainer.appendChild(skillEntry);
-    });
-</script>
+            skillsContainer.appendChild(skillEntry);
+        });
+    </script>
 
-<script>
-    const projectsContainer = document.getElementById("projects-container");
-    const addProjectButton = document.getElementById("add-project");
+    <script>
+        const projectsContainer = document.getElementById("projects-container");
+        const addProjectButton = document.getElementById("add-project");
 
-    addProjectButton.addEventListener("click", function () {
-        const projectEntry = document.createElement("div");
-        projectEntry.className = "project-entry";
-        projectEntry.innerHTML = `
+        addProjectButton.addEventListener("click", function () {
+            const projectEntry = document.createElement("div");
+            projectEntry.className = "project-entry";
+            projectEntry.innerHTML = `
             <hr>
             <label> Project Name:</label>
                 <input type="text" name="project_name">
@@ -432,22 +432,22 @@
                 <label>Project Link:</label>
                 <input type="text" name="project_link">
                 `;
-                projectsContainer.appendChild(projectEntry);
-    });
-</script>
+            projectsContainer.appendChild(projectEntry);
+        });
+    </script>
 
 
-<script>
-    const languagesContainer = document.getElementById("languages-container");
-    const addLanguageButton = document.getElementById("add-language");
+    <script>
+        const languagesContainer = document.getElementById("languages-container");
+        const addLanguageButton = document.getElementById("add-language");
 
-    addLanguageButton.addEventListener("click", function () {
+        addLanguageButton.addEventListener("click", function () {
 
-        const languageEntry = document.createElement("div");
+            const languageEntry = document.createElement("div");
 
-        languageEntry.className = "language-entry";
+            languageEntry.className = "language-entry";
 
-        languageEntry.innerHTML = `
+            languageEntry.innerHTML = `
             <hr>
 
             <label>Language:</label>
@@ -457,24 +457,24 @@
             <input type="text" name="language_proficiency">
         `;
 
-        languagesContainer.appendChild(languageEntry);
-    });
-</script>
+            languagesContainer.appendChild(languageEntry);
+        });
+    </script>
 
-<script>
-    const achievementsContainer =
-        document.getElementById("achievements-container");
+    <script>
+        const achievementsContainer =
+            document.getElementById("achievements-container");
 
-    const addAchievementButton =
-        document.getElementById("add-achievement");
+        const addAchievementButton =
+            document.getElementById("add-achievement");
 
-    addAchievementButton.addEventListener("click", function () {
+        addAchievementButton.addEventListener("click", function () {
 
-        const achievementEntry = document.createElement("div");
+            const achievementEntry = document.createElement("div");
 
-        achievementEntry.className = "achievement-entry";
+            achievementEntry.className = "achievement-entry";
 
-        achievementEntry.innerHTML = `
+            achievementEntry.innerHTML = `
             <hr>
 
             <label>Achievement Title:</label>
@@ -484,25 +484,25 @@
             <textarea name="achievement_description"></textarea>
         `;
 
-        achievementsContainer.appendChild(achievementEntry);
-    });
-</script>
+            achievementsContainer.appendChild(achievementEntry);
+        });
+    </script>
 
 
-<script>
-    const volunteerContainer =
-        document.getElementById("volunteer-container");
+    <script>
+        const volunteerContainer =
+            document.getElementById("volunteer-container");
 
-    const addVolunteerButton =
-        document.getElementById("add-volunteer");
+        const addVolunteerButton =
+            document.getElementById("add-volunteer");
 
-    addVolunteerButton.addEventListener("click", function () {
+        addVolunteerButton.addEventListener("click", function () {
 
-        const volunteerEntry = document.createElement("div");
+            const volunteerEntry = document.createElement("div");
 
-        volunteerEntry.className = "volunteer-entry";
+            volunteerEntry.className = "volunteer-entry";
 
-        volunteerEntry.innerHTML = `
+            volunteerEntry.innerHTML = `
             <hr>
 
             <label>Organization:</label>
@@ -524,25 +524,25 @@
             <textarea name="volunteer_description"></textarea>
         `;
 
-        volunteerContainer.appendChild(volunteerEntry);
-    });
-</script>
+            volunteerContainer.appendChild(volunteerEntry);
+        });
+    </script>
 
 
-<script>
-    const certificationsContainer =
-        document.getElementById("certifications-container");
+    <script>
+        const certificationsContainer =
+            document.getElementById("certifications-container");
 
-    const addCertificationButton =
-        document.getElementById("add-certification");
+        const addCertificationButton =
+            document.getElementById("add-certification");
 
-    addCertificationButton.addEventListener("click", function () {
+        addCertificationButton.addEventListener("click", function () {
 
-        const certificationEntry = document.createElement("div");
+            const certificationEntry = document.createElement("div");
 
-        certificationEntry.className = "certification-entry";
+            certificationEntry.className = "certification-entry";
 
-        certificationEntry.innerHTML = `
+            certificationEntry.innerHTML = `
             <hr>
 
             <label>Certification Name:</label>
@@ -555,25 +555,25 @@
             <input type="text" name="certification_date">
         `;
 
-        certificationsContainer.appendChild(certificationEntry);
-    });
-</script>
+            certificationsContainer.appendChild(certificationEntry);
+        });
+    </script>
 
 
-<script>
-    const referencesContainer =
-        document.getElementById("references-container");
+    <script>
+        const referencesContainer =
+            document.getElementById("references-container");
 
-    const addReferenceButton =
-        document.getElementById("add-reference");
+        const addReferenceButton =
+            document.getElementById("add-reference");
 
-    addReferenceButton.addEventListener("click", function () {
+        addReferenceButton.addEventListener("click", function () {
 
-        const referenceEntry = document.createElement("div");
+            const referenceEntry = document.createElement("div");
 
-        referenceEntry.className = "reference-entry";
+            referenceEntry.className = "reference-entry";
 
-        referenceEntry.innerHTML = `
+            referenceEntry.innerHTML = `
             <hr>
 
             <label>Name:</label>
@@ -592,8 +592,9 @@
             <input type="text" name="reference_phone_number">
         `;
 
-        referencesContainer.appendChild(referenceEntry);
-    });
-</script>
-    </body>
+            referencesContainer.appendChild(referenceEntry);
+        });
+    </script>
+</body>
+
 </html>
