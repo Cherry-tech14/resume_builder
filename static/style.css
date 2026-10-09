@@ -481,3 +481,24 @@ body {
         display: none;
     }
 }
+
+.validation-errors {
+    background-color: #fff1f2;
+    border: 1px solid #fda4af;
+    border-radius: 8px;
+    color: #9f1239;
+    padding: 15px 20px;
+    margin-bottom: 25px;
+}
+
+.validation-errors h3 {
+    margin-bottom: 10px;
+}
+
+.validation-errors ul {
+    padding-left: 20px;
+}
+
+.validation-errors li {
+    margin-bottom: 6px;
+}

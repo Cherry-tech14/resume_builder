@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Edit Resume</title>
 
-    <link 
-    rel="stylesheet" 
-    href="{{ url_for('static', filename='style.css') }}"
-    >
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
@@ -16,110 +14,77 @@
     <h2>Personal Information</h2>
 
     <form method="POST" class="resume-form">
+        {% if errors %}
+        <div class="validation-errors">
+            <h3>Please correct the following errors:</h3>
+
+            <ul>
+                {% for error in errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
 
         <label>Name:</label>
-        <input
-            type="text"
-            name="name"
-            value="{{ resume['personal_information']['name'] }}"
-        >
+        <input type="text" name="name" value="{{ resume['personal_information']['name'] }}" required>
 
         <br><br>
 
         <label>Email:</label>
-        <input
-            type="email"
-            name="email"
-            value="{{ resume['personal_information']['email'] }}"
-        >
+        <input type="email" name="email" value="{{ resume['personal_information']['email'] }}" required>
 
         <br><br>
 
         <label>Date of Birth:</label>
-        <input
-            type="text"
-            name="date_of_birth"
-            value="{{ resume['personal_information']['date_of_birth'] }}"
-        >
+        <input type="text" name="date_of_birth" value="{{ resume['personal_information']['date_of_birth'] }}">
 
         <br><br>
 
         <label>Phone Number:</label>
-        <input
-            type="text"
-            name="phone_number"
-            value="{{ resume['personal_information']['phone_number'] }}"
-        >
+        <input type="text" name="phone_number" value="{{ resume['personal_information']['phone_number'] }}" required>
 
         <br><br>
 
         <label>Location:</label>
-        <input
-            type="text"
-            name="location"
-            value="{{ resume['personal_information']['location'] }}"
-        >
+        <input type="text" name="location" value="{{ resume['personal_information']['location'] }}">
 
         <br><br>
 
-        
-          <h2>Professional Summary</h2>
+
+        <h2>Professional Summary</h2>
         <label>Summary</label>
         <br>
-        <textarea
-        name="summary"
-        rows="6"
-        cols="50"
-        >{{  resume["summary"] }}</textarea>
+        <textarea name="summary" rows="6" cols="50" required>{{  resume["summary"] }}</textarea>
 
         <br><br>
-        
+
         <h2>Education</h2>
 
         {% for education in resume["education"] %}
 
         <label>School:</label>
-        <input
-        type="text"
-        name="school_{{ education['id'] }}"
-        value="{{ education['school'] }}"
-        >
+        <input type="text" name="school_{{ education['id'] }}" value="{{ education['school'] }}">
 
         <br><br>
 
         <label>Degree:</label>
-        <input
-        type="text"
-        name="degree_{{ education['id'] }}"
-        value="{{ education['degree'] }}"
-        >
+        <input type="text" name="degree_{{ education['id'] }}" value="{{ education['degree'] }}">
 
         <br><br>
 
         <label>Field:</label>
-        <input
-        type="text"
-        name="field_{{ education['id'] }}"
-        value="{{ education['field'] }}"
-        >
+        <input type="text" name="field_{{ education['id'] }}" value="{{ education['field'] }}">
 
         <br><br>
 
         <label>Start Year:</label>
-        <input
-        type="text"
-        name="start_year_{{ education['id'] }}"
-        value="{{ education['start_year'] }}"
-         >
+        <input type="text" name="start_year_{{ education['id'] }}" value="{{ education['start_year'] }}">
 
         <br><br>
 
         <label>End Year:</label>
-        <input
-        type="text"
-        name="end_year_{{ education['id'] }}"
-        value="{{ education['end_year'] }}"
-        >
+        <input type="text" name="end_year_{{ education['id'] }}" value="{{ education['end_year'] }}">
 
         <hr>
 
@@ -130,56 +95,33 @@
         {% for experience in resume["work_experience"] %}
 
         <label>Job Title:</label>
-        <input
-        type="text"
-        name="job_title_{{ experience['id'] }}"
-        value="{{ experience['job_title'] }}"
-        >
+        <input type="text" name="job_title_{{ experience['id'] }}" value="{{ experience['job_title'] }}">
 
         <br><br>
 
         <label>Company:</label>
-        <input
-        type="text"
-        name="company_{{ experience['id'] }}"
-        value="{{ experience['company'] }}"
-        >
+        <input type="text" name="company_{{ experience['id'] }}" value="{{ experience['company'] }}">
 
         <br><br>
 
         <label>Location:</label>
-        <input
-        type="text"
-        name="work_location_{{ experience['id'] }}"
-        value="{{ experience['location'] }}"
-        >
+        <input type="text" name="work_location_{{ experience['id'] }}" value="{{ experience['location'] }}">
 
         <br><br>
 
         <label>Start Date:</label>
-        <input
-        type="text"
-        name="start_date_{{ experience['id'] }}"
-        value="{{ experience['start_date'] }}"
-        >
+        <input type="text" name="start_date_{{ experience['id'] }}" value="{{ experience['start_date'] }}">
 
         <br><br>
 
         <label>End Date:</label>
-        <input
-        type="text"
-        name="end_date_{{ experience['id'] }}"
-        value="{{ experience['end_date'] }}"
-        >
+        <input type="text" name="end_date_{{ experience['id'] }}" value="{{ experience['end_date'] }}">
 
         <br><br>
 
         <label>Description:</label>
-        <textarea
-        name="description_{{ experience['id'] }}"
-        rows="5"
-        cols="50"
-        >{{ experience['description'] }}</textarea>
+        <textarea name="description_{{ experience['id'] }}" rows="5"
+            cols="50">{{ experience['description'] }}</textarea>
 
         <hr>
 
@@ -187,280 +129,186 @@
 
         <h2>Skills</h2>
 
-{% for skill in resume["skills"] %}
+        {% for skill in resume["skills"] %}
 
-<label>Skill:</label>
-<input
-    type="text"
-    name="skill_{{ skill['id'] }}"
-    value="{{ skill['skill'] }}"
->
+        <label>Skill:</label>
+        <input type="text" name="skill_{{ skill['id'] }}" value="{{ skill['skill'] }}">
 
-<br><br>
+        <br><br>
 
-{% endfor %}
+        {% endfor %}
 
-<label>Add New Skill:</label>
-<input
-    type="text"
-    name="new_skill"
->
+        <label>Add New Skill:</label>
+        <input type="text" name="new_skill">
 
-<br><br>
+        <br><br>
 
         <h2>Certifications</h2>
 
-{% for certification in resume["certifications"] %}
+        {% for certification in resume["certifications"] %}
 
-    <label>Name:</label>
-    <input
-        type="text"
-        name="certification_name_{{ certification['id'] }}"
-        value="{{ certification['name'] }}"
-    >
+        <label>Name:</label>
+        <input type="text" name="certification_name_{{ certification['id'] }}" value="{{ certification['name'] }}">
 
-    <br><br>
+        <br><br>
 
-    <label>Organization:</label>
-    <input
-        type="text"
-        name="certification_organization_{{ certification['id'] }}"
-        value="{{ certification['organization'] }}"
-    >
+        <label>Organization:</label>
+        <input type="text" name="certification_organization_{{ certification['id'] }}"
+            value="{{ certification['organization'] }}">
 
-    <br><br>
+        <br><br>
 
-    <label>Date:</label>
-    <input
-        type="text"
-        name="certification_date_{{ certification['id'] }}"
-        value="{{ certification['date'] }}"
-    >
+        <label>Date:</label>
+        <input type="text" name="certification_date_{{ certification['id'] }}" value="{{ certification['date'] }}">
 
-    <br><br>
+        <br><br>
 
-    <hr>
+        <hr>
 
-{% endfor %}
+        {% endfor %}
 
-<h2>Projects</h2>
+        <h2>Projects</h2>
 
-{% for project in resume["projects"] %}
+        {% for project in resume["projects"] %}
 
-<label>Project Name:</label>
-<input
-    type="text"
-    name="project_name_{{ project['id'] }}"
-    value="{{ project['project_name'] }}"
->
+        <label>Project Name:</label>
+        <input type="text" name="project_name_{{ project['id'] }}" value="{{ project['project_name'] }}">
 
-<br><br>
+        <br><br>
 
-<label>Description:</label>
-<textarea
-    name="project_description_{{ project['id'] }}"
-    rows="5"
-    cols="50"
->{{ project['description'] }}</textarea>
+        <label>Description:</label>
+        <textarea name="project_description_{{ project['id'] }}" rows="5"
+            cols="50">{{ project['description'] }}</textarea>
 
-<br><br>
+        <br><br>
 
-<label>Role:</label>
-<input
-    type="text"
-    name="project_role_{{ project['id'] }}"
-    value="{{ project['role'] }}"
->
+        <label>Role:</label>
+        <input type="text" name="project_role_{{ project['id'] }}" value="{{ project['role'] }}">
 
-<br><br>
+        <br><br>
 
-<label>Tools:</label>
-<input
-    type="text"
-    name="project_tools_{{ project['id'] }}"
-    value="{{ project['tools'] }}"
->
+        <label>Tools:</label>
+        <input type="text" name="project_tools_{{ project['id'] }}" value="{{ project['tools'] }}">
 
-<br><br>
+        <br><br>
 
-<label>Project Link:</label>
-<input
-    type="text"
-    name="project_link_{{ project['id'] }}"
-    value="{{ project['project_link'] }}"
->
+        <label>Project Link:</label>
+        <input type="text" name="project_link_{{ project['id'] }}" value="{{ project['project_link'] }}">
 
-<hr>
+        <hr>
 
-{% endfor %}
+        {% endfor %}
 
-<h2>Languages</h2>
+        <h2>Languages</h2>
 
-{% for language in resume["languages"] %}
+        {% for language in resume["languages"] %}
 
-<label>Language:</label>
-<input
-    type="text"
-    name="language_{{ language['id'] }}"
-    value="{{ language['language'] }}"
->
+        <label>Language:</label>
+        <input type="text" name="language_{{ language['id'] }}" value="{{ language['language'] }}">
 
-<br><br>
+        <br><br>
 
-<label>Proficiency:</label>
-<input
-    type="text"
-    name="language_proficiency_{{ language['id'] }}"
-    value="{{ language['proficiency'] }}"
->
+        <label>Proficiency:</label>
+        <input type="text" name="language_proficiency_{{ language['id'] }}" value="{{ language['proficiency'] }}">
 
-<br><br>
+        <br><br>
 
-<hr>
+        <hr>
 
-{% endfor %}
+        {% endfor %}
 
-<h2>Achievements</h2>
+        <h2>Achievements</h2>
 
-{% for achievement in resume["achievements"] %}
+        {% for achievement in resume["achievements"] %}
 
-<label>Title:</label>
-<input
-    type="text"
-    name="achievement_title_{{ achievement['id'] }}"
-    value="{{ achievement['title'] }}"
->
+        <label>Title:</label>
+        <input type="text" name="achievement_title_{{ achievement['id'] }}" value="{{ achievement['title'] }}">
 
-<br><br>
+        <br><br>
 
-<label>Description:</label>
-<textarea
-    name="achievement_description_{{ achievement['id'] }}"
-    rows="5"
-    cols="50"
->{{ achievement['description'] }}</textarea>
+        <label>Description:</label>
+        <textarea name="achievement_description_{{ achievement['id'] }}" rows="5"
+            cols="50">{{ achievement['description'] }}</textarea>
 
-<br><br>
+        <br><br>
 
-<hr>
+        <hr>
 
-{% endfor %}
+        {% endfor %}
 
-<h2>Volunteer Experience</h2>
+        <h2>Volunteer Experience</h2>
 
-{% for volunteer in resume["volunteer_experience"] %}
+        {% for volunteer in resume["volunteer_experience"] %}
 
-<label>Organization:</label>
-<input
-    type="text"
-    name="volunteer_organization_{{ volunteer['id'] }}"
-    value="{{ volunteer['organization'] }}"
->
+        <label>Organization:</label>
+        <input type="text" name="volunteer_organization_{{ volunteer['id'] }}" value="{{ volunteer['organization'] }}">
 
-<br><br>
+        <br><br>
 
-<label>Role:</label>
-<input
-    type="text"
-    name="volunteer_role_{{ volunteer['id'] }}"
-    value="{{ volunteer['role'] }}"
->
+        <label>Role:</label>
+        <input type="text" name="volunteer_role_{{ volunteer['id'] }}" value="{{ volunteer['role'] }}">
 
-<br><br>
+        <br><br>
 
-<label>Location:</label>
-<input
-    type="text"
-    name="volunteer_location_{{ volunteer['id'] }}"
-    value="{{ volunteer['location'] }}"
->
+        <label>Location:</label>
+        <input type="text" name="volunteer_location_{{ volunteer['id'] }}" value="{{ volunteer['location'] }}">
 
-<br><br>
+        <br><br>
 
-<label>Start Date:</label>
-<input
-    type="text"
-    name="volunteer_start_date_{{ volunteer['id'] }}"
-    value="{{ volunteer['start_date'] }}"
->
+        <label>Start Date:</label>
+        <input type="text" name="volunteer_start_date_{{ volunteer['id'] }}" value="{{ volunteer['start_date'] }}">
 
-<br><br>
+        <br><br>
 
-<label>End Date:</label>
-<input
-    type="text"
-    name="volunteer_end_date_{{ volunteer['id'] }}"
-    value="{{ volunteer['end_date'] }}"
->
+        <label>End Date:</label>
+        <input type="text" name="volunteer_end_date_{{ volunteer['id'] }}" value="{{ volunteer['end_date'] }}">
 
-<br><br>
+        <br><br>
 
-<label>Description:</label>
-<textarea
-    name="volunteer_description_{{ volunteer['id'] }}"
-    rows="5"
-    cols="50"
->{{ volunteer['description'] }}</textarea>
+        <label>Description:</label>
+        <textarea name="volunteer_description_{{ volunteer['id'] }}" rows="5"
+            cols="50">{{ volunteer['description'] }}</textarea>
 
-<hr>
+        <hr>
 
-{% endfor %}
+        {% endfor %}
 
-<h2>References</h2>
+        <h2>References</h2>
 
-{% for reference in resume["references"] %}
+        {% for reference in resume["references"] %}
 
-<label>Name:</label>
-<input
-    type="text"
-    name="reference_name_{{ reference['id'] }}"
-    value="{{ reference['name'] }}"
->
+        <label>Name:</label>
+        <input type="text" name="reference_name_{{ reference['id'] }}" value="{{ reference['name'] }}">
 
-<br><br>
+        <br><br>
 
-<label>Relationship:</label>
-<input
-    type="text"
-    name="reference_relationship_{{ reference['id'] }}"
-    value="{{ reference['relationship'] }}"
->
+        <label>Relationship:</label>
+        <input type="text" name="reference_relationship_{{ reference['id'] }}" value="{{ reference['relationship'] }}">
 
-<br><br>
+        <br><br>
 
-<label>Organization:</label>
-<input
-    type="text"
-    name="reference_organization_{{ reference['id'] }}"
-    value="{{ reference['organization'] }}"
->
+        <label>Organization:</label>
+        <input type="text" name="reference_organization_{{ reference['id'] }}" value="{{ reference['organization'] }}">
 
-<br><br>
+        <br><br>
 
-<label>Email:</label>
-<input
-    type="email"
-    name="reference_email_{{ reference['id'] }}"
-    value="{{ reference['email'] }}"
->
+        <label>Email:</label>
+        <input type="email" name="reference_email_{{ reference['id'] }}" value="{{ reference['email'] }}">
 
-<br><br>
+        <br><br>
 
-<label>Phone Number:</label>
-<input
-    type="text"
-    name="reference_phone_number_{{ reference['id'] }}"
-    value="{{ reference['phone_number'] }}"
->
+        <label>Phone Number:</label>
+        <input type="text" name="reference_phone_number_{{ reference['id'] }}" value="{{ reference['phone_number'] }}">
 
-<hr>
+        <hr>
 
-{% endfor %}
+        {% endfor %}
 
         <button type="submit">Save Changes</button>
-       
+
     </form>
     <a href="/" class="back-home-link">Back To Home</a>
 
 </body>
+
 </html>
