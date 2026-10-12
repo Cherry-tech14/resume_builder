@@ -1,0 +1,21 @@
+# Python virtual environment
+.venv/
+venv/
+
+# API keys
+.env
+
+
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# Database
+resume.db
+
+# Vs Code settings
+.vscode/
+
+# Operating system files
+.DS_Store
