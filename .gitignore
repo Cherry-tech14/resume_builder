@@ -16,6 +16,3 @@ resume.db
 
 # Vs Code settings
 .vscode/
-
-# Operating system files
-.DS_Store
