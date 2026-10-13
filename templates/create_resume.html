@@ -46,7 +46,7 @@
         <br><br>
 
         <label>Date of Birth:</label>
-        <input type="text" name="date_of_birth">
+        <input type="date" name="date_of_birth">
         <br><br>
 
         <label>Phone Number:</label>
@@ -61,7 +61,21 @@
         <h2>Professional Summary</h2>
 
         <label>Summary:</label>
-        <textarea name="summary" required></textarea>
+
+        <textarea 
+            name="summary"
+            id="summary" 
+            required
+            placeholder="Write your professional summary or generate one with AI"
+            ></textarea>
+        <br><br>
+
+        <button type="button" id="generate-summary">
+            Generate Summary with AI
+        </button>
+
+        <p id="ai-status"></p>
+
         <br><br>
 
         <h2>Education</h2>
@@ -106,10 +120,10 @@
                 <input type="text" name="work_location">
 
                 <label>Start Date:</label>
-                <input type="text" name="start_date">
+                <input type="date" name="start_date">
 
                 <label>End Date:</label>
-                <input type="text" name="end_date">
+                <input type="date" name="end_date">
 
                 <label>Description:</label>
                 <textarea name="description"></textarea>
@@ -132,11 +146,11 @@
         <br><br>
 
         <label>Start Date:</label>
-        <input type="text" name="start_date">
+        <input type="date" name="start_date">
         <br><br>
 
         <label>End Date:</label>
-        <input type="text" name="end_date">
+        <input type="date" name="end_date">
         <br><br>
 
         <label>Description:</label>
@@ -172,7 +186,7 @@
                 <input type="text" name="certification_organization">
 
                 <label>Date:</label>
-                <input type="text" name="certification_date">
+                <input type="date" name="certification_date">
 
             </div>
 
@@ -264,10 +278,10 @@
                 <input type="text" name="volunteer_location">
 
                 <label>Start Date:</label>
-                <input type="text" name="volunteer_start_date">
+                <input type="date" name="volunteer_start_date">
 
                 <label>End Date:</label>
-                <input type="text" name="volunteer_end_date">
+                <input type="date" name="volunteer_end_date">
 
                 <label>Description:</label>
                 <textarea name="volunteer_description"></textarea>
@@ -595,6 +609,65 @@
             referencesContainer.appendChild(referenceEntry);
         });
     </script>
+
+    <script>
+    const generateButton = document.getElementById("generate-summary");
+    const summaryField = document.getElementById("summary");
+    const aiStatus = document.getElementById("ai-status");
+
+    generateButton.addEventListener("click", async function () {
+
+        const jobTitle = document.querySelector(
+            'input[name="job_title"]'
+        ).value;
+
+        const skills = Array.from(
+            document.querySelectorAll('input[name="skill"]')
+        )
+        .map(input => input.value.trim())
+        .filter(value => value !== "");
+
+        if (!jobTitle.trim() && skills.length === 0) {
+            aiStatus.textContent =
+                "Please enter a job title or at least one skill.";
+            return;
+        }
+
+        aiStatus.textContent = "Generating your professional summary...";
+        generateButton.disabled = true;
+
+        try {
+            const response = await fetch("/generate-summary", {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    job_title: jobTitle,
+                    skills: skills
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || "Unable to generate summary.");
+            }
+
+            summaryField.value = data.summary;
+
+            aiStatus.textContent = "Your professional summary is ready!";
+
+        } catch (error) {
+            aiStatus.textContent = error.message;
+
+        } finally {
+            generateButton.disabled = false;
+        }
+    });
+</script>
 </body>
 
 </html>

@@ -1,10 +1,20 @@
-from flask import Flask, render_template, request, redirect, session, flash
+from flask import Flask, render_template, request, redirect, session, flash, jsonify
 from weasyprint import HTML
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_all_resumes
 from database import delete_resume
 import re
 from datetime import datetime
+import os
+from dotenv import load_dotenv
+from google import genai
+
+load_dotenv()
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+if GEMINI_API_KEY:
+    client = genai.Client(api_key=GEMINI_API_KEY)
+else:
+    client = None
 
 from database import (
     get_complete_resume,
@@ -132,6 +142,75 @@ def validate_dates(start, end, section):
 def home():
     return render_template("index.html")
 
+@app.route("/generate-summary", methods=["POST"])
+def generate_summary():
+
+    if "user_id" not in session:
+        return jsonify({"error": "Please log in first."}), 401
+
+    if client is None:
+        return jsonify({"error": "Gemini API key is not configured."}), 503
+
+    data = request.get_json(silent=True)
+
+    if not isinstance(data, dict):
+        return jsonify({"error": "Invalid request data."}), 400
+
+    job_title = data.get("job_title", "")
+    skills = data.get("skills", [])
+
+    if not isinstance(job_title, str) or not isinstance(skills, list):
+        return jsonify({"error": "Invalid job title or skills."}), 400
+
+    if not all(isinstance(skill, str) for skill in skills):
+        return jsonify({"error": "Skills must be text."}), 400
+
+    job_title = job_title.strip()[:150]
+    skills = [skill.strip()[:100] for skill in skills[:30] if skill.strip()]
+
+    if not job_title and not skills:
+        return jsonify({
+            "error": "Please enter a job title or at least one skill."
+        }), 400
+
+    prompt = f"""
+    Write a professional resume summary using the information below.
+
+    Job title: {job_title or "Not provided"}
+    Skills: {", ".join(skills) if skills else "Not provided"}
+
+    Requirements:
+    - Write 2 to 3 sentences.
+    - Use professional, clear language.
+    - Highlight the skills provided.
+    - Do not invent qualifications, achievements, or work experience.
+    - Do not claim years of experience unless explicitly provided.
+    - Do not include a heading.
+    - Return only the professional summary.
+    """
+
+    try:
+        response = client.models.generate_content(
+            model="gemini-3.8-flash",
+            contents=prompt
+        )
+
+        summary = (response.text or "").strip()
+
+        if not summary:
+            return jsonify({
+                "error": "Gemini returned an empty summary. Please try again."
+            }), 502
+
+        return jsonify({"summary": summary})
+
+    except Exception:
+        app.logger.exception("Gemini summary generation failed")
+
+        return jsonify({
+            "error": "Unable to generate a summary right now. Please try again."
+        }), 503
+
 
 @app.route("/create", methods=["GET", "POST"])
 def create_resume():
@@ -146,7 +225,7 @@ def create_resume():
                 errors=errors
             ), 400
 
-            name = request.form["name"].strip()
+        name = request.form["name"].strip()
         email = request.form["email"]
         date_of_birth = request.form["date_of_birth"]
         phone_number = request.form["phone_number"]

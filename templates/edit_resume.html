@@ -37,7 +37,7 @@
         <br><br>
 
         <label>Date of Birth:</label>
-        <input type="text" name="date_of_birth" value="{{ resume['personal_information']['date_of_birth'] }}">
+        <input type="date" name="date_of_birth" value="{{ resume['personal_information']['date_of_birth'] }}">
 
         <br><br>
 
@@ -110,12 +110,12 @@
         <br><br>
 
         <label>Start Date:</label>
-        <input type="text" name="start_date_{{ experience['id'] }}" value="{{ experience['start_date'] }}">
+        <input type="date" name="start_date_{{ experience['id'] }}" value="{{ experience['start_date'] }}">
 
         <br><br>
 
         <label>End Date:</label>
-        <input type="text" name="end_date_{{ experience['id'] }}" value="{{ experience['end_date'] }}">
+        <input type="date" name="end_date_{{ experience['id'] }}" value="{{ experience['end_date'] }}">
 
         <br><br>
 
@@ -159,7 +159,7 @@
         <br><br>
 
         <label>Date:</label>
-        <input type="text" name="certification_date_{{ certification['id'] }}" value="{{ certification['date'] }}">
+        <input type="date" name="certification_date_{{ certification['id'] }}" value="{{ certification['date'] }}">
 
         <br><br>
 
@@ -256,12 +256,12 @@
         <br><br>
 
         <label>Start Date:</label>
-        <input type="text" name="volunteer_start_date_{{ volunteer['id'] }}" value="{{ volunteer['start_date'] }}">
+        <input type="date" name="volunteer_start_date_{{ volunteer['id'] }}" value="{{ volunteer['start_date'] }}">
 
         <br><br>
 
         <label>End Date:</label>
-        <input type="text" name="volunteer_end_date_{{ volunteer['id'] }}" value="{{ volunteer['end_date'] }}">
+        <input type="date" name="volunteer_end_date_{{ volunteer['id'] }}" value="{{ volunteer['end_date'] }}">
 
         <br><br>
 
