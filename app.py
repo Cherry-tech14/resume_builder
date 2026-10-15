@@ -211,6 +211,67 @@ def generate_summary():
             "error": "Unable to generate a summary right now. Please try again."
         }), 503
 
+@app.route("/generate-description", methods=["POST"])
+def generate_description():
+
+    if "user_id" not in session:
+        return jsonify({"error": "Please log in first."}), 401
+
+    data = request.get_json(silent=True) or {}
+
+    job_title = data.get("job_title", "").strip()
+    description = data.get("description", "").strip()
+
+    if not job_title or not description:
+        return jsonify({
+            "error": "Job title and description are required."
+        }), 400
+
+    if client is None:
+        return jsonify({
+            "error": "Gemini AI is not configured."
+        }), 503
+
+    prompt = f"""
+    You are a professional resume writing assistant.
+
+    Improve the following work experience description.
+
+    Job Title: {job_title}
+
+    Original Description: {description}
+
+    Requirements:
+    - Use professional resume language.
+    - Use clear and concise sentences.
+    - Start statements with strong action verbs.
+    - Do not invent responsibilities, achievements, or statistics.
+    - Preserve the user's actual experience.
+    - Return only the improved description.
+    """
+
+    try:
+        response = client.models.generate_content(
+            model="gemini-3.8-flash",
+            contents=prompt
+        )
+
+        improved_description = (response.text or "").strip()
+
+        if not improved_description:
+            return jsonify({
+                "error": "AI returned an empty description."
+            }), 502
+
+        return jsonify({
+            "description": improved_description
+        })
+
+    except Exception:
+        app.logger.exception("Gemini description generation failed")
+        return jsonify({
+            "error": "Unable to improve the description right now. Please try again."
+        }), 500
 
 @app.route("/create", methods=["GET", "POST"])
 def create_resume():

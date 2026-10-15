@@ -94,10 +94,10 @@
                 <input type="text" name="field">
 
                 <label>Start Year:</label>
-                <input type="text" name="start_year">
+                <input type="date" name="start_year">
 
                 <label>End Year:</label>
-                <input type="text" name="end_year">
+                <input type="date" name="end_year">
 
             </div>
 
@@ -106,6 +106,8 @@
         <button type="button" id="add-education">
             + Add Another Education
         </button>
+       
+       
         <h2>Work Experience</h2>
 
         <div id="work-container">
@@ -127,35 +129,16 @@
 
                 <label>Description:</label>
                 <textarea name="description"></textarea>
+
+                <button  type="button" class="improve-description">
+                    Improve Description with AI
+                </button>
+                <p class="description-status"></p>
             </div>
         </div>
         <button type="button" id="add-work">
             + Add another Work Experience
         </button>
-
-        <label>Job Title:</label>
-        <input type="text" name="job_title">
-        <br><br>
-
-        <label>Company:</label>
-        <input type="text" name="company">
-        <br><br>
-
-        <label>Location:</label>
-        <input type="text" name="work_location">
-        <br><br>
-
-        <label>Start Date:</label>
-        <input type="date" name="start_date">
-        <br><br>
-
-        <label>End Date:</label>
-        <input type="date" name="end_date">
-        <br><br>
-
-        <label>Description:</label>
-        <textarea name="description"></textarea>
-        <br><br>
 
         <h2>Skills</h2>
 
@@ -395,6 +378,12 @@
 
             <label>Description:</label>
             <textarea name="description"></textarea>
+
+            <button type="button" class="improve-description">
+                Improve Description with AI
+            </button>
+
+            <p class="description-status"></p>
         `;
 
             workContainer.appendChild(workEntry);
@@ -665,6 +654,64 @@
 
         } finally {
             generateButton.disabled = false;
+        }
+    });
+</script>
+
+<script>
+    document.getElementById("work-container").addEventListener("click", async function (event) {
+
+        if (!event.target.classList.contains("improve-description")) {
+            return;
+        }
+
+        const button = event.target;
+
+        const workEntry = button.closest(".work-entry");
+
+        const jobTitle = workEntry.querySelector('[name="job_title"]').value.trim();
+
+        const descriptionField = workEntry.querySelector('[name="description"]');
+
+        const description = descriptionField.value.trim();
+
+        const status = workEntry.querySelector(".description-status");
+
+        if (!jobTitle || !description) {
+            status.textContent = "Please enter a job title and description first.";
+            return;
+        }
+
+        button.disabled = true;
+        status.textContent = "Generating description...";
+
+        try {
+            const response = await fetch("/generate-description", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    job_title: jobTitle,
+                    description: description
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || "Unable to generate description.");
+            }
+
+            descriptionField.value = data.description;
+
+            status.textContent = "Description improved successfully!";
+
+        } catch (error) {
+            status.textContent = error.message;
+
+        } finally {
+            button.disabled = false;
         }
     });
 </script>
