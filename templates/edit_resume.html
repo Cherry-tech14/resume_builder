@@ -51,11 +51,20 @@
 
         <br><br>
 
-
         <h2>Professional Summary</h2>
+
         <label>Summary</label>
         <br>
-        <textarea name="summary" rows="6" cols="50" required>{{  resume["summary"] }}</textarea>
+
+        <textarea id="summary" name="summary" rows="6" cols="50" required>{{ resume["summary"] }}</textarea>
+
+        <br><br>
+
+        <button type="button" id="generate-summary-btn">
+            Improve Summary with AI
+        </button>
+
+        <p id="summary-ai-message"></p>
 
         <br><br>
 
