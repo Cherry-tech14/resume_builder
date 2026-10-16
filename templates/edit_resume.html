@@ -318,6 +318,52 @@
     </form>
     <a href="/" class="back-home-link">Back To Home</a>
 
+
+    <script>
+        const summaryButton = document.getElementById("generate-summary-btn");
+        const summaryInput = document.getElementById("summary");
+        const summaryMessage = document.getElementById("summary-ai-message");
+
+        summaryButton.addEventListener("click", async function () {
+
+            const summary = summaryInput.value.trim();
+
+            if (!summary) {
+                summaryMessage.textContent = "Please enter a summary first.";
+                return;
+            }
+
+            summaryButton.disabled = true;
+            summaryMessage.textContent = "Improving your summary...";
+
+            try {
+                const response = await fetch("/improve-summary", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        summary: summary
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    summaryMessage.textContent = data.error || "Something went wrong.";
+                    return;
+                }
+
+                summaryInput.value = data.summary;
+                summaryMessage.textContent = "Summary improved successfully! Review it before saving.";
+
+            } catch (error) {
+                summaryMessage.textContent = "Unable to connect to the server.";
+            } finally {
+                summaryButton.disabled = false;
+            }
+        });
+    </script>
 </body>
 
 </html>

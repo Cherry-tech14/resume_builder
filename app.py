@@ -211,6 +211,71 @@ def generate_summary():
             "error": "Unable to generate a summary right now. Please try again."
         }), 503
 
+
+@app.route("/improve-summary", methods=["POST"])
+def improve_summary():
+
+    if "user_id" not in session:
+        return jsonify({"error": "Please log in first."}), 401
+
+    if client is None:
+        return jsonify({"error": "Gemini API key is not configured."}), 503
+
+    data = request.get_json(silent=True)
+
+    if not isinstance(data, dict):
+        return jsonify({"error": "Invalid request data."}), 400
+
+    summary = data.get("summary", "")
+
+    if not isinstance(summary, str):
+        return jsonify({"error": "Summary must be text."}), 400
+
+    summary = summary.strip()
+
+    if not summary:
+        return jsonify({"error": "Please enter a summary first."}), 400
+
+    if len(summary) > 5000:
+        return jsonify({"error": "Summary is too long."}), 400
+
+    prompt = f"""
+    Improve the following professional resume summary:
+
+    {summary}
+
+    Requirements:
+    - Use clear and professional language.
+    - Keep it concise, preferably 2 to 3 sentences.
+    - Correct grammar and improve readability.
+    - Preserve the original meaning.
+    - Do not invent qualifications, skills, or achievements.
+    - Do not include a heading.
+    - Return only the improved summary.
+    """
+
+    try:
+        response = client.models.generate_content(
+            model="gemini-3.8-flash",
+            contents=prompt
+        )
+
+        improved_summary = (response.text or "").strip()
+
+        if not improved_summary:
+            return jsonify({
+                "error": "Gemini returned an empty summary."
+            }), 502
+
+        return jsonify({"summary": improved_summary})
+
+    except Exception:
+        app.logger.exception("Gemini summary improvement failed")
+
+        return jsonify({
+            "error": "Unable to improve summary right now."
+        }), 503
+
 @app.route("/generate-description", methods=["POST"])
 def generate_description():
 
