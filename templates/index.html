@@ -1,30 +1,25 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Resume Builder</title>
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style.css') }}"
-    >
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
-    <div class="home-container">
-        <h1>Resume Builder</h1>
+    <div class="auth-options">
 
-        <p>
-            Create, edit, and manage your professional resume with ease.
-        </p>
+        <a href="{{ url_for('register') }}" class="register-btn">
+            Create Account
+        </a>
 
-        <div class="home-actions">
-            <a href="/register" class="register-link">
-                Create Account
-            </a>
+        <p>Already have an account?</p>
 
-            <a href="/login" class="login-link">
-                Login
-            </a>
-        </div>
+        <a href="{{ url_for('login') }}" class="login-btn">
+            Login
+        </a>
+
     </div>
 </body>
+
 </html>

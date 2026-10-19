@@ -1,7 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login - Resume Builder</title>
+
     <link
         rel="stylesheet"
         href="{{ url_for('static', filename='style.css') }}"
@@ -9,42 +13,85 @@
 </head>
 
 <body>
-    <div class="home-container">
-        <h1>Login</h1>
+
+    <div class="login-container">
+
+        <h1>Welcome Back!</h1>
+
+        <p class="login-subtitle">
+            Log in to continue building your professional resume.
+        </p>
 
         {% if error %}
-            <p>{{ error }}</p>
+            <p class="login-error">{{ error }}</p>
         {% endif %}
 
-        <form action="/login" method="POST">
-            <label for="username">Username:</label>
+        <form action="/login" method="POST" class="login-form">
+
+            <label for="username">Username</label>
+
             <input
                 type="text"
                 id="username"
                 name="username"
+                placeholder="Enter your username"
+                autocomplete="username"
                 required
             >
 
-            <label for="password">Password:</label>
+            <label for="password">Password</label>
+
             <input
                 type="password"
                 id="password"
                 name="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
                 required
             >
 
-            <button type="submit">Login</button>
+            <div class="show-password">
+                <input
+                    type="checkbox"
+                    id="show-password"
+                >
+
+                <label for="show-password">
+                    Show Password
+                </label>
+            </div>
+
+            <a href="#" class="forgot-password">
+                Forgot Password?
+            </a>
+
+            <button type="submit" class="login-btn">
+                Login
+            </button>
+
         </form>
 
-        <p>
+        <p class="register-text">
             Don't have an account?
-          
+            <a href="/register">Create Account</a>
         </p>
-          <a href="/register" class="register-link">
-            Create Account
 
-          </a>
-          
     </div>
+
+    <script>
+        const showPassword = document.getElementById("show-password");
+        const passwordInput = document.getElementById("password");
+
+        showPassword.addEventListener("change", function () {
+
+            if (showPassword.checked) {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
+
+        });
+    </script>
+
 </body>
 </html>
