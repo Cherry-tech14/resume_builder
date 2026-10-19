@@ -109,5 +109,4 @@ Today I strengthened my understanding of:
 * Python indentation
 * Debugging
 
-**Status:** 🚧 Work in Progress
 
