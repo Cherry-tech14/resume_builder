@@ -21,6 +21,7 @@ from database import (
     save_resume,
     save_user,
     get_user_by_username,
+    get_user_by_email,
     save_education,
     save_work_experience,
     save_skill,
@@ -629,10 +630,11 @@ def create_resume():
 def register():
     if request.method == "POST":
         username = request.form["username"].strip()
+        email = request.form["email"].strip().lower()
         password = request.form["password"]
         confirm_password = request.form["confirm_password"]
 
-        if not username or not password or not confirm_password:
+        if not username or not email or not password or not confirm_password:
             return render_template(
                 "register.html",
                 error="All fields are required."
@@ -652,9 +654,17 @@ def register():
                 error="Username already exists."
             )
 
+        existing_email = get_user_by_email(email)
+
+        if existing_email:
+            return render_template(
+                "register.html",
+                error="Email address already registered."
+            )
+
         password_hash = generate_password_hash(password)
 
-        save_user(username, password_hash)
+        save_user(username, email, password_hash)
 
         return redirect("/login")
 
@@ -681,6 +691,22 @@ def login():
 
     return render_template("login.html")
 
+
+@app.route("/forgot-password", methods=["GET", "POST"])
+def forgot_password():
+    if request.method == "POST":
+        email = request.form.get("email", "").strip().lower()
+
+        if not email:
+            return render_template(
+                "forgot_password.html",
+                error="Please enter your email address"
+            )
+        return render_template(
+            "forgot_password.html",
+            message="If an account exists with this email, password reset instructions will be sent"
+        )
+    return render_template("forgot_password.html")
 
 @app.route("/dashboard")
 def dashboard():

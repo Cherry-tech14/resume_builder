@@ -163,6 +163,12 @@ if "password_hash" not in user_columns:
         ADD COLUMN password_hash TEXT
     """)
 
+cursor.execute("""
+    CREATE UNIQUE INDEX IF NOT EXISTS unique_user_email
+    ON users(LOWER(TRIM(email)))
+    WHERE email is NOT NULL AND TRIM(email) != ''
+    """)
+
 
 cursor.execute("PRAGMA table_info(resumes)")
 resume_columns = [column[1] for column in cursor.fetchall()]
@@ -191,17 +197,19 @@ connection.commit()
 
 
 
-def save_user(username, password_hash):
+def save_user(username, email, password_hash):
     cursor.execute(
         """
         INSERT INTO users (
             username,
+            email,
             password_hash
         )
-        VALUES (?, ?)
+        VALUES (?, ?, ?)
         """,
         (
             username,
+            email,
             password_hash
         )
     )
@@ -222,6 +230,22 @@ def get_user_by_username(username):
         WHERE username = ?
         """,
         (username,)
+    )
+
+    return cursor.fetchone()
+
+def get_user_by_email(email):
+    cursor.execute(
+        """
+        SELECT
+            id,
+            username,
+            email,
+            password_hash
+        FROM users
+        WHERE LOWER(email) = ?
+        """,
+        (email.strip().lower(),)
     )
 
     return cursor.fetchone()
