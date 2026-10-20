@@ -635,3 +635,127 @@ body {
         padding: 25px 20px;
     }
 }
+
+.auth-options .register-btn {
+    background-color: #2563eb;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.auth-options .register-btn:hover {
+    background-color: #1d4ed8;
+    
+    transform: translateY(-3px);
+}
+
+.auth-options .login-btn {
+    background-color: #d1fae5;
+    color: #065f46;
+    padding: 12px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.auth-options .login-btn:hover {
+    background-color: #6ee7b7;
+    transform: translateY(-3px);
+}
+
+/* CREATE ACCOUNT PAGE */
+
+.register-container {
+    max-width: 400px;
+    margin: 80px auto;
+    padding: 35px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.register-container h1 {
+    margin-bottom: 10px;
+    color: #1e293b;
+}
+
+.register-subtitle {
+    color: #64748b;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 12px;
+}
+
+.register-form > label {
+    font-weight: bold;
+    color: #334155;
+}
+
+.register-form > input {
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.register-form > input:focus {
+    outline: 2px solid #2563eb;
+    border-color: #2563eb;
+}
+
+.register-submit-btn {
+    padding: 12px;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.register-submit-btn:hover {
+    background-color: #0d9488;
+    transform: translateY(-2px);
+}
+
+.login-text {
+    margin-top: 25px;
+    font-size: 14px;
+}
+
+.login-text a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-text a:hover {
+    text-decoration: underline;
+}
+
+.register-error {
+    color: #dc2626;
+    margin-bottom: 15px;
+}
+
+@media (max-width: 480px) {
+    .register-container {
+        margin: 30px 15px;
+        padding: 25px 20px;
+    }
+}

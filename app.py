@@ -630,11 +630,18 @@ def register():
     if request.method == "POST":
         username = request.form["username"].strip()
         password = request.form["password"]
+        confirm_password = request.form["confirm_password"]
 
-        if not username or not password:
+        if not username or not password or not confirm_password:
             return render_template(
                 "register.html",
-                error="Username and password are required."
+                error="All fields are required."
+            )
+
+        if password != confirm_password:
+            return render_template(
+                "register.html",
+                error="Passwords do not match."
             )
 
         existing_user = get_user_by_username(username)
@@ -652,7 +659,6 @@ def register():
         return redirect("/login")
 
     return render_template("register.html")
-
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

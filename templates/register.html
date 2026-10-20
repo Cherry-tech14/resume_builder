@@ -1,45 +1,91 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Create Account</title>
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='style.css') }}"
-    >
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account - Resume Builder</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
-    <div class="home-container">
-        <h1>Create Account</h1>
+
+    <div class="register-container">
+
+        <h1>Start building your professional CV.</h1>
+
+        <p class="register-subtitle">
+            Create your account and start building your professional resume.
+        </p>
 
         {% if error %}
-            <p>{{ error }}</p>
+        <p class="register-error">{{ error }}</p>
         {% endif %}
 
-        <form action="/register" method="POST">
-            <label for="username">Username:</label>
-            <input
-                type="text"
-                id="username"
-                name="username"
+        <form action="/register" method="POST" class="register-form">
+
+            <label for="username">Username</label>
+
+            <input type="text" id="username" name="username" placeholder="Choose a username" autocomplete="username"
+                required>
+
+            <label for="password">Password</label>
+
+            <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                placeholder="Create a password"
+                autocomplete="new-password" 
+                required
+            >
+            
+            <label for="confirm_password">Confirm Password</label>
+            <input 
+                type="password" 
+                id="confirm_password" 
+                name="confirm_password" 
+                placeholder="Re-enter your password"
+                autocomplete="new-password" 
                 required
             >
 
-            <label for="password">Password:</label>
-            <input
-                type="password"
-                id="password"
-                name="password"
-                required
-            >
+            <div class="show-password">
+                <input type="checkbox" id="show-password">
 
-            <button type="submit">Create Account</button>
+                <label for="show-password">
+                    Show Password
+                </label>
+            </div>
+
+            <button type="submit" class="register-submit-btn">
+                Create Account
+            </button>
+
         </form>
 
-        <p>
+        <p class="login-text">
             Already have an account?
             <a href="/login">Login</a>
         </p>
+
     </div>
+
+    <script>
+        const showPassword = document.getElementById("show-password");
+        const passwordInput = document.getElementById("password");
+        const confirmPasswordInput = document.getElementById("password");
+
+        showPassword.addEventListener("change", function () {
+            const inputType = showPassword.checked ? "text" : "password";
+
+            passwordInput.type = inputType;
+            confirmPasswordInput.type = inputType;
+        });
+    </script>
+
 </body>
+
 </html>
