@@ -10,6 +10,7 @@
     <h1>Create Your Resume</h1>
 
     <form method="POST" class="resume-form">
+         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         {% if errors %}
         <div class="validation-errors">
             <h3>Please correct the following errors:</h3>
@@ -189,7 +190,17 @@
             <input type="text" name="project_name">
 
             <label>Description:</label>
-            <textarea name="project_description"></textarea>
+
+            <textarea 
+                name="project_description"
+                class="project-description"
+                placeholder="Describe what you built, your role, and the tools you used"
+            ></textarea>
+
+            <button type="button" class="improve-project-btn">
+                Improve Description with AI
+            </button>
+            <p class="project-ai-status"></p>
 
             <label>Role:</label>
             <input type="text" name="project_role">
@@ -426,6 +437,19 @@
                 <label>Description:</label>
                 <textarea name="project_description"></textarea>
 
+                <label>Description:</label>
+                <textarea
+                    name="project_description"
+                    class="project-description"
+                    placeholder="Describe what you built, your role, and the tools you used"
+                ></textarea>
+
+                <button type="button" class="improve-project-btn">
+                    Improve Description with AI
+                </button>
+
+                <p class="project-ai-status"></p>
+
                 <label>Role:</label>
                 <input type="text" name="project_role">
 
@@ -439,6 +463,71 @@
         });
     </script>
 
+<script>
+document.addEventListener("click", async function (event) {
+
+    const button = event.target.closest(".improve-project-btn");
+
+    if (!button) {
+        return;
+    }
+
+    const projectEntry = button.closest(".project-entry");
+
+    const projectName = projectEntry.querySelector(
+        'input[name="project_name"]'
+    ).value.trim();
+
+    const descriptionField = projectEntry.querySelector(
+        'textarea[name="project_description"]'
+    );
+
+    const description = descriptionField.value.trim();
+
+    const status = projectEntry.querySelector(".project-ai-status");
+
+    if (!projectName || !description) {
+        status.textContent = "Enter a project name and description first.";
+        return;
+    }
+
+    button.disabled = true;
+    status.textContent = "Improving project description...";
+
+    try {
+        const response = await fetch("/generate-description", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token() }}"
+            },
+            body: JSON.stringify({
+                job_title: projectName,
+                description: description,
+                section: "project"
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.error || "Unable to improve project description."
+            );
+        }
+
+        descriptionField.value = data.description;
+
+        status.textContent = "Project description improved successfully!";
+
+    } catch (error) {
+        status.textContent = error.message;
+
+    } finally {
+        button.disabled = false;
+    }
+});
+</script>
 
     <script>
         const languagesContainer = document.getElementById("languages-container");
@@ -630,7 +719,8 @@
                 method: "POST",
 
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token() }}"
                 },
 
                 body: JSON.stringify({
@@ -689,7 +779,8 @@
             const response = await fetch("/generate-description", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token() }}"
                 },
                 body: JSON.stringify({
                     job_title: jobTitle,

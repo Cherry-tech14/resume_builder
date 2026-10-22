@@ -12,6 +12,7 @@ from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 from email.message import EmailMessage
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from flask_wtf.csrf import CSRFProtect
 import hashlib
 import secrets
 import smtplib
@@ -57,6 +58,7 @@ from database import (
 
 app = Flask(__name__)
 app.secret_key = os.environ["FLASK_SECRET_KEY"]
+csrf = CSRFProtect(app)
 reset_serializer = URLSafeTimedSerializer(
     app.secret_key,
     salt="password-reset"
@@ -396,16 +398,28 @@ def generate_description():
 
     job_title = data.get("job_title", "").strip()
     description = data.get("description", "").strip()
+    section = data.get("section", "work_experience")
+
+    if section not in ("work_experience", "project"):
+        return jsonify({
+            "error": "Invalid resume section"
+        }), 400
 
     if not job_title or not description:
         return jsonify({
-            "error": "Job title and description are required."
+            "error": "A title and description are required."
         }), 400
 
     if client is None:
         return jsonify({
             "error": "Gemini AI is not configured."
         }), 503
+
+    section_name = (
+        "software project"
+        if section == "project"
+        else "work experience"
+    ) 
 
     prompt = f"""
     You are a professional resume writing assistant.

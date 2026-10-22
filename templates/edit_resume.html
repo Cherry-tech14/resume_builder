@@ -14,6 +14,7 @@
     <h2>Personal Information</h2>
 
     <form method="POST" class="resume-form">
+         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         {% if errors %}
         <div class="validation-errors">
             <h3>Please correct the following errors:</h3>
@@ -340,7 +341,8 @@
                 const response = await fetch("/improve-summary", {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": "{{ csrf_token() }}"
                     },
                     body: JSON.stringify({
                         summary: summary
