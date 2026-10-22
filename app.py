@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session, flash, jsonify
+from flask import Flask, render_template, request, redirect, session, flash, jsonify, url_for
 from weasyprint import HTML
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_all_resumes
@@ -8,6 +8,14 @@ from datetime import datetime
 import os
 from dotenv import load_dotenv
 from google import genai
+from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
+from email.message import EmailMessage
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+import hashlib
+import secrets
+import smtplib
+
 
 load_dotenv()
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
@@ -22,6 +30,7 @@ from database import (
     save_user,
     get_user_by_username,
     get_user_by_email,
+    get_user_password_hash,
     save_education,
     save_work_experience,
     save_skill,
@@ -41,12 +50,112 @@ from database import (
     update_language,
     update_achievement,
     update_volunteer_experience,
-    update_reference
+    update_reference,
+    update_user_password
 )
 
 
 app = Flask(__name__)
-app.secret_key = "your-secret-key"
+app.secret_key = os.environ["FLASK_SECRET_KEY"]
+reset_serializer = URLSafeTimedSerializer(
+    app.secret_key,
+    salt="password-reset"
+)
+
+limiter = Limiter(
+    get_remote_address,
+    app=app,
+    storage_uri="memory://"
+)
+
+@app.errorhandler(429)
+def ratelimit_handler(error):
+    return render_template(
+        "forgot_password.html",
+        error="Too many password reset requests. Please try again in 15 minutes."
+    ), 429
+
+def generate_reset_token(user_id):
+    password_hash = get_user_password_hash(user_id)
+
+    if password_hash is None:
+        return None
+
+    password_fingerprint = hashlib.sha256(
+        password_hash.encode("utf-8")
+    ).hexdigest()
+
+    token = reset_serializer.dumps({
+        "user_id": user_id,
+        "password_fingerprint": password_fingerprint
+    })
+
+    return token
+
+
+def verify_reset_token(token):
+    try:
+        data = reset_serializer.loads(
+            token,
+            max_age=1800
+        )
+
+        user_id = data["user_id"]
+        token_fingerprint = data["password_fingerprint"]
+
+        current_password_hash = get_user_password_hash(user_id)
+
+        if current_password_hash is None:
+            return None
+
+        current_fingerprint = hashlib.sha256(
+            current_password_hash.encode("utf-8")
+        ).hexdigest()
+
+        if not secrets.compare_digest(
+            token_fingerprint,
+            current_fingerprint
+        ):
+            return None
+
+        return user_id
+
+    except (BadSignature, SignatureExpired, KeyError, TypeError, ValueError):
+        return None
+
+def send_reset_email(recipient_email, reset_link):
+
+    sender_email = os.getenv("MAIL_USERNAME")
+    app_password = os.getenv("MAIL_PASSWORD")
+
+    if not sender_email or not app_password:
+        raise RuntimeError("Email settings are missing.")
+
+    message = EmailMessage()
+
+    message["Subject"] = "Reset Your Resume Builder Password"
+    message["From"] = sender_email
+    message["To"] = recipient_email
+
+    message.set_content(
+        f"""Hello,
+
+We received a request to reset your Resume Builder password.
+
+Click the link below to create a new password:
+
+{reset_link}
+
+This link will expire after 30 minutes.
+
+If you did not request a password reset, you can ignore this email.
+
+"""
+    )
+
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=15) as server:
+        server.login(sender_email, app_password)
+        server.send_message(message)
 
 def validate_resume(form):
     errors = []
@@ -691,22 +800,89 @@ def login():
 
     return render_template("login.html")
 
-
 @app.route("/forgot-password", methods=["GET", "POST"])
+@limiter.limit("3 per 15 minutes", methods=["POST"])
 def forgot_password():
+
     if request.method == "POST":
         email = request.form.get("email", "").strip().lower()
 
         if not email:
             return render_template(
                 "forgot_password.html",
-                error="Please enter your email address"
+                error="Please enter your email address."
             )
+
+        user = get_user_by_email(email)
+
+        if user:
+            user_id = user[0]
+
+            token = generate_reset_token(user_id)
+
+            if token is not None:
+                reset_link = url_for(
+                    "reset_password",
+                    token=token,
+                    _external=True
+                )
+
+                try:
+                    send_reset_email(email, reset_link)
+
+                except (smtplib.SMTPException, OSError) as error:
+                    app.logger.error(
+                        "Password reset email could not be sent: %s",
+                        type(error).__name__
+                    )
+
         return render_template(
             "forgot_password.html",
-            message="If an account exists with this email, password reset instructions will be sent"
+            message=(
+                "If an account exists with this email, "
+                "password reset instructions will be sent."
+            )
         )
+
     return render_template("forgot_password.html")
+
+@app.route("/reset-password/<token>", methods=["GET", "POST"])
+def reset_password(token):
+
+    user_id = verify_reset_token(token)
+
+    if user_id is None:
+        return render_template(
+            "reset_password.html",
+            error="This password reset link is invalid or has expired.",
+            invalid_token=True
+        )
+
+    if request.method == "POST":
+        password = request.form.get("password", "")
+        confirm_password = request.form.get("confirm_password", "")
+
+        if len(password) < 8:
+            return render_template(
+                "reset_password.html",
+                error="Password must contain at least 8 characters."
+            )
+
+        if password != confirm_password:
+            return render_template(
+                "reset_password.html",
+                error="Passwords do not match."
+            )
+
+        password_hash = generate_password_hash(password)
+
+        update_user_password(user_id, password_hash)
+
+        flash("Password updated successfully. Please log in.")
+
+        return redirect(url_for("login"))
+
+    return render_template("reset_password.html")
 
 @app.route("/dashboard")
 def dashboard():

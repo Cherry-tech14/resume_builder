@@ -234,6 +234,23 @@ def get_user_by_username(username):
 
     return cursor.fetchone()
 
+def get_user_password_hash(user_id):
+    cursor.execute(
+        """
+        SELECT password_hash
+        FROM users
+        WHERE id = ?
+        """,
+        (user_id,)
+    )
+
+    result = cursor.fetchone()
+
+    if result:
+        return result[0]
+
+    return None
+
 def get_user_by_email(email):
     cursor.execute(
         """
@@ -249,6 +266,17 @@ def get_user_by_email(email):
     )
 
     return cursor.fetchone()
+
+def update_user_password(user_id, password_hash):
+    cursor.execute(
+        """
+        UPDATE users
+        SET password_hash = ?
+        WHERE id = ?
+        """,
+        (password_hash, user_id)
+    )
+    connection.commit()
 
 
 def get_user_by_id(user_id):
