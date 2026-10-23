@@ -1232,12 +1232,13 @@ def update_reference(
 
     connection.commit()
 
-def get_all_resumes():
+def get_all_resumes(user_id):
     cursor.execute("""
         SELECT id, name, template
         FROM resumes
+        WHERE user_id = ?
         ORDER BY id DESC
-    """)
+    """, (user_id,))
 
     rows = cursor.fetchall()
 

@@ -278,7 +278,15 @@
                 <input type="date" name="volunteer_end_date">
 
                 <label>Description:</label>
-                <textarea name="volunteer_description"></textarea>
+                <textarea 
+                    name="volunteer_description"
+                    class="volunteer-description"
+                    placeholder="Describe your volunteer responsibilities and contributions"
+                ></textarea>
+                <button type="button" class="improve-volunteer-btn">
+                    Improve Description with AI
+                </button>
+                <p class="volunteer-ai-status"></p>
 
             </div>
 
@@ -581,20 +589,20 @@ document.addEventListener("click", async function (event) {
     </script>
 
 
-    <script>
-        const volunteerContainer =
-            document.getElementById("volunteer-container");
+   <script>
+    const volunteerContainer =
+        document.getElementById("volunteer-container");
 
-        const addVolunteerButton =
-            document.getElementById("add-volunteer");
+    const addVolunteerButton =
+        document.getElementById("add-volunteer");
 
-        addVolunteerButton.addEventListener("click", function () {
+    addVolunteerButton.addEventListener("click", function () {
 
-            const volunteerEntry = document.createElement("div");
+        const volunteerEntry = document.createElement("div");
 
-            volunteerEntry.className = "volunteer-entry";
+        volunteerEntry.className = "volunteer-entry";
 
-            volunteerEntry.innerHTML = `
+        volunteerEntry.innerHTML = `
             <hr>
 
             <label>Organization:</label>
@@ -607,18 +615,96 @@ document.addEventListener("click", async function (event) {
             <input type="text" name="volunteer_location">
 
             <label>Start Date:</label>
-            <input type="text" name="volunteer_start_date">
+            <input type="date" name="volunteer_start_date">
 
             <label>End Date:</label>
-            <input type="text" name="volunteer_end_date">
+            <input type="date" name="volunteer_end_date">
 
             <label>Description:</label>
-            <textarea name="volunteer_description"></textarea>
+
+            <textarea
+                name="volunteer_description"
+                class="volunteer-description"
+                placeholder="Describe your volunteer responsibilities and contributions."
+            ></textarea>
+
+            <button type="button" class="improve-volunteer-btn">
+                 Improve Description with AI
+            </button>
+
+            <p class="volunteer-ai-status"></p>
         `;
 
-            volunteerContainer.appendChild(volunteerEntry);
+        volunteerContainer.appendChild(volunteerEntry);
+    });
+</script>
+    
+
+   <script>
+document.addEventListener("click", async function (event) {
+
+    const button = event.target.closest(".improve-volunteer-btn");
+
+    if (!button) {
+        return;
+    }
+
+    const volunteerEntry = button.closest(".volunteer-entry");
+
+    const role = volunteerEntry.querySelector(
+        'input[name="volunteer_role"]'
+    ).value.trim();
+
+    const descriptionField = volunteerEntry.querySelector(
+        'textarea[name="volunteer_description"]'
+    );
+
+    const description = descriptionField.value.trim();
+
+    const status = volunteerEntry.querySelector(".volunteer-ai-status");
+
+    if (!role || !description) {
+        status.textContent = "Enter your volunteer role and description first.";
+        return;
+    }
+
+    button.disabled = true;
+    status.textContent = "Improving volunteer description...";
+
+    try {
+        const response = await fetch("/generate-description", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token() }}"
+            },
+            body: JSON.stringify({
+                job_title: role,
+                description: description,
+                section: "volunteer"
+            })
         });
-    </script>
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.error || "Unable to improve volunteer description."
+            );
+        }
+
+        descriptionField.value = data.description;
+
+        status.textContent = "Volunteer description improved successfully!";
+
+    } catch (error) {
+        status.textContent = error.message;
+
+    } finally {
+        button.disabled = false;
+    }
+});
+</script>
 
 
     <script>

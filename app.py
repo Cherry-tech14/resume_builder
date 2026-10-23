@@ -400,7 +400,7 @@ def generate_description():
     description = data.get("description", "").strip()
     section = data.get("section", "work_experience")
 
-    if section not in ("work_experience", "project"):
+    if section not in ("work_experience", "project", "volunteer"):
         return jsonify({
             "error": "Invalid resume section"
         }), 400
@@ -415,11 +415,15 @@ def generate_description():
             "error": "Gemini AI is not configured."
         }), 503
 
-    section_name = (
-        "software project"
-        if section == "project"
-        else "work experience"
-    ) 
+    if section == "project":
+        section_name = "software project"
+
+    elif section == "volunteer":
+        section_name = "volunteer experience"
+
+    else:
+        section_name = "work experience"
+        
 
     prompt = f"""
     You are a professional resume writing assistant.
@@ -900,9 +904,16 @@ def reset_password(token):
 
 @app.route("/dashboard")
 def dashboard():
-    resumes = get_all_resumes()
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    user_id = session["user_id"]
+
+    resumes = get_all_resumes(user_id)
 
     total_resumes = len(resumes)
+
     return render_template(
         "dashboard.html",
         resumes=resumes,
@@ -930,10 +941,16 @@ def logout():
 @app.route("/resume/<int:resume_id>")
 def view_resume(resume_id):
 
+    if "user_id" not in session:
+        return redirect("/login")
+
     resume = get_complete_resume(resume_id)
 
-    if not resume:
+    if resume is None:
         return "Resume not found", 404
+
+    if int(resume["user_id"]) != int(session["user_id"]):
+        return "Access denied. This resume does not belong to you", 403
 
     if resume["template"] == "modern":
         template_file = "resume_modern.html"
@@ -983,15 +1000,18 @@ def find_resume():
     return redirect(f"/resume/{resume_id}")
 
 
-@app.route("/edit/<resume_id>", methods=["GET", "POST"])
+@app.route("/edit/<int:resume_id>", methods=["GET", "POST"])
 def edit_resume(resume_id):
     if "user_id" not in session:
         return redirect("/login")
 
-    resume = get_complete_resume(int(resume_id))
+    resume = get_complete_resume(resume_id)
 
     if resume is None:
-        return "Resume not found."
+        return "Resume not found.", 404
+
+    if int(resume["user_id"]) != int(session["user_id"]):
+        return "Access denied. This resume does not belong to you.", 403
 
     if request.method == "POST":
 
