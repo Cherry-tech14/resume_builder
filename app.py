@@ -919,19 +919,21 @@ def dashboard():
         resumes=resumes,
         total_resumes=total_resumes
     )
-
 @app.route("/resume/<int:resume_id>/delete", methods=["POST"])
 def remove_resume(resume_id):
+    if "user_id" not in session:
+        return redirect("/login")
 
-    deleted = delete_resume(resume_id)
+    user_id = session["user_id"]
+
+    deleted = delete_resume(resume_id, user_id)
 
     if not deleted:
-        flash("Resume not found", "error")
+        flash("Resume not found or access denied", "error")
         return redirect("/dashboard")
 
     flash("Resume deleted successfully", "success")
     return redirect("/dashboard")
-
 
 @app.route("/logout")
 def logout():

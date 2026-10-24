@@ -48,3 +48,5 @@ websockets==16.1.1
 Werkzeug==3.1.9
 wrapt==2.5.1
 zopfli==0.4.3
+Flask-WTF
+

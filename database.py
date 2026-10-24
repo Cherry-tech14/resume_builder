@@ -1253,7 +1253,7 @@ def get_all_resumes(user_id):
 
     return resumes
 
-def delete_resume(resume_id):
+def delete_resume(resume_id, user_id):
     tables = [
         "education",
         "work_experience",
@@ -1267,6 +1267,16 @@ def delete_resume(resume_id):
     ]
 
     try:
+        cursor.execute(
+            "SELECT id FROM resumes WHERE id = ? AND user_id = ?",
+            (resume_id, user_id)
+        )
+
+        resume = cursor.fetchone()
+
+        if resume is None:
+            return False
+
         for table in tables:
             cursor.execute(
                 f"DELETE FROM {table} WHERE resume_id = ?",
@@ -1274,8 +1284,8 @@ def delete_resume(resume_id):
             )
 
         cursor.execute(
-            "DELETE FROM resumes WHERE id = ?",
-            (resume_id,)
+            "DELETE FROM resumes WHERE id = ? AND user_id = ?",
+            (resume_id, user_id)
         )
 
         deleted = cursor.rowcount
