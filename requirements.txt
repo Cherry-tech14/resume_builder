@@ -49,4 +49,4 @@ Werkzeug==3.1.9
 wrapt==2.5.1
 zopfli==0.4.3
 Flask-WTF
-
+gunicorn==26.2.0

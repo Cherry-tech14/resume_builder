@@ -964,14 +964,18 @@ def view_resume(resume_id):
         resume=resume
     )
 
-@app.route("/resume/<resume_id>/pdf")
+@app.route("/resume/<int:resume_id>/pdf")
 def download_pdf(resume_id):
+
     if "user_id" not in session:
         return redirect("/login")
-    resume = get_complete_resume(int(resume_id))
+    resume = get_complete_resume(resume_id)
 
     if resume is None:
-        return "Resume not found."
+        return "Resume not found.", 404
+
+    if int(resume["user_id"]) != int(session["user_id"]):
+        return "Access denied. This resume does not belong to you.", 403
 
     if resume["template"] == "modern":
         template_file = "resume_modern.html"
@@ -1309,4 +1313,4 @@ def edit_resume(resume_id):
     )
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

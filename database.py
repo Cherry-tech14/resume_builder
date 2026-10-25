@@ -1,13 +1,42 @@
 import sqlite3
+import threading
+
+class DatabaseManager:
+    def __init__(self):
+        self.local = threading.local()
+
+    def get_connection(self):
+        if not hasattr(self.local, "connection"):
+            self.local.connection = sqlite3.connect(
+                "resume.db",
+                timeout=30
+            )
+            self.local.cursor = self.local.connection.cursor()
+
+        return self.local.connection
+
+    def get_cursor(self):
+        self.get_connection()
+        return self.local.cursor
+
+class ConnectionProxy:
+    def __init__(self, manager):
+        self.manager = manager
+
+    def __getattr__(self, name):
+        return getattr(self.manager.get_connection(), name)
+
+class CursorProxy:
+    def __init__(self, manager):
+        self.manager = manager
+
+    def __getattr__(self, name):
+        return getattr(self.manager.get_cursor(), name)
 
 
-connection = sqlite3.connect(
-    "resume.db",
-    check_same_thread=False
-)
-
-cursor = connection.cursor()
-
+manager = DatabaseManager()
+connection = ConnectionProxy(manager)
+cursor = CursorProxy(manager)
 
 
 cursor.execute("""
