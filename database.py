@@ -1,5 +1,6 @@
 import sqlite3
 import threading
+from contextlib import contextmanager
 
 class DatabaseManager:
     def __init__(self):
@@ -19,9 +20,31 @@ class DatabaseManager:
         self.get_connection()
         return self.local.cursor
 
+    def begin_transaction(self):
+        connection = self.get_connection()
+        connection.execute("BEGIN")
+        self.local.in_transaction = True
+
+    def commit_transaction(self):
+        self.get_connection().commit()
+        self.local.in_transaction = False
+
+    def rollback_transaction(self):
+        try:
+            self.get_connection().rollback()
+        finally:
+            self.local.in_transaction = False
+
+    def commit(self):
+        if not getattr(self.local, "in_transaction", False):
+            self.get_connection().commit()
+
 class ConnectionProxy:
     def __init__(self, manager):
         self.manager = manager
+
+    def commit(self):
+        self.manager.commit()
 
     def __getattr__(self, name):
         return getattr(self.manager.get_connection(), name)
@@ -38,6 +61,18 @@ manager = DatabaseManager()
 connection = ConnectionProxy(manager)
 cursor = CursorProxy(manager)
 
+
+@contextmanager
+def transaction():
+    manager.begin_transaction()
+
+    try:
+        yield
+    except Exception:
+        manager.rollback_transaction()
+        raise
+    else:
+        manager.commit_transaction()
 
 cursor.execute("""
     CREATE TABLE IF NOT EXISTS users (

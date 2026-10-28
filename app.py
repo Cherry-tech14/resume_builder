@@ -3,6 +3,7 @@ from weasyprint import HTML
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_all_resumes
 from database import delete_resume
+from database import manager
 import re
 from datetime import datetime
 import os
@@ -13,6 +14,8 @@ from email.message import EmailMessage
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_wtf.csrf import CSRFProtect
+from database import transaction
+from functools import wraps
 import hashlib
 import secrets
 import smtplib
@@ -69,6 +72,15 @@ limiter = Limiter(
     app=app,
     storage_uri="memory://"
 )
+
+def atomic_resume_save(view_function):
+    @wraps(view_function)
+    def wrapper(*args, **kwargs):
+        if request.method == "POST":
+            with transaction():
+                return view_function(*args, **kwargs)
+
+            return wrapper
 
 @app.errorhandler(429)
 def ratelimit_handler(error):
@@ -467,6 +479,7 @@ def generate_description():
         }), 500
 
 @app.route("/create", methods=["GET", "POST"])
+@atomic_resume_save
 def create_resume():
     if "user_id" not in session:
         return redirect("/login")
