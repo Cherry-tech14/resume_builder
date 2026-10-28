@@ -11,7 +11,7 @@ __pycache__/
 *.pyc
 
 # Database
-resume.db
+*.db
 
 # Vs Code settings
 .vscode/

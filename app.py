@@ -80,7 +80,9 @@ def atomic_resume_save(view_function):
             with transaction():
                 return view_function(*args, **kwargs)
 
-            return wrapper
+        return view_function(*args, **kwargs)
+
+    return wrapper
 
 @app.errorhandler(429)
 def ratelimit_handler(error):
@@ -1020,6 +1022,7 @@ def find_resume():
 
 
 @app.route("/edit/<int:resume_id>", methods=["GET", "POST"])
+@atomic_resume_save
 def edit_resume(resume_id):
     if "user_id" not in session:
         return redirect("/login")
